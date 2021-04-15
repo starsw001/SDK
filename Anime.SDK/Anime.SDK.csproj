@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <Authors>EmilyEdna</Authors>
+    <Product>Anime.SDK</Product>
+    <Description>CGDM.NET的SDK开发包</Description>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="HtmlAgilityPack" Version="1.11.32" />
+		<PackageReference Include="System.Text.Encoding.CodePages" Version="5.0.0" />
+		<PackageReference Include="XExten.Advance" Version="1.0.1.3-alpha" />
+	</ItemGroup>
+</Project>
