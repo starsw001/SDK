@@ -18,7 +18,7 @@ namespace Anime.SDK
                 throw new NullReferenceException("RequestParam Is Null");
             return factory;
         }
-        public AnimeResponseOutput Anime()
+        public AnimeResponseOutput Runs()
         {
             IAnime anime = new Anime();
             return RequestParam.AnimeType switch
