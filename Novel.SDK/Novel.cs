@@ -8,5 +8,6 @@ namespace Novel.SDK
 {
     internal class Novel : INovel
     {
+        private const string Host = "https://m.bqkan8.com/";
     }
 }
