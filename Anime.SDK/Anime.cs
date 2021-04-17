@@ -23,55 +23,12 @@ namespace Anime.SDK
         {
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
         }
-        public AnimeResponseOutput AnimeCategory(AnimeRequstInput Input)
-        {
-            AnimeResponseOutput Result = new AnimeResponseOutput()
-            {
-                SeachResults = new List<AnimeSearchResult>()
-            };
-            var bytes = HttpMultiClient.HttpMulti.AddNode(string.Format(Category, Input.AnimeLetterType.ToString(), Input.Page)).Build().RunBytes().FirstOrDefault();
-            using StreamReader reader = new StreamReader(new MemoryStream(bytes), Encoding.GetEncoding("GBK"));
-            HtmlDocument document = new HtmlDocument();
-            document.LoadHtml(reader.ReadToEnd());
-            var content = document.DocumentNode.SelectSingleNode("//div[@class='movie-chrList']");
-            var totalpage = Regex.Match(content.Descendants("span").ToList()[1].InnerText.Split("/")[1], "\\d+").Value.AsInt();
-            content.SelectNodes("ul/li/div[@class='cover']/a").ToList().ForEach(item =>
-            {
-                AnimeSearchResult SearchResult = new AnimeSearchResult
-                {
-                    DetailAddress = Host + item.GetAttributeValue("href", "")
-                };
-                var img = item.SelectSingleNode("img");
-                SearchResult.AnimeName = img.GetAttributeValue("alt", "");
-                SearchResult.AnimeCover = Host + img.GetAttributeValue("src", "");
-                Result.SeachResults.Add(SearchResult);
-            });
-            return Result;
-        }
-
-        public AnimeResponseOutput AnimeDetail(AnimeRequstInput Input)
-        {
-            AnimeResponseOutput Result = new AnimeResponseOutput()
-            {
-                DetailResults = new List<AnimeDetailResult>()
-            };
-            var bytes = HttpMultiClient.HttpMulti.AddNode(Input.DetailAddress).Build().RunBytes().FirstOrDefault();
-            using StreamReader reader = new StreamReader(new MemoryStream(bytes), Encoding.GetEncoding("GBK"));
-            HtmlDocument document = new HtmlDocument();
-            document.LoadHtml(reader.ReadToEnd());
-            document.DocumentNode.SelectNodes("//div[@class='playurl']//ul//a").ForEnumerEach(item =>
-            {
-                var uri = item.GetAttributeValue("href", "");
-                Result.DetailResults.Add(new AnimeDetailResult
-                {
-                    WatchAddress = !uri.Contains("magnet:?xt=urn:btih:") ? Host + uri : uri,
-                    IsDownURL = uri.Contains("magnet:?xt=urn:btih:"),
-                    CollectName = item.InnerText
-                });
-            });
-            return Result;
-        }
-
+        /*
+         * step1:执行初始化
+         * step2:执行搜索或者分类
+         * step3:执行详情
+         * step4:执行观看
+         */
         public AnimeResponseOutput AnimeInit(AnimeRequstInput Input)
         {
             AnimeResponseOutput Result = new AnimeResponseOutput()
@@ -113,7 +70,6 @@ namespace Anime.SDK
 
             return Result;
         }
-
         public AnimeResponseOutput AnimeSearch(AnimeRequstInput Input)
         {
             AnimeResponseOutput Result = new AnimeResponseOutput()
@@ -140,7 +96,53 @@ namespace Anime.SDK
             });
             return Result;
         }
-
+        public AnimeResponseOutput AnimeCategory(AnimeRequstInput Input)
+        {
+            AnimeResponseOutput Result = new AnimeResponseOutput()
+            {
+                SeachResults = new List<AnimeSearchResult>()
+            };
+            var bytes = HttpMultiClient.HttpMulti.AddNode(string.Format(Category, Input.AnimeLetterType.ToString(), Input.Page)).Build().RunBytes().FirstOrDefault();
+            using StreamReader reader = new StreamReader(new MemoryStream(bytes), Encoding.GetEncoding("GBK"));
+            HtmlDocument document = new HtmlDocument();
+            document.LoadHtml(reader.ReadToEnd());
+            var content = document.DocumentNode.SelectSingleNode("//div[@class='movie-chrList']");
+            var totalpage = Regex.Match(content.Descendants("span").ToList()[1].InnerText.Split("/")[1], "\\d+").Value.AsInt();
+            content.SelectNodes("ul/li/div[@class='cover']/a").ToList().ForEach(item =>
+            {
+                AnimeSearchResult SearchResult = new AnimeSearchResult
+                {
+                    DetailAddress = Host + item.GetAttributeValue("href", "")
+                };
+                var img = item.SelectSingleNode("img");
+                SearchResult.AnimeName = img.GetAttributeValue("alt", "");
+                SearchResult.AnimeCover = Host + img.GetAttributeValue("src", "");
+                Result.SeachResults.Add(SearchResult);
+            });
+            return Result;
+        }
+        public AnimeResponseOutput AnimeDetail(AnimeRequstInput Input)
+        {
+            AnimeResponseOutput Result = new AnimeResponseOutput()
+            {
+                DetailResults = new List<AnimeDetailResult>()
+            };
+            var bytes = HttpMultiClient.HttpMulti.AddNode(Input.DetailAddress).Build().RunBytes().FirstOrDefault();
+            using StreamReader reader = new StreamReader(new MemoryStream(bytes), Encoding.GetEncoding("GBK"));
+            HtmlDocument document = new HtmlDocument();
+            document.LoadHtml(reader.ReadToEnd());
+            document.DocumentNode.SelectNodes("//div[@class='playurl']//ul//a").ForEnumerEach(item =>
+            {
+                var uri = item.GetAttributeValue("href", "");
+                Result.DetailResults.Add(new AnimeDetailResult
+                {
+                    WatchAddress = !uri.Contains("magnet:?xt=urn:btih:") ? Host + uri : uri,
+                    IsDownURL = uri.Contains("magnet:?xt=urn:btih:"),
+                    CollectName = item.InnerText
+                });
+            });
+            return Result;
+        }
         public AnimeResponseOutput AnimeWatchPlay(AnimeRequstInput Input)
         {
             AnimeResponseOutput Result = new AnimeResponseOutput();
