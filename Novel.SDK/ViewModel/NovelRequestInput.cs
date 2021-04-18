@@ -24,5 +24,13 @@ namespace Novel.SDK.ViewModel
         /// 分类地址
         /// </summary>
         public string NovelCategoryAddress { get; set; }
+        /// <summary>
+        /// 详情地址
+        /// </summary>
+        public string NovelDetailAddress { get; set; }
+        /// <summary>
+        /// 章节地址
+        /// </summary>
+        public string NovelViewAddress { get; set; }
     }
 }

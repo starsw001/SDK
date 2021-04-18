@@ -8,7 +8,7 @@ namespace Novel.SDK.ViewModel
 {
     public class NovelSingleCategory
     {
-        public int Page { get; set; }
+        public int TotalPage { get; set; }
         public List<NovelSingleCategories> NovelSingles { get; set; }
     }
     public class NovelSingleCategories

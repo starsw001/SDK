@@ -101,7 +101,7 @@ namespace Novel.SDK
             var response = HttpMultiClient.HttpMulti.AddNode(Input.NovelCategoryAddress).Build().RunString().FirstOrDefault();
             HtmlDocument document = new HtmlDocument();
             document.LoadHtml(response);
-            Result.SingleCategories.Page = document.DocumentNode.SelectSingleNode("//ul[contains(@class,'pagination pagination-mga')]//span")
+            Result.SingleCategories.TotalPage = document.DocumentNode.SelectSingleNode("//ul[contains(@class,'pagination pagination-mga')]//span")
                 .InnerText.Split("/").LastOrDefault().AsInt();
             Result.SingleCategories.NovelSingles = new List<NovelSingleCategories>();
             document.DocumentNode.SelectNodes("//ul[contains(@class,'txt-list txt-list-row5')]/li").ForEnumerEach(node =>
@@ -115,6 +115,61 @@ namespace Novel.SDK
                 };
                 Result.SingleCategories.NovelSingles.Add(categories);
             });
+            return Result;
+        }
+
+        public NovelResponseOutput NovelDetail(NovelRequestInput Input)
+        {
+            NovelResponseOutput Result = new NovelResponseOutput()
+            {
+                Details = new NovelDetail()
+            };
+            Result.Details.ShortURL = Input.NovelDetailAddress;
+            if (Input.Page > 1)
+                Input.NovelDetailAddress = $"{Result.Details.ShortURL}index_{Input.Page}.html";
+            var response = HttpMultiClient.HttpMulti.AddNode(Input.NovelDetailAddress).Build().RunString().FirstOrDefault();
+            HtmlDocument document = new HtmlDocument();
+            document.LoadHtml(response);
+            var HContent = document.DocumentNode.SelectSingleNode("//div[@class='detail-box']");
+
+            Result.Details.Cover = HContent.SelectSingleNode("div[@class='imgbox']/img").GetAttributeValue("src", "");
+            Result.Details.BookName = HContent.SelectSingleNode("div[@class='imgbox']/img").GetAttributeValue("alt", "");
+            var Info = HContent.SelectNodes("div[@class='info']//div[@class='fix']/p");
+            Result.Details.Author = Info.FirstOrDefault().InnerText.Split("：").LastOrDefault();
+            Result.Details.BookType = Info[1].InnerText.Split("：").LastOrDefault();
+            Result.Details.Status = Info[2].InnerText.Split("：").LastOrDefault();
+            Result.Details.LastUpdateTime = Info[4].InnerText.Split("：").LastOrDefault().AsDateTime();
+            Result.Details.Description = HContent.SelectSingleNode("div[@class='info']//div[@class='desc xs-hidden']").InnerText.Trim()
+                .Replace("\r", "").Replace("\n", "").Replace("\t", "");
+            Result.Details.TotalPage = document.DocumentNode.SelectNodes("//select[@name='pageselect']/option").Count;
+
+            Result.Details.Details = new List<NovelDetails>();
+            document.DocumentNode.SelectNodes("//ul[@class='section-list fix']")
+                .LastOrDefault().SelectNodes("li").ForEnumerEach(node =>
+                {
+                    NovelDetails nd = new NovelDetails
+                    {
+                        ChapterName = node.SelectSingleNode("a").InnerText,
+                        ChapterURL = Host + node.SelectSingleNode("a").GetAttributeValue("href", "")
+                    };
+                    Result.Details.Details.Add(nd);
+                });
+
+            return Result;
+        }
+
+        public NovelResponseOutput NovelView(NovelRequestInput Input)
+        {
+            NovelResponseOutput Result = new NovelResponseOutput()
+            {
+                Contents = new NovelContent()
+            };
+            var response = HttpMultiClient.HttpMulti.AddNode(Input.NovelViewAddress).Build().RunString().FirstOrDefault();
+            HtmlDocument document = new HtmlDocument();
+            document.LoadHtml(response);
+            Result.Contents.ChapterName = document.DocumentNode.SelectSingleNode("//h1[@class='title']").InnerText;
+            Result.Contents.Content = document.DocumentNode.SelectSingleNode("//div[@class='content']")
+                .InnerText.Replace("章节错误,点此举报(免注册),举报后维护人员会在两分钟内校正章节内容,请耐心等待,并刷新页面。", "").Trim();
             return Result;
         }
     }

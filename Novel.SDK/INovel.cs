@@ -10,5 +10,9 @@ namespace Novel.SDK
         NovelResponseOutput NovelSearch(NovelRequestInput Input);
 
         NovelResponseOutput NovelCategory(NovelRequestInput Input);
+
+        NovelResponseOutput NovelDetail(NovelRequestInput Input);
+
+        NovelResponseOutput NovelView(NovelRequestInput Input);
     }
 }

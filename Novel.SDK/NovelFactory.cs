@@ -26,8 +26,8 @@ namespace Novel.SDK
                 NovelEnum.Init => novel.NovelInit(RequestParam),
                 NovelEnum.Search => novel.NovelSearch(RequestParam),
                 NovelEnum.Category => novel.NovelCategory(RequestParam),
-                NovelEnum.Detail => novel.NovelInit(RequestParam),
-                NovelEnum.Watch => novel.NovelInit(RequestParam),
+                NovelEnum.Detail => novel.NovelDetail(RequestParam),
+                NovelEnum.Watch => novel.NovelView(RequestParam),
                 _ => novel.NovelInit(RequestParam),
             };
         }
