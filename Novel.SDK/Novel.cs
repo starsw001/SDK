@@ -14,7 +14,7 @@ namespace Novel.SDK
     internal class Novel : INovel
     {
         private const string Host = "https://www.bxwx.la";
-
+        private const string Search = Host + "/ar.php?keyWord={0}";
 
         public NovelResponseOutput NovelInit(NovelRequestInput Input)
         {
@@ -61,6 +61,60 @@ namespace Novel.SDK
                 RecommendOut.DetailAddress = Host + node.SelectSingleNode("div[@class='top']//dt/a").GetAttributeValue("href", "");
                 Result.IndexRecommends.Add(RecommendOut);
             }));
+            return Result;
+        }
+
+        public NovelResponseOutput NovelSearch(NovelRequestInput Input)
+        {
+            NovelResponseOutput Result = new NovelResponseOutput()
+            {
+                SearchResults = new List<NovelSearch>()
+            };
+            var response = HttpMultiClient.HttpMulti.AddNode(string.Format(Search, Input.NovelSearchKeyWord)).Build().RunString().FirstOrDefault();
+            HtmlDocument document = new HtmlDocument();
+            document.LoadHtml(response);
+            var TempResult = document.DocumentNode.SelectNodes("//ul[contains(@class,'txt-list txt-list-row5')]/li").ToList();
+            TempResult.RemoveAt(0);
+            TempResult.ForEach(node =>
+            {
+                NovelSearch search = new NovelSearch
+                {
+                    RecommendType = node.SelectSingleNode("span[@class='s1']").InnerText,
+                    Author = node.SelectSingleNode("span[@class='s4']").InnerText,
+                    DetailAddress = Host + node.SelectSingleNode("span[@class='s2']/a").GetAttributeValue("href", ""),
+                    BookName = node.SelectSingleNode("span[@class='s2']/a").InnerText,
+                    UpdateDate = node.SelectSingleNode("span[@class='s5']").InnerText
+                };
+                Result.SearchResults.Add(search);
+            });
+            return Result;
+        }
+
+        public NovelResponseOutput NovelCategory(NovelRequestInput Input)
+        {
+            NovelResponseOutput Result = new NovelResponseOutput()
+            {
+                SingleCategories = new NovelSingleCategory()
+            };
+            if (Input.Page > 1)
+                Input.NovelCategoryAddress = $"{Input.NovelCategoryAddress.Substring(0, Input.NovelCategoryAddress.LastIndexOf("/"))}/{Input.Page}.htm";
+            var response = HttpMultiClient.HttpMulti.AddNode(Input.NovelCategoryAddress).Build().RunString().FirstOrDefault();
+            HtmlDocument document = new HtmlDocument();
+            document.LoadHtml(response);
+            Result.SingleCategories.Page = document.DocumentNode.SelectSingleNode("//ul[contains(@class,'pagination pagination-mga')]//span")
+                .InnerText.Split("/").LastOrDefault().AsInt();
+            Result.SingleCategories.NovelSingles = new List<NovelSingleCategories>();
+            document.DocumentNode.SelectNodes("//ul[contains(@class,'txt-list txt-list-row5')]/li").ForEnumerEach(node =>
+            {
+                NovelSingleCategories categories = new NovelSingleCategories
+                {
+                    Author = node.SelectSingleNode("span[@class='s4']").InnerText,
+                    DetailAddress = Host + node.SelectSingleNode("span[@class='s2']/a").GetAttributeValue("href", ""),
+                    BookName = node.SelectSingleNode("span[@class='s2']/a").InnerText,
+                    UpdateDate = node.SelectSingleNode("span[@class='s5']").InnerText
+                };
+                Result.SingleCategories.NovelSingles.Add(categories);
+            });
             return Result;
         }
     }

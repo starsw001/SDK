@@ -74,7 +74,7 @@ namespace Anime.SDK
         {
             AnimeResponseOutput Result = new AnimeResponseOutput()
             {
-                SeachResults = new List<AnimeSearchResult>()
+                SeachResults = new AnimeSearchResult()
             };
             string KeyWord = HttpUtility.UrlEncode(Input.AnimeSearchKeyWord, Encoding.GetEncoding("GBK"));
             var bytes = HttpMultiClient.HttpMulti.AddNode(string.Format(Search, KeyWord, Input.Page)).Build().RunBytes().FirstOrDefault();
@@ -82,17 +82,18 @@ namespace Anime.SDK
             HtmlDocument document = new HtmlDocument();
             document.LoadHtml(reader.ReadToEnd());
             var content = document.DocumentNode.SelectSingleNode("//div[@class='movie-chrList']");
-            var totalpage = Regex.Match(content.Descendants("span").ToList()[1].InnerText.Split("/")[1], "\\d+").Value.AsInt();
+            Result.SeachResults.Page = Regex.Match(content.Descendants("span").ToList()[1].InnerText.Split("/")[1], "\\d+").Value.AsInt();
+            Result.SeachResults.Searchs = new List<AnimeSearchResults>();
             content.SelectNodes("ul/li/div[@class='cover']/a").ToList().ForEach(item =>
             {
-                AnimeSearchResult SearchResult = new AnimeSearchResult
+                AnimeSearchResults SearchResult = new AnimeSearchResults
                 {
                     DetailAddress = Host + item.GetAttributeValue("href", "")
                 };
                 var img = item.SelectSingleNode("img");
                 SearchResult.AnimeName = img.GetAttributeValue("alt", "");
                 SearchResult.AnimeCover = Host + img.GetAttributeValue("src", "");
-                Result.SeachResults.Add(SearchResult);
+                Result.SeachResults.Searchs.Add(SearchResult);
             });
             return Result;
         }
@@ -100,24 +101,24 @@ namespace Anime.SDK
         {
             AnimeResponseOutput Result = new AnimeResponseOutput()
             {
-                SeachResults = new List<AnimeSearchResult>()
+                SeachResults = new AnimeSearchResult()
             };
             var bytes = HttpMultiClient.HttpMulti.AddNode(string.Format(Category, Input.AnimeLetterType.ToString(), Input.Page)).Build().RunBytes().FirstOrDefault();
             using StreamReader reader = new StreamReader(new MemoryStream(bytes), Encoding.GetEncoding("GBK"));
             HtmlDocument document = new HtmlDocument();
             document.LoadHtml(reader.ReadToEnd());
             var content = document.DocumentNode.SelectSingleNode("//div[@class='movie-chrList']");
-            var totalpage = Regex.Match(content.Descendants("span").ToList()[1].InnerText.Split("/")[1], "\\d+").Value.AsInt();
+            Result.SeachResults.Page = Regex.Match(content.Descendants("span").ToList()[1].InnerText.Split("/")[1], "\\d+").Value.AsInt();
             content.SelectNodes("ul/li/div[@class='cover']/a").ToList().ForEach(item =>
             {
-                AnimeSearchResult SearchResult = new AnimeSearchResult
+                AnimeSearchResults SearchResult = new AnimeSearchResults
                 {
                     DetailAddress = Host + item.GetAttributeValue("href", "")
                 };
                 var img = item.SelectSingleNode("img");
                 SearchResult.AnimeName = img.GetAttributeValue("alt", "");
                 SearchResult.AnimeCover = Host + img.GetAttributeValue("src", "");
-                Result.SeachResults.Add(SearchResult);
+                Result.SeachResults.Searchs.Add(SearchResult);
             });
             return Result;
         }

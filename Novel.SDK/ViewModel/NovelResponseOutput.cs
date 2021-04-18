@@ -10,5 +10,7 @@ namespace Novel.SDK.ViewModel
     {
         public List<NovelRecommend> IndexRecommends { get; set; }
         public List<NovelCategory> IndexCategories { get; set; }
+        public NovelSingleCategory SingleCategories { get; set; }
+        public List<NovelSearch> SearchResults { get; set; }
     }
 }

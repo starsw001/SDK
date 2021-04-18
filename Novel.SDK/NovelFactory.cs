@@ -24,8 +24,8 @@ namespace Novel.SDK
             return RequestParam.NovelType switch
             {
                 NovelEnum.Init => novel.NovelInit(RequestParam),
-                NovelEnum.Search => novel.NovelInit(RequestParam),
-                NovelEnum.Category => novel.NovelInit(RequestParam),
+                NovelEnum.Search => novel.NovelSearch(RequestParam),
+                NovelEnum.Category => novel.NovelCategory(RequestParam),
                 NovelEnum.Detail => novel.NovelInit(RequestParam),
                 NovelEnum.Watch => novel.NovelInit(RequestParam),
                 _ => novel.NovelInit(RequestParam),

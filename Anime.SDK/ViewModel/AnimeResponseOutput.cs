@@ -11,7 +11,7 @@ namespace Anime.SDK.ViewModel
         public string PlayURL { get; set; }
         public Dictionary<string, string> RecommendCategory { get; set; }
         public List<AnimeWeekDay> WeekDays { get; set; }
-        public List<AnimeSearchResult> SeachResults { get; set; }
+        public AnimeSearchResult SeachResults { get; set; }
         public List<AnimeDetailResult> DetailResults { get; set; }
     }
 }
