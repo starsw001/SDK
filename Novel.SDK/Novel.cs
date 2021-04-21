@@ -43,7 +43,7 @@ namespace Novel.SDK
                 }
             });
             //推荐
-            document.DocumentNode.SelectNodes("//div[@class='layout']//div[@class='tp-box']").ForEnumerEach((Action<HtmlNode>)(node =>
+            document.DocumentNode.SelectNodes("//div[@class='layout']//div[@class='tp-box']").ForEnumerEach(node =>
             {
                 NovelRecommend RecommendOut = new NovelRecommend();
                 RecommendOut.RecommendType = node.SelectSingleNode("h2").InnerText;
@@ -60,7 +60,7 @@ namespace Novel.SDK
                 RecommendOut.Author = "佚名";
                 RecommendOut.DetailAddress = Host + node.SelectSingleNode("div[@class='top']//dt/a").GetAttributeValue("href", "");
                 Result.IndexRecommends.Add(RecommendOut);
-            }));
+            });
             return Result;
         }
 
