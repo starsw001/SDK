@@ -1,8 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+		<Authors>EmilyEdna</Authors>
+		<Product>Novel.SDK</Product>
+		<Description>BXWX.NET的SDK开发包</Description>
+	</PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="HtmlAgilityPack" Version="1.11.32" />

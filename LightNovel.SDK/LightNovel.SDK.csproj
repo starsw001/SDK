@@ -3,8 +3,8 @@
 	<PropertyGroup>
 		<TargetFramework>net5.0</TargetFramework>
 		<Authors>EmilyEdna</Authors>
-		<Product>Wallpaper.SDK</Product>
-		<Description>KONA.NET的SDK开发包</Description>
+		<Product>LightNovel.SDK</Product>
+		<Description>WK8.NET的SDK开发包</Description>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -12,4 +12,5 @@
 		<PackageReference Include="System.Text.Encoding.CodePages" Version="5.0.0" />
 		<PackageReference Include="XExten.Advance" Version="1.0.1.4" />
 	</ItemGroup>
+
 </Project>
