@@ -36,10 +36,9 @@ namespace Anime.SDK
                 WeekDays = new List<AnimeWeekDay>(),
                 RecommendCategory = new Dictionary<string, string>()
             };
-            var bytes = HttpMultiClient.HttpMulti.AddNode(Host).Build().RunBytes().FirstOrDefault();
-            using StreamReader reader = new StreamReader(new MemoryStream(bytes), Encoding.GetEncoding("GBK"));
+            var response = HttpMultiClient.HttpMulti.AddNode(Host,RequestType.GET,"GBK").Build().RunString().FirstOrDefault();
             HtmlDocument document = new HtmlDocument();
-            document.LoadHtml(reader.ReadToEnd());
+            document.LoadHtml(response);
 
             string Ruler = "//div[@class='page_content']//div[@id='brood']/div[contains(@id,'anime') and not(contains(@id,'anime_w0'))]";
             document.DocumentNode.SelectNodes(Ruler).ForEnumerEach(item =>
@@ -76,14 +75,15 @@ namespace Anime.SDK
             {
                 SeachResults = new AnimeSearchResult()
             };
+            Result.SeachResults.Searchs = new List<AnimeSearchResults>();
             string KeyWord = HttpUtility.UrlEncode(Input.AnimeSearchKeyWord, Encoding.GetEncoding("GBK"));
-            var bytes = HttpMultiClient.HttpMulti.AddNode(string.Format(Search, KeyWord, Input.Page)).Build().RunBytes().FirstOrDefault();
-            using StreamReader reader = new StreamReader(new MemoryStream(bytes), Encoding.GetEncoding("GBK"));
+            var response = HttpMultiClient.HttpMulti.AddNode(string.Format(Search, KeyWord, Input.Page), RequestType.GET, "GBK").Build().RunString().FirstOrDefault();
             HtmlDocument document = new HtmlDocument();
-            document.LoadHtml(reader.ReadToEnd());
+            document.LoadHtml(response);
+
             var content = document.DocumentNode.SelectSingleNode("//div[@class='movie-chrList']");
             Result.SeachResults.Page = Regex.Match(content.Descendants("span").ToList()[1].InnerText.Split("/")[1], "\\d+").Value.AsInt();
-            Result.SeachResults.Searchs = new List<AnimeSearchResults>();
+           
             content.SelectNodes("ul/li/div[@class='cover']/a").ToList().ForEach(item =>
             {
                 AnimeSearchResults SearchResult = new AnimeSearchResults
@@ -103,12 +103,14 @@ namespace Anime.SDK
             {
                 SeachResults = new AnimeSearchResult()
             };
-            var bytes = HttpMultiClient.HttpMulti.AddNode(string.Format(Category, Input.AnimeLetterType.ToString(), Input.Page)).Build().RunBytes().FirstOrDefault();
-            using StreamReader reader = new StreamReader(new MemoryStream(bytes), Encoding.GetEncoding("GBK"));
+            Result.SeachResults.Searchs = new List<AnimeSearchResults>();
+            var response = HttpMultiClient.HttpMulti.AddNode(string.Format(Category, Input.AnimeLetterType.ToString(), Input.Page), RequestType.GET, "GBK").Build().RunString().FirstOrDefault();
             HtmlDocument document = new HtmlDocument();
-            document.LoadHtml(reader.ReadToEnd());
+            document.LoadHtml(response);
+
             var content = document.DocumentNode.SelectSingleNode("//div[@class='movie-chrList']");
             Result.SeachResults.Page = Regex.Match(content.Descendants("span").ToList()[1].InnerText.Split("/")[1], "\\d+").Value.AsInt();
+           
             content.SelectNodes("ul/li/div[@class='cover']/a").ToList().ForEach(item =>
             {
                 AnimeSearchResults SearchResult = new AnimeSearchResults
@@ -128,10 +130,10 @@ namespace Anime.SDK
             {
                 DetailResults = new List<AnimeDetailResult>()
             };
-            var bytes = HttpMultiClient.HttpMulti.AddNode(Input.DetailAddress).Build().RunBytes().FirstOrDefault();
-            using StreamReader reader = new StreamReader(new MemoryStream(bytes), Encoding.GetEncoding("GBK"));
+            var response = HttpMultiClient.HttpMulti.AddNode(Input.DetailAddress,RequestType.GET, "GBK").Build().RunString().FirstOrDefault();
             HtmlDocument document = new HtmlDocument();
-            document.LoadHtml(reader.ReadToEnd());
+            document.LoadHtml(response);
+
             document.DocumentNode.SelectNodes("//div[@class='playurl']//ul//a").ForEnumerEach(item =>
             {
                 var uri = item.GetAttributeValue("href", "");
@@ -147,15 +149,14 @@ namespace Anime.SDK
         public AnimeResponseOutput AnimeWatchPlay(AnimeRequstInput Input)
         {
             AnimeResponseOutput Result = new AnimeResponseOutput();
-
             if (Input.DetailResult == null)
                 throw new NullReferenceException($"{nameof(AnimeDetailResult)} Is Null");
             if (Input.DetailResult.IsDownURL)
                 return Result;
-            var bytes = HttpMultiClient.HttpMulti.AddNode(Input.DetailResult.WatchAddress).Build().RunBytes().FirstOrDefault();
-            using StreamReader reader = new StreamReader(new MemoryStream(bytes), Encoding.GetEncoding("GBK"));
+            var response = HttpMultiClient.HttpMulti.AddNode(Input.DetailResult.WatchAddress, RequestType.GET, "GBK").Build().RunString().FirstOrDefault();
             HtmlDocument document = new HtmlDocument();
-            document.LoadHtml(reader.ReadToEnd());
+            document.LoadHtml(response);
+
             var JsHost = Host + document.DocumentNode.SelectSingleNode("//div[@class='play-box']//script").GetAttributeValue("src", "");
 
             WebClient client = new WebClient();

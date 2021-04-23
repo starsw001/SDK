@@ -31,14 +31,14 @@ namespace LightNovel.SDK
 
 
 
-            var bytes = HttpMultiClient.HttpMulti.InitCookieContainer().AddNode(Host, pairs, RequestType.POST)
-                .Build().RunBytes(cookie =>
-                {
-                    var cok = cookie.GetCookies(new Uri(Host)).Cast<Cookie>().ToList();
-                }).FirstOrDefault();
-            using StreamReader reader = new StreamReader(new MemoryStream(bytes), Encoding.GetEncoding("GBK"));
-            var xx = reader.ReadToEnd();
-            Console.WriteLine(xx);
+            //var bytes = HttpMultiClient.HttpMulti.InitCookieContainer().AddNode(Host, pairs, RequestType.POST)
+            //    .Build().RunBytes(cookie =>
+            //    {
+            //        var cok = cookie.GetCookies(new Uri(Host)).Cast<Cookie>().ToList();
+            //    }).FirstOrDefault();
+            //using StreamReader reader = new StreamReader(new MemoryStream(bytes), Encoding.GetEncoding("GBK"));
+            //var xx = reader.ReadToEnd();
+            //Console.WriteLine(xx);
         }
     }
 }

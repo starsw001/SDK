@@ -169,7 +169,8 @@ namespace Novel.SDK
             document.LoadHtml(response);
             Result.Contents.ChapterName = document.DocumentNode.SelectSingleNode("//h1[@class='title']").InnerText;
             Result.Contents.Content = document.DocumentNode.SelectSingleNode("//div[@class='content']")
-                .InnerText.Replace("章节错误,点此举报(免注册),举报后维护人员会在两分钟内校正章节内容,请耐心等待,并刷新页面。", "").Trim();
+                .InnerText.Replace("&nbsp;","")
+                .Replace("章节错误,点此举报(免注册),举报后维护人员会在两分钟内校正章节内容,请耐心等待,并刷新页面。", "").Trim();
             return Result;
         }
     }

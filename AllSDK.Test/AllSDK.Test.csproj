@@ -6,7 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Anime.SDK\Anime.SDK.csproj" />
     <ProjectReference Include="..\LightNovel.SDK\LightNovel.SDK.csproj" />
+    <ProjectReference Include="..\Novel.SDK\Novel.SDK.csproj" />
+    <ProjectReference Include="..\Wallpaper.SDK\Wallpaper.SDK.csproj" />
   </ItemGroup>
 
 </Project>

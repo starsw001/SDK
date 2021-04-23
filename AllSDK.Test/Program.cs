@@ -1,5 +1,4 @@
-﻿using LightNovel.SDK;
-using System;
+﻿using System;
 
 namespace AllSDK.Test
 {
@@ -7,10 +6,15 @@ namespace AllSDK.Test
     {
         static void Main(string[] args)
         {
-            Class1 class1 = new Class1();
-            class1.T();
+            //动漫SDK
+            //AnimeTest.AnimeAllTest();
+            //小说SDK
+            //NovelTest.NovelAllTest();
+
+            //Class1 class1 = new Class1();
+            //class1.T();
             Console.ReadKey();
         }
-        
+
     }
 }
