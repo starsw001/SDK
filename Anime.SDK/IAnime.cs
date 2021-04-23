@@ -9,10 +9,10 @@ namespace Anime.SDK
 {
     public interface IAnime
     {
-        AnimeResponseOutput AnimeInit(AnimeRequstInput Input);
-        AnimeResponseOutput AnimeSearch(AnimeRequstInput Input);
-        AnimeResponseOutput AnimeCategory(AnimeRequstInput Input);
-        AnimeResponseOutput AnimeDetail(AnimeRequstInput Input);
-        AnimeResponseOutput AnimeWatchPlay(AnimeRequstInput Input);
+        AnimeResponseOutput AnimeInit(AnimeRequestInput Input);
+        AnimeResponseOutput AnimeSearch(AnimeRequestInput Input);
+        AnimeResponseOutput AnimeCategory(AnimeRequestInput Input);
+        AnimeResponseOutput AnimeDetail(AnimeRequestInput Input);
+        AnimeResponseOutput AnimeWatchPlay(AnimeRequestInput Input);
     }
 }

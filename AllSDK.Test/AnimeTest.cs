@@ -20,7 +20,7 @@ namespace AllSDK.Test
             //初始化
             var AnimeInit = AnimeFactory.Anime(opt =>
             {
-                opt.RequestParam = new AnimeRequstInput
+                opt.RequestParam = new AnimeRequestInput
                 {
                     AnimeType = AnimeEnum.Init
                 };
@@ -29,7 +29,7 @@ namespace AllSDK.Test
             //搜索
             var AnimeSearch = AnimeFactory.Anime(opt =>
             {
-                opt.RequestParam = new AnimeRequstInput
+                opt.RequestParam = new AnimeRequestInput
                 {
                     AnimeType = AnimeEnum.Search,
                     AnimeSearchKeyWord = "盾之勇者"
@@ -39,7 +39,7 @@ namespace AllSDK.Test
             //分类
             var AnimeCate = AnimeFactory.Anime(opt =>
             {
-                opt.RequestParam = new AnimeRequstInput
+                opt.RequestParam = new AnimeRequestInput
                 {
                     AnimeType = AnimeEnum.Category,
                     AnimeLetterType = AnimeLetterEnum.A
@@ -49,7 +49,7 @@ namespace AllSDK.Test
             //详情页
             var AnimeDetail = AnimeFactory.Anime(opt =>
             {
-                opt.RequestParam = new AnimeRequstInput
+                opt.RequestParam = new AnimeRequestInput
                 {
                     AnimeType = AnimeEnum.Detail,
                     DetailAddress = AnimeCate.SeachResults.Searchs.FirstOrDefault().DetailAddress
@@ -59,7 +59,7 @@ namespace AllSDK.Test
             //播放页
             var AnimeWath = AnimeFactory.Anime(opt =>
             {
-                opt.RequestParam = new AnimeRequstInput
+                opt.RequestParam = new AnimeRequestInput
                 {
                     AnimeType = AnimeEnum.Watch,
                     DetailResult = AnimeDetail.DetailResults.FirstOrDefault()

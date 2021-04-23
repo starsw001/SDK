@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Anime.SDK.ViewModel
 {
-    public class AnimeRequstInput
+    public class AnimeRequestInput
     {
         /// <summary>
         /// 模式

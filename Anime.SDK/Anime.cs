@@ -29,7 +29,7 @@ namespace Anime.SDK
          * step3:执行详情
          * step4:执行观看
          */
-        public AnimeResponseOutput AnimeInit(AnimeRequstInput Input)
+        public AnimeResponseOutput AnimeInit(AnimeRequestInput Input)
         {
             AnimeResponseOutput Result = new AnimeResponseOutput()
             {
@@ -69,7 +69,7 @@ namespace Anime.SDK
 
             return Result;
         }
-        public AnimeResponseOutput AnimeSearch(AnimeRequstInput Input)
+        public AnimeResponseOutput AnimeSearch(AnimeRequestInput Input)
         {
             AnimeResponseOutput Result = new AnimeResponseOutput()
             {
@@ -97,7 +97,7 @@ namespace Anime.SDK
             });
             return Result;
         }
-        public AnimeResponseOutput AnimeCategory(AnimeRequstInput Input)
+        public AnimeResponseOutput AnimeCategory(AnimeRequestInput Input)
         {
             AnimeResponseOutput Result = new AnimeResponseOutput()
             {
@@ -124,7 +124,7 @@ namespace Anime.SDK
             });
             return Result;
         }
-        public AnimeResponseOutput AnimeDetail(AnimeRequstInput Input)
+        public AnimeResponseOutput AnimeDetail(AnimeRequestInput Input)
         {
             AnimeResponseOutput Result = new AnimeResponseOutput()
             {
@@ -146,7 +146,7 @@ namespace Anime.SDK
             });
             return Result;
         }
-        public AnimeResponseOutput AnimeWatchPlay(AnimeRequstInput Input)
+        public AnimeResponseOutput AnimeWatchPlay(AnimeRequestInput Input)
         {
             AnimeResponseOutput Result = new AnimeResponseOutput();
             if (Input.DetailResult == null)

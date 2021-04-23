@@ -9,7 +9,7 @@ namespace Anime.SDK
 {
     public class AnimeFactory
     {
-        public AnimeRequstInput RequestParam { get; set; }
+        public AnimeRequestInput RequestParam { get; set; }
         public static AnimeFactory Anime(Action<AnimeFactory> action)
         {
             AnimeFactory factory = new AnimeFactory();
