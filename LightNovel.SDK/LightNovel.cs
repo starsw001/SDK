@@ -1,4 +1,5 @@
-﻿using LightNovel.SDK.ViewModel;
+﻿using HtmlAgilityPack;
+using LightNovel.SDK.ViewModel;
 using Synctool.CacheFramework;
 using Synctool.HttpFramework;
 using System;
@@ -17,22 +18,20 @@ namespace LightNovel.SDK
         private const string Host = "https://www.wenku8.net";
         private const string Login = Host + "/login.php";
 
-        public LightNovel()
+        public LightNovelResponseOutput LightNovelInit(LightNovelRequestInput Input)
         {
-            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-        }
-        public LightNovelResponseOutput Init(LightNovelRequestInput Input)
-        {
-            // PassWord = "sion8550",
-            //UserName = "kilydoll365"
             var response = HttpMultiClient.HttpMulti.InitCookieContainer()
-                .AddNode(Login, Input.InitParam, Input.InitParam.FieldMap, RequestType.POST,"GBK")
-               .Build().RunString((Cookie, Uri) =>
-               {
-                   if (Caches.RunTimeCacheGet<CookieCollection>(Host) == null)
-                       Caches.RunTimeCacheSet(Host, Cookie.GetCookies(Uri), 1440);
-               }).FirstOrDefault();
+                  .AddNode(Login, Input.InitParam, Input.InitParam.FieldMap, RequestType.POST, "GBK")
+                  .AddNode(Host, RequestType.GET, "GBK")
+                 .Build().RunString((Cookie, Uri) =>
+                 {
+                     if (Caches.RunTimeCacheGet<CookieCollection>(Host) == null)
+                         Caches.RunTimeCacheSet(Host, Cookie.GetCookies(Uri), 1440);
+                 }).LastOrDefault();
 
+
+            HtmlDocument document = new HtmlDocument();
+            document.LoadHtml(response);
             return default;
         }
     }

@@ -11,8 +11,8 @@ namespace AllSDK.Test
             //AnimeTest.AnimeAllTest();
             //小说SDK
             //NovelTest.NovelAllTest();
-
-
+            //轻小说SDK
+            LightNovelTest.LightNovelAllTest();
             Console.ReadKey();
         }
 

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using LightNovel.SDK.ViewModel.Enums;
+using LightNovel.SDK.ViewModel.Request;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +10,10 @@ namespace LightNovel.SDK.ViewModel
 {
     public class LightNovelRequestInput
     {
+        /// <summary>
+        /// 模式
+        /// </summary>
+        public LightNovelEnum LightNovelType { get; set; }
         /// <summary>
         /// 初始化参数
         /// </summary>

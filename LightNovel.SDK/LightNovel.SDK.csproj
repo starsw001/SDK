@@ -12,4 +12,8 @@
 		<PackageReference Include="XExten.Advance" Version="1.0.1.6-alpha-2" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="ViewModel\Response\" />
+	</ItemGroup>
+
 </Project>

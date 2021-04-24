@@ -20,10 +20,6 @@ namespace Anime.SDK
         private const string Host = "http://www.cgdm.net";
         private const string Search = Host + "/search.asp?searchword={0}&page={1}";
         private const string Category = Search + "&searchtype=4";
-        public Anime()
-        {
-            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-        }
         /*
          * step1:执行初始化
          * step2:执行搜索或者分类

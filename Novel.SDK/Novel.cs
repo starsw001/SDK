@@ -16,7 +16,12 @@ namespace Novel.SDK
     {
         private const string Host = "https://www.bxwx.la";
         private const string Search = Host + "/ar.php?keyWord={0}";
-
+        /*
+       * step1:执行初始化
+       * step2:执行搜索或者分类
+       * step3:执行详情
+       * step4:执行浏览
+       */
         public NovelResponseOutput NovelInit(NovelRequestInput Input)
         {
             NovelResponseOutput Result = new NovelResponseOutput()

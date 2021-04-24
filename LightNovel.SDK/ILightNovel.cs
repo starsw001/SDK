@@ -9,6 +9,6 @@ namespace LightNovel.SDK
 {
     public interface ILightNovel
     {
-        LightNovelResponseOutput Init(LightNovelRequestInput Input);
+        LightNovelResponseOutput LightNovelInit(LightNovelRequestInput Input);
     }
 }
