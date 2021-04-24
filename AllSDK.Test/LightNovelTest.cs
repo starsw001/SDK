@@ -2,6 +2,7 @@
 using LightNovel.SDK.ViewModel;
 using LightNovel.SDK.ViewModel.Enums;
 using LightNovel.SDK.ViewModel.Request;
+using Synctool.LinqFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,14 +18,15 @@ namespace AllSDK.Test
         /// </summary>
         public static void LightNovelAllTest()
         {
-            LightNovelFactory.Novel(opt =>
-            {
-                opt.RequestParam = new LightNovelRequestInput
-                {
-                    LightNovelType = LightNovelEnum.Init,
-                    InitParam= new LightNovelInit()
-                };
-            }).Runs();
+            var LightNovelInit = LightNovelFactory.Novel(opt =>
+             {
+                 opt.RequestParam = new LightNovelRequestInput
+                 {
+                     LightNovelType = LightNovelEnum.Init,
+                     InitParam = new LightNovelInit()
+                 };
+             }).Runs();
+            Console.WriteLine(LightNovelInit.ToJson());
         }
     }
 }

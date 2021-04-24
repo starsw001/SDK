@@ -34,13 +34,13 @@ namespace Novel.SDK
             HtmlDocument document = new HtmlDocument();
             document.LoadHtml(response);
             //分类
-            List<string> TempCategory = new List<string>
+            List<string> FilterCategory = new List<string>
             {
              "玄幻奇幻","武侠仙侠","都市言情","历史军事","科幻灵异","网游竞技","女生频道"
             };
             document.DocumentNode.SelectNodes("//ul[@class='nav']//li/a").ForEnumerEach(node =>
             {
-                if (TempCategory.Contains(node.InnerText))
+                if (FilterCategory.Contains(node.InnerText))
                 {
                     NovelCategoryResult Category = new NovelCategoryResult();
                     Category.CategoryName = node.InnerText;

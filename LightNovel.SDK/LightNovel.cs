@@ -1,7 +1,9 @@
 ﻿using HtmlAgilityPack;
 using LightNovel.SDK.ViewModel;
+using LightNovel.SDK.ViewModel.Response;
 using Synctool.CacheFramework;
 using Synctool.HttpFramework;
+using Synctool.LinqFramework;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -20,6 +22,11 @@ namespace LightNovel.SDK
 
         public LightNovelResponseOutput LightNovelInit(LightNovelRequestInput Input)
         {
+            LightNovelResponseOutput Result = new LightNovelResponseOutput
+            {
+                CategoryResults = new List<LightNovelCategoryResult>()
+            };
+
             var response = HttpMultiClient.HttpMulti.InitCookieContainer()
                   .AddNode(Login, Input.InitParam, Input.InitParam.FieldMap, RequestType.POST, "GBK")
                   .AddNode(Host, RequestType.GET, "GBK")
@@ -29,10 +36,27 @@ namespace LightNovel.SDK
                          Caches.RunTimeCacheSet(Host, Cookie.GetCookies(Uri), 1440);
                  }).LastOrDefault();
 
-
             HtmlDocument document = new HtmlDocument();
             document.LoadHtml(response);
-            return default;
+
+            List<string> FilterCategory = new List<string>
+            {
+             "轻小说列表","热门轻小说","动画化作品","今日更新","新书一览","完结全本"
+            };
+            document.DocumentNode.SelectNodes("//ul[@class='navlist']/li/a").ForEnumerEach(node =>
+            {
+                if (FilterCategory.Contains(node.InnerText))
+                {
+                    LightNovelCategoryResult category = new LightNovelCategoryResult
+                    {
+                        CategoryAddress = node.GetAttributeValue("href", ""),
+                        CategoryName = node.InnerText
+                    };
+                    Result.CategoryResults.Add(category);
+                }
+            });
+
+            return Result;
         }
     }
 }
