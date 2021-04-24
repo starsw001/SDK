@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Anime.SDK.ViewModel
+namespace Anime.SDK.ViewModel.Enums
 {
     /// <summary>
     /// 字母分类

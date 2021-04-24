@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Novel.SDK.ViewModel
+namespace Novel.SDK.ViewModel.Response
 {
-    public class NovelDetail
+    public class NovelDetailResult
     {
         /// <summary>
         /// 总页数
@@ -47,9 +47,9 @@ namespace Novel.SDK.ViewModel
         /// <summary>
         /// 详细章节
         /// </summary>
-        public List<NovelDetails> Details { get; set; }
+        public List<NovelDetailResults> Details { get; set; }
     }
-    public class NovelDetails
+    public class NovelDetailResults
     {
         /// <summary>
         /// 章节名称

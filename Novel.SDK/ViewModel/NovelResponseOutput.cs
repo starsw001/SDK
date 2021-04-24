@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Novel.SDK.ViewModel.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,31 +14,31 @@ namespace Novel.SDK.ViewModel
         /// 推荐
         /// </summary>
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public List<NovelRecommend> IndexRecommends { get; set; }
+        public List<NovelRecommendResult> IndexRecommends { get; set; }
         /// <summary>
         /// 分类
         /// </summary>
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public List<NovelCategory> IndexCategories { get; set; }
+        public List<NovelCategoryResult> IndexCategories { get; set; }
         /// <summary>
         /// 单个分类
         /// </summary>
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public NovelSingleCategory SingleCategories { get; set; }
+        public NovelSingleCategoryResult SingleCategories { get; set; }
         /// <summary>
         /// 搜索结果
         /// </summary>
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public List<NovelSearch> SearchResults { get; set; }
+        public List<NovelSearchResult> SearchResults { get; set; }
         /// <summary>
         /// 详情结果
         /// </summary>
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public NovelDetail Details { get; set; }
+        public NovelDetailResult Details { get; set; }
         /// <summary>
         /// 内容结果
         /// </summary>
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public NovelContent Contents  { get; set; }
+        public NovelContentResult Contents  { get; set; }
     }
 }

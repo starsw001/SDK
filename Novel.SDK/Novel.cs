@@ -1,5 +1,6 @@
 ﻿using HtmlAgilityPack;
 using Novel.SDK.ViewModel;
+using Novel.SDK.ViewModel.Response;
 using Synctool.HttpFramework;
 using Synctool.LinqFramework;
 using System;
@@ -20,9 +21,10 @@ namespace Novel.SDK
         {
             NovelResponseOutput Result = new NovelResponseOutput()
             {
-                IndexRecommends = new List<NovelRecommend>(),
-                IndexCategories = new List<NovelCategory>()
+                IndexRecommends = new List<NovelRecommendResult>(),
+                IndexCategories = new List<NovelCategoryResult>()
             };
+
             var response = HttpMultiClient.HttpMulti.AddNode(Host).Build().RunString().FirstOrDefault();
             HtmlDocument document = new HtmlDocument();
             document.LoadHtml(response);
@@ -33,10 +35,9 @@ namespace Novel.SDK
             };
             document.DocumentNode.SelectNodes("//ul[@class='nav']//li/a").ForEnumerEach(node =>
             {
-
                 if (TempCategory.Contains(node.InnerText))
                 {
-                    NovelCategory Category = new NovelCategory();
+                    NovelCategoryResult Category = new NovelCategoryResult();
                     Category.CategoryName = node.InnerText;
                     Category.CollectAddress = Host + node.GetAttributeValue("href", "");
                     Result.IndexCategories.Add(Category);
@@ -45,11 +46,11 @@ namespace Novel.SDK
             //推荐
             document.DocumentNode.SelectNodes("//div[@class='layout']//div[@class='tp-box']").ForEnumerEach(node =>
             {
-                NovelRecommend RecommendOut = new NovelRecommend();
+                NovelRecommendResult RecommendOut = new NovelRecommendResult();
                 RecommendOut.RecommendType = node.SelectSingleNode("h2").InnerText;
                 node.SelectNodes("ul/li").ForEnumerEach(child =>
                 {
-                    NovelRecommend Recommend = new NovelRecommend();
+                    NovelRecommendResult Recommend = new NovelRecommendResult();
                     Recommend.RecommendType = RecommendOut.RecommendType;
                     Recommend.DetailAddress = Host + child.SelectSingleNode("a").GetAttributeValue("href", "");
                     Recommend.BookName = child.SelectSingleNode("a").InnerText;
@@ -68,16 +69,19 @@ namespace Novel.SDK
         {
             NovelResponseOutput Result = new NovelResponseOutput()
             {
-                SearchResults = new List<NovelSearch>()
+                SearchResults = new List<NovelSearchResult>()
             };
-            var response = HttpMultiClient.HttpMulti.AddNode(string.Format(Search, Input.NovelSearchKeyWord)).Build().RunString().FirstOrDefault();
+
+            var response = HttpMultiClient.HttpMulti.AddNode(string.Format(Search, Input.Search.NovelSearchKeyWord)).Build().RunString().FirstOrDefault();
             HtmlDocument document = new HtmlDocument();
             document.LoadHtml(response);
+
             var TempResult = document.DocumentNode.SelectNodes("//ul[contains(@class,'txt-list txt-list-row5')]/li").ToList();
             TempResult.RemoveAt(0);
+
             TempResult.ForEach(node =>
             {
-                NovelSearch search = new NovelSearch
+                NovelSearchResult search = new NovelSearchResult
                 {
                     RecommendType = node.SelectSingleNode("span[@class='s1']").InnerText,
                     Author = node.SelectSingleNode("span[@class='s4']").InnerText,
@@ -94,19 +98,24 @@ namespace Novel.SDK
         {
             NovelResponseOutput Result = new NovelResponseOutput()
             {
-                SingleCategories = new NovelSingleCategory()
+                SingleCategories = new NovelSingleCategoryResult()
             };
-            if (Input.Page > 1)
-                Input.NovelCategoryAddress = $"{Input.NovelCategoryAddress.Substring(0, Input.NovelCategoryAddress.LastIndexOf("/"))}/{Input.Page}.htm";
-            var response = HttpMultiClient.HttpMulti.AddNode(Input.NovelCategoryAddress).Build().RunString().FirstOrDefault();
+
+            if (Input.Category.Page > 1)
+                Input.Category.NovelCategoryAddress =@$"{Input.Category.NovelCategoryAddress
+                    .Substring(0, Input.Category.NovelCategoryAddress.LastIndexOf("/"))}/{Input.Category.Page}.htm";
+
+            var response = HttpMultiClient.HttpMulti.AddNode(Input.Category.NovelCategoryAddress).Build().RunString().FirstOrDefault();
             HtmlDocument document = new HtmlDocument();
             document.LoadHtml(response);
+
             Result.SingleCategories.TotalPage = document.DocumentNode.SelectSingleNode("//ul[contains(@class,'pagination pagination-mga')]//span")
                 .InnerText.Split("/").LastOrDefault().AsInt();
-            Result.SingleCategories.NovelSingles = new List<NovelSingleCategories>();
+
+            Result.SingleCategories.NovelSingles = new List<NovelSingleCategoryResults>();
             document.DocumentNode.SelectNodes("//ul[contains(@class,'txt-list txt-list-row5')]/li").ForEnumerEach(node =>
             {
-                NovelSingleCategories categories = new NovelSingleCategories
+                NovelSingleCategoryResults categories = new NovelSingleCategoryResults
                 {
                     Author = node.SelectSingleNode("span[@class='s4']").InnerText,
                     DetailAddress = Host + node.SelectSingleNode("span[@class='s2']/a").GetAttributeValue("href", ""),
@@ -122,12 +131,15 @@ namespace Novel.SDK
         {
             NovelResponseOutput Result = new NovelResponseOutput()
             {
-                Details = new NovelDetail()
+                Details = new NovelDetailResult()
             };
-            Result.Details.ShortURL = Input.NovelDetailAddress;
-            if (Input.Page > 1)
-                Input.NovelDetailAddress = $"{Result.Details.ShortURL}index_{Input.Page}.html";
-            var response = HttpMultiClient.HttpMulti.AddNode(Input.NovelDetailAddress).Build().RunString().FirstOrDefault();
+            Result.Details.ShortURL = Input.Detail.NovelDetailAddress;
+
+            if (Input.Detail.Page > 1)
+                Input.Detail.NovelDetailAddress = $"{Result.Details.ShortURL}index_{Input.Detail.Page}.html";
+
+            var response = HttpMultiClient.HttpMulti.AddNode(Input.Detail.NovelDetailAddress).Build().RunString().FirstOrDefault();
+          
             HtmlDocument document = new HtmlDocument();
             document.LoadHtml(response);
             var HContent = document.DocumentNode.SelectSingleNode("//div[@class='detail-box']");
@@ -143,11 +155,11 @@ namespace Novel.SDK
                 .Replace("\r", "").Replace("\n", "").Replace("\t", "");
             Result.Details.TotalPage = document.DocumentNode.SelectNodes("//select[@name='pageselect']/option").Count;
 
-            Result.Details.Details = new List<NovelDetails>();
+            Result.Details.Details = new List<NovelDetailResults>();
             document.DocumentNode.SelectNodes("//ul[@class='section-list fix']")
                 .LastOrDefault().SelectNodes("li").ForEnumerEach(node =>
                 {
-                    NovelDetails nd = new NovelDetails
+                    NovelDetailResults nd = new NovelDetailResults
                     {
                         ChapterName = node.SelectSingleNode("a").InnerText,
                         ChapterURL = Host + node.SelectSingleNode("a").GetAttributeValue("href", "")
@@ -162,11 +174,13 @@ namespace Novel.SDK
         {
             NovelResponseOutput Result = new NovelResponseOutput()
             {
-                Contents = new NovelContent()
+                Contents = new NovelContentResult()
             };
-            var response = HttpMultiClient.HttpMulti.AddNode(Input.NovelViewAddress).Build().RunString().FirstOrDefault();
+            var response = HttpMultiClient.HttpMulti.AddNode(Input.View.NovelViewAddress).Build().RunString().FirstOrDefault();
+           
             HtmlDocument document = new HtmlDocument();
             document.LoadHtml(response);
+           
             Result.Contents.ChapterName = document.DocumentNode.SelectSingleNode("//h1[@class='title']").InnerText;
             Result.Contents.Content = document.DocumentNode.SelectSingleNode("//div[@class='content']")
                 .InnerText.Replace("&nbsp;","")

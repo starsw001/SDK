@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Anime.SDK.ViewModel.Response;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,7 +24,7 @@ namespace Anime.SDK.ViewModel
         /// 每日更新
         /// </summary>
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public List<AnimeWeekDay> WeekDays { get; set; }
+        public List<AnimeWeekDayResult> WeekDays { get; set; }
         /// <summary>
         /// 搜索结果
         /// </summary>

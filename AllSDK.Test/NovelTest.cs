@@ -1,6 +1,8 @@
 ﻿using Novel.SDK;
 using Novel.SDK.ViewModel;
+using Novel.SDK.ViewModel.Enums;
 using Synctool.LinqFramework;
+using Novel.SDK.ViewModel.Request;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,7 +33,10 @@ namespace AllSDK.Test
                 opt.RequestParam = new NovelRequestInput
                 {
                     NovelType = NovelEnum.Search,
-                    NovelSearchKeyWord = "神墓"
+                    Search = new NovelSearch
+                    {
+                        NovelSearchKeyWord = "神墓"
+                    }
                 };
             }).Runs();
             Console.WriteLine(NovelSearch.ToJson());
@@ -41,7 +46,10 @@ namespace AllSDK.Test
                 opt.RequestParam = new NovelRequestInput
                 {
                     NovelType = NovelEnum.Category,
-                    NovelCategoryAddress = NovelInit.IndexCategories.FirstOrDefault().CollectAddress
+                    Category = new NovelCategory
+                    {
+                        NovelCategoryAddress = NovelInit.IndexCategories.FirstOrDefault().CollectAddress
+                    }
                 };
             }).Runs();
             Console.WriteLine(NovelCate.ToJson());
@@ -51,7 +59,10 @@ namespace AllSDK.Test
                 opt.RequestParam = new NovelRequestInput
                 {
                     NovelType = NovelEnum.Detail,
-                    NovelDetailAddress = NovelCate.SingleCategories.NovelSingles.FirstOrDefault().DetailAddress
+                    Detail = new NovelDetail
+                    {
+                        NovelDetailAddress = NovelCate.SingleCategories.NovelSingles.FirstOrDefault().DetailAddress
+                    }
                 };
             }).Runs();
             Console.WriteLine(NovelDetail.ToJson());
@@ -61,7 +72,10 @@ namespace AllSDK.Test
                 opt.RequestParam = new NovelRequestInput
                 {
                     NovelType = NovelEnum.Watch,
-                    NovelViewAddress = NovelDetail.Details.Details.FirstOrDefault().ChapterURL
+                    View = new NovelView
+                    {
+                        NovelViewAddress = NovelDetail.Details.Details.FirstOrDefault().ChapterURL
+                    }
                 };
             }).Runs();
             Console.WriteLine(NovelContent.ToJson());

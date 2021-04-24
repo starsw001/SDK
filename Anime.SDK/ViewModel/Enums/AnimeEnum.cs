@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Novel.SDK.ViewModel
+namespace Anime.SDK.ViewModel.Enums
 {
     /// <summary>
     /// 模式
     /// </summary>
-    public enum NovelEnum
+    public enum AnimeEnum
     {
         /// <summary>
         /// 初始化
@@ -20,7 +20,7 @@ namespace Novel.SDK.ViewModel
         /// </summary>
         Search,
         /// <summary>
-        /// 分类
+        /// 字母分类
         /// </summary>
         Category,
         /// <summary>

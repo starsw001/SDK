@@ -1,4 +1,5 @@
 ﻿using Anime.SDK.ViewModel;
+using Anime.SDK.ViewModel.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;

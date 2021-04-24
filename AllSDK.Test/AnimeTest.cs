@@ -1,5 +1,7 @@
 ﻿using Anime.SDK;
 using Anime.SDK.ViewModel;
+using Anime.SDK.ViewModel.Request;
+using Anime.SDK.ViewModel.Enums;
 using Synctool.LinqFramework;
 using System;
 using System.Collections.Generic;
@@ -14,7 +16,7 @@ namespace AllSDK.Test
         /// <summary>
         /// 动漫测试
         /// </summary>
-        public static void AnimeAllTest() 
+        public static void AnimeAllTest()
         {
 
             //初始化
@@ -32,7 +34,10 @@ namespace AllSDK.Test
                 opt.RequestParam = new AnimeRequestInput
                 {
                     AnimeType = AnimeEnum.Search,
-                    AnimeSearchKeyWord = "盾之勇者"
+                    Search = new AnimeSearch
+                    {
+                        AnimeSearchKeyWord = "盾之勇者"
+                    }
                 };
             }).Runs();
             Console.WriteLine(AnimeSearch.ToJson());
@@ -42,7 +47,10 @@ namespace AllSDK.Test
                 opt.RequestParam = new AnimeRequestInput
                 {
                     AnimeType = AnimeEnum.Category,
-                    AnimeLetterType = AnimeLetterEnum.A
+                    Category = new AnimeCategory
+                    {
+                        AnimeLetterType = AnimeLetterEnum.A
+                    }
                 };
             }).Runs();
             Console.WriteLine(AnimeCate.ToJson());
@@ -52,7 +60,10 @@ namespace AllSDK.Test
                 opt.RequestParam = new AnimeRequestInput
                 {
                     AnimeType = AnimeEnum.Detail,
-                    DetailAddress = AnimeCate.SeachResults.Searchs.FirstOrDefault().DetailAddress
+                    Detail = new AnimeDetail
+                    {
+                        DetailAddress = AnimeCate.SeachResults.Searchs.FirstOrDefault().DetailAddress
+                    }
                 };
             }).Runs();
             Console.WriteLine(AnimeDetail.ToJson());
@@ -62,7 +73,10 @@ namespace AllSDK.Test
                 opt.RequestParam = new AnimeRequestInput
                 {
                     AnimeType = AnimeEnum.Watch,
-                    DetailResult = AnimeDetail.DetailResults.FirstOrDefault()
+                    WatchPlay = new AnimeWatchPlay
+                    {
+                        DetailResult = AnimeDetail.DetailResults.FirstOrDefault()
+                    }
                 };
             }).Runs();
             Console.WriteLine(AnimeWath.ToJson());

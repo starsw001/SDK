@@ -1,4 +1,5 @@
 ﻿using Novel.SDK.ViewModel;
+using Novel.SDK.ViewModel.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;

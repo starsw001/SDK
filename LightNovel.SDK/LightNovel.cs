@@ -25,14 +25,13 @@ namespace LightNovel.SDK
         {
             // PassWord = "sion8550",
             //UserName = "kilydoll365"
-            var bytes = HttpMultiClient.HttpMulti.InitCookieContainer()
-                .AddNode(Login, Input.InitParam, Input.InitParam.FieldMap, RequestType.POST)
-               .Build().RunBytes((Cookie, Uri) =>
+            var response = HttpMultiClient.HttpMulti.InitCookieContainer()
+                .AddNode(Login, Input.InitParam, Input.InitParam.FieldMap, RequestType.POST,"GBK")
+               .Build().RunString((Cookie, Uri) =>
                {
                    if (Caches.RunTimeCacheGet<CookieCollection>(Host) == null)
                        Caches.RunTimeCacheSet(Host, Cookie.GetCookies(Uri), 1440);
                }).FirstOrDefault();
-            using StreamReader reader = new StreamReader(new MemoryStream(bytes), Encoding.GetEncoding("GBK"));
 
             return default;
         }

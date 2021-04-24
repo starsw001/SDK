@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Anime.SDK.ViewModel.Enums;
+using Anime.SDK.ViewModel.Request;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,24 +15,24 @@ namespace Anime.SDK.ViewModel
         /// </summary>
         public AnimeEnum AnimeType { get; set; }
         /// <summary>
-        /// 页码
+        /// 初始化
         /// </summary>
-        public int Page { get; set; } = 1;
+        public AnimeInit Init { get; }
         /// <summary>
-        /// 关键字
+        /// 搜索
         /// </summary>
-        public string AnimeSearchKeyWord { get; set; }
+        public AnimeSearch Search { get; set; }
         /// <summary>
-        /// 字母分类
+        /// 分类
         /// </summary>
-        public AnimeLetterEnum AnimeLetterType { get; set; }
+        public AnimeCategory Category { get; set; }
         /// <summary>
-        /// 详情地址
+        /// 详情
         /// </summary>
-        public string DetailAddress { get; set; }
+        public AnimeDetail Detail { get; set; }
         /// <summary>
-        /// 详情结果
+        /// 播放
         /// </summary>
-        public AnimeDetailResult DetailResult { get; set; }
+        public AnimeWatchPlay WatchPlay { get; set; }
     }
 }

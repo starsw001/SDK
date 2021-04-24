@@ -11,6 +11,7 @@ using Synctool.LinqFramework;
 using System.Web;
 using System.Text.RegularExpressions;
 using System.Net;
+using Anime.SDK.ViewModel.Response;
 
 namespace Anime.SDK
 {
@@ -33,7 +34,7 @@ namespace Anime.SDK
         {
             AnimeResponseOutput Result = new AnimeResponseOutput()
             {
-                WeekDays = new List<AnimeWeekDay>(),
+                WeekDays = new List<AnimeWeekDayResult>(),
                 RecommendCategory = new Dictionary<string, string>()
             };
             var response = HttpMultiClient.HttpMulti.AddNode(Host,RequestType.GET,"GBK").Build().RunString().FirstOrDefault();
@@ -43,14 +44,14 @@ namespace Anime.SDK
             string Ruler = "//div[@class='page_content']//div[@id='brood']/div[contains(@id,'anime') and not(contains(@id,'anime_w0'))]";
             document.DocumentNode.SelectNodes(Ruler).ForEnumerEach(item =>
             {
-                AnimeWeekDay WeekDay = new AnimeWeekDay
+                AnimeWeekDayResult WeekDay = new AnimeWeekDayResult
                 {
                     DayName = item.SelectSingleNode("div[@class='title_week']").InnerText,
-                    DayRecommends = new List<AnimeWeekDayRecommend>()
+                    DayRecommends = new List<AnimeWeekDayRecommendResult>()
                 };
                 item.Descendants("a").ForEnumerEach(items =>
                 {
-                    AnimeWeekDayRecommend DayRecommend = new AnimeWeekDayRecommend
+                    AnimeWeekDayRecommendResult DayRecommend = new AnimeWeekDayRecommendResult
                     {
                         AnimeURL = items.GetAttributeValue("href", ""),
                         AnimeName = items.InnerText
@@ -76,8 +77,8 @@ namespace Anime.SDK
                 SeachResults = new AnimeSearchResult()
             };
             Result.SeachResults.Searchs = new List<AnimeSearchResults>();
-            string KeyWord = HttpUtility.UrlEncode(Input.AnimeSearchKeyWord, Encoding.GetEncoding("GBK"));
-            var response = HttpMultiClient.HttpMulti.AddNode(string.Format(Search, KeyWord, Input.Page), RequestType.GET, "GBK").Build().RunString().FirstOrDefault();
+            string KeyWord = HttpUtility.UrlEncode(Input.Search.AnimeSearchKeyWord, Encoding.GetEncoding("GBK"));
+            var response = HttpMultiClient.HttpMulti.AddNode(string.Format(Search, KeyWord, Input.Search.Page), RequestType.GET, "GBK").Build().RunString().FirstOrDefault();
             HtmlDocument document = new HtmlDocument();
             document.LoadHtml(response);
 
@@ -104,7 +105,7 @@ namespace Anime.SDK
                 SeachResults = new AnimeSearchResult()
             };
             Result.SeachResults.Searchs = new List<AnimeSearchResults>();
-            var response = HttpMultiClient.HttpMulti.AddNode(string.Format(Category, Input.AnimeLetterType.ToString(), Input.Page), RequestType.GET, "GBK").Build().RunString().FirstOrDefault();
+            var response = HttpMultiClient.HttpMulti.AddNode(string.Format(Category, Input.Category.AnimeLetterType.ToString(), Input.Category.Page), RequestType.GET, "GBK").Build().RunString().FirstOrDefault();
             HtmlDocument document = new HtmlDocument();
             document.LoadHtml(response);
 
@@ -130,7 +131,7 @@ namespace Anime.SDK
             {
                 DetailResults = new List<AnimeDetailResult>()
             };
-            var response = HttpMultiClient.HttpMulti.AddNode(Input.DetailAddress,RequestType.GET, "GBK").Build().RunString().FirstOrDefault();
+            var response = HttpMultiClient.HttpMulti.AddNode(Input.Detail.DetailAddress,RequestType.GET, "GBK").Build().RunString().FirstOrDefault();
             HtmlDocument document = new HtmlDocument();
             document.LoadHtml(response);
 
@@ -149,11 +150,11 @@ namespace Anime.SDK
         public AnimeResponseOutput AnimeWatchPlay(AnimeRequestInput Input)
         {
             AnimeResponseOutput Result = new AnimeResponseOutput();
-            if (Input.DetailResult == null)
+            if (Input.WatchPlay.DetailResult == null)
                 throw new NullReferenceException($"{nameof(AnimeDetailResult)} Is Null");
-            if (Input.DetailResult.IsDownURL)
+            if (Input.WatchPlay.DetailResult.IsDownURL)
                 return Result;
-            var response = HttpMultiClient.HttpMulti.AddNode(Input.DetailResult.WatchAddress, RequestType.GET, "GBK").Build().RunString().FirstOrDefault();
+            var response = HttpMultiClient.HttpMulti.AddNode(Input.WatchPlay.DetailResult.WatchAddress, RequestType.GET, "GBK").Build().RunString().FirstOrDefault();
             HtmlDocument document = new HtmlDocument();
             document.LoadHtml(response);
 
@@ -167,7 +168,7 @@ namespace Anime.SDK
                 var temp = item.Split("?").FirstOrDefault().Split("$");
                 Map.Add(temp[0].Replace("'", ""), temp[1]);
             });
-            Result.PlayURL = Map[Input.DetailResult.CollectName];
+            Result.PlayURL = Map[Input.WatchPlay.DetailResult.CollectName];
             return Result;
         }
     }

@@ -4,15 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Novel.SDK.ViewModel
+namespace Novel.SDK.ViewModel.Response
 {
-    public class NovelSingleCategory
+    public class NovelSearchResult
     {
-        public int TotalPage { get; set; }
-        public List<NovelSingleCategories> NovelSingles { get; set; }
-    }
-    public class NovelSingleCategories
-    {
+        public string RecommendType { get; set; }
         public string DetailAddress { get; set; }
         public string BookName { get; set; }
         public string Author { get; set; }

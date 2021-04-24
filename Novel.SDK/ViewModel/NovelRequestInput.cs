@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Novel.SDK.ViewModel.Enums;
+using Novel.SDK.ViewModel.Request;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,24 +15,24 @@ namespace Novel.SDK.ViewModel
         /// </summary>
         public NovelEnum NovelType { get; set; }
         /// <summary>
-        /// 页码
+        /// 初始化
         /// </summary>
-        public int Page { get; set; } = 1;
+        public NovelInit Init { get; }
         /// <summary>
-        /// 关键字
+        /// 搜索
         /// </summary>
-        public string NovelSearchKeyWord { get; set; }
+        public NovelSearch Search { get; set; }
         /// <summary>
-        /// 分类地址
+        /// 分类
         /// </summary>
-        public string NovelCategoryAddress { get; set; }
+        public NovelCategory Category { get; set; }
         /// <summary>
-        /// 详情地址
+        /// 详情
         /// </summary>
-        public string NovelDetailAddress { get; set; }
+        public NovelDetail Detail { get; set; }
         /// <summary>
-        /// 章节地址
+        /// 预览
         /// </summary>
-        public string NovelViewAddress { get; set; }
+        public NovelView View { get; set; }
     }
 }
