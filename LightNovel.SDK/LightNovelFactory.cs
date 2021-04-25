@@ -25,10 +25,10 @@ namespace LightNovel.SDK
             return RequestParam.LightNovelType switch
             {
                 LightNovelEnum.Init => light.LightNovelInit(RequestParam),
-                LightNovelEnum.Search => light.LightNovelInit(RequestParam),
-                LightNovelEnum.Category => light.LightNovelInit(RequestParam),
-                LightNovelEnum.Detail => light.LightNovelInit(RequestParam),
-                LightNovelEnum.View => light.LightNovelInit(RequestParam),
+                LightNovelEnum.Search => light.LightNovelSearch(RequestParam),
+                LightNovelEnum.Category => light.LightNovelCategory(RequestParam),
+                LightNovelEnum.Detail => light.LightNovelDetail(RequestParam),
+                LightNovelEnum.View => light.LightNovelView(RequestParam),
                 _ => light.LightNovelInit(RequestParam),
             };
         }

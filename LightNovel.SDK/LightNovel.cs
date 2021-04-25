@@ -19,6 +19,7 @@ namespace LightNovel.SDK
         //https://github.com/0x7FFFFF/wenku8downloader/blob/master/src/user.py
         private const string Host = "https://www.wenku8.net";
         private const string Login = Host + "/login.php";
+        private const string Search = Host + "/so.php";
 
         public LightNovelResponseOutput LightNovelInit(LightNovelRequestInput Input)
         {
@@ -28,7 +29,7 @@ namespace LightNovel.SDK
             };
 
             var response = HttpMultiClient.HttpMulti.InitCookieContainer()
-                  .AddNode(Login, Input.InitParam, Input.InitParam.FieldMap, RequestType.POST, "GBK")
+                  .AddNode(Login, Input.Init, Input.Init.FieldMap, RequestType.POST, "GBK")
                   .AddNode(Host, RequestType.GET, "GBK")
                  .Build().RunString((Cookie, Uri) =>
                  {
@@ -57,6 +58,37 @@ namespace LightNovel.SDK
             });
 
             return Result;
+        }
+
+        public LightNovelResponseOutput LightNovelSearch(LightNovelRequestInput Input)
+        {
+            LightNovelResponseOutput Result = new LightNovelResponseOutput
+            {
+                CategoryResults = new List<LightNovelCategoryResult>()
+            };
+            var Cookies = Caches.RunTimeCacheGet<CookieCollection>(Host);
+            var response = HttpMultiClient.HttpMulti.InitCookieContainer()
+                .Cookie(new Uri(Search), Cookies)
+                .AddNode(Search, Input.Search, Input.Search.FieldMap, RequestType.POST, "GBK")
+                .Build().RunString().LastOrDefault();
+
+            var xx = response;
+            throw new NotImplementedException();
+        }
+
+        public LightNovelResponseOutput LightNovelCategory(LightNovelRequestInput Input)
+        {
+            throw new NotImplementedException();
+        }
+
+        public LightNovelResponseOutput LightNovelDetail(LightNovelRequestInput Input)
+        {
+            throw new NotImplementedException();
+        }
+
+        public LightNovelResponseOutput LightNovelView(LightNovelRequestInput Input)
+        {
+            throw new NotImplementedException();
         }
     }
 }

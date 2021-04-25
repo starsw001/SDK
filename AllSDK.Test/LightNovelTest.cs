@@ -23,9 +23,17 @@ namespace AllSDK.Test
                  opt.RequestParam = new LightNovelRequestInput
                  {
                      LightNovelType = LightNovelEnum.Init,
-                     InitParam = new LightNovelInit()
+                     Init = new LightNovelInit()
                  };
              }).Runs();
+            var LightNovelSearch = LightNovelFactory.Novel(opt =>
+            {
+                opt.RequestParam = new LightNovelRequestInput
+                {
+                    LightNovelType = LightNovelEnum.Search,
+                    Search = new LightNovelSearch(LightNovelSearchEnum.ArticleName, "恶魔高校")
+                };
+            }).Runs();
             Console.WriteLine(LightNovelInit.ToJson());
         }
     }

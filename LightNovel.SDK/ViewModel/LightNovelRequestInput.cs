@@ -17,6 +17,10 @@ namespace LightNovel.SDK.ViewModel
         /// <summary>
         /// 初始化参数
         /// </summary>
-        public LightNovelInit InitParam { get; set; }
+        public LightNovelInit Init { get; set; }
+        /// <summary>
+        /// 搜索参数
+        /// </summary>
+        public LightNovelSearch Search { get; set; }
     }
 }
