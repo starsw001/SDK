@@ -11,15 +11,17 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace LightNovel.SDK
 {
     internal class LightNovel : ILightNovel
     {
         //https://github.com/0x7FFFFF/wenku8downloader/blob/master/src/user.py
+        //https://github.com/chiro2001/Wenku8ToEpub-Online/blob/master/wenku8toepub.py
         private const string Host = "https://www.wenku8.net";
         private const string Login = Host + "/login.php";
-        private const string Search = Host + "/so.php";
+        private const string Search = Host + "/modules/article/search.php?searchtype={0}&searchkey={1}";
 
         public LightNovelResponseOutput LightNovelInit(LightNovelRequestInput Input)
         {
@@ -66,12 +68,13 @@ namespace LightNovel.SDK
             {
                 CategoryResults = new List<LightNovelCategoryResult>()
             };
-            var Cookies = Caches.RunTimeCacheGet<CookieCollection>(Host);
+            var SearchType = Input.Search.SearchType.ToString().ToLower();
+            var KeyWord = HttpUtility.UrlEncode(Input.Search.KeyWord, Encoding.GetEncoding("GBK"));
             var response = HttpMultiClient.HttpMulti.InitCookieContainer()
-                .Cookie(new Uri(Search), Cookies)
-                .AddNode(Search, Input.Search, Input.Search.FieldMap, RequestType.POST, "GBK")
-                .Build().RunString().LastOrDefault();
-
+                .Cookie(new Uri(Search), Caches.RunTimeCacheGet<CookieCollection>(Host))
+                .AddNode(string.Format(Search, SearchType, KeyWord), RequestType.GET, "GBK")
+                .Build().RunString().FirstOrDefault();
+            
             var xx = response;
             throw new NotImplementedException();
         }

@@ -31,7 +31,11 @@ namespace AllSDK.Test
                 opt.RequestParam = new LightNovelRequestInput
                 {
                     LightNovelType = LightNovelEnum.Search,
-                    Search = new LightNovelSearch(LightNovelSearchEnum.ArticleName, "恶魔高校")
+                    Search = new LightNovelSearch
+                    {
+                        KeyWord = "恶魔高校DxD(High School DxD)",
+                        SearchType = LightNovelSearchEnum.ArticleName
+                    }
                 };
             }).Runs();
             Console.WriteLine(LightNovelInit.ToJson());
