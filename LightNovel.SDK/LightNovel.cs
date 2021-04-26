@@ -155,7 +155,17 @@ namespace LightNovel.SDK
 
         public LightNovelResponseOutput LightNovelDetail(LightNovelRequestInput Input, Action<ILightNovelCookie> action)
         {
-            throw new NotImplementedException();
+            if (GetCookies() == null)
+                action.Invoke(new LightNovelCookie());
+
+            var response = HttpMultiClient.HttpMulti.InitCookieContainer()
+                .Cookie(new Uri(Host), GetCookies())
+                .AddNode(Input.Detail.DetailAddress, RequestType.GET, "GBK")
+                .Build().RunString().FirstOrDefault();
+            HtmlDocument document = new HtmlDocument();
+            document.LoadHtml(response);
+
+            return default;
         }
 
         public LightNovelResponseOutput LightNovelView(LightNovelRequestInput Input, Action<ILightNovelCookie> action)

@@ -22,5 +22,9 @@ namespace LightNovel.SDK.ViewModel
         /// 分类
         /// </summary>
         public LightNovelCategory Category { get; set; }
+        /// <summary>
+        /// 详情
+        /// </summary>
+        public LightNovelDetail Detail { get; set; }
     }
 }
