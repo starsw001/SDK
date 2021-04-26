@@ -9,10 +9,10 @@ namespace LightNovel.SDK
 {
     public interface ILightNovel
     {
-        LightNovelResponseOutput LightNovelInit(LightNovelRequestInput Input);
-        LightNovelResponseOutput LightNovelSearch(LightNovelRequestInput Input);
-        LightNovelResponseOutput LightNovelCategory(LightNovelRequestInput Input);
-        LightNovelResponseOutput LightNovelDetail(LightNovelRequestInput Input);
-        LightNovelResponseOutput LightNovelView(LightNovelRequestInput Input);
+        LightNovelResponseOutput LightNovelInit(LightNovelRequestInput Input, Action<ILightNovelCookie> action);
+        LightNovelResponseOutput LightNovelSearch(LightNovelRequestInput Input, Action<ILightNovelCookie> action);
+        LightNovelResponseOutput LightNovelCategory(LightNovelRequestInput Input, Action<ILightNovelCookie> action);
+        LightNovelResponseOutput LightNovelDetail(LightNovelRequestInput Input, Action<ILightNovelCookie> action);
+        LightNovelResponseOutput LightNovelView(LightNovelRequestInput Input, Action<ILightNovelCookie> action);
     }
 }

@@ -18,5 +18,9 @@ namespace LightNovel.SDK.ViewModel.Request
         /// 关键字
         /// </summary>
         public string KeyWord { get; set; }
+        /// <summary>
+        /// 页码
+        /// </summary>
+        public int Page { get; set; } = 1;
     }
 }

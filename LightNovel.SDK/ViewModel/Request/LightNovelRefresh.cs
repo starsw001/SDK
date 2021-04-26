@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace LightNovel.SDK.ViewModel.Request
 {
-    public class LightNovelInit
+    public class LightNovelRefresh
     {
-        internal  Dictionary<string, string> FieldMap = new Dictionary<string, string>
+        internal Dictionary<string, string> FieldMap = new Dictionary<string, string>
         {
             {nameof(UserName),nameof(UserName).ToLower()},
             {nameof(PassWord),nameof(PassWord).ToLower()},

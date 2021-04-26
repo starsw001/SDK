@@ -11,7 +11,7 @@ namespace LightNovel.SDK
     public class LightNovelFactory
     {
         public LightNovelRequestInput RequestParam { get; set; }
-        public static LightNovelFactory Novel(Action<LightNovelFactory> action)
+        public static LightNovelFactory LightNovel(Action<LightNovelFactory> action)
         {
             LightNovelFactory factory = new LightNovelFactory();
             action(factory);
@@ -19,17 +19,17 @@ namespace LightNovel.SDK
                 throw new NullReferenceException("RequestParam Is Null");
             return factory;
         }
-        public LightNovelResponseOutput Runs()
+        public LightNovelResponseOutput Runs(Action<ILightNovelCookie> action)
         {
             ILightNovel light = new LightNovel();
             return RequestParam.LightNovelType switch
             {
-                LightNovelEnum.Init => light.LightNovelInit(RequestParam),
-                LightNovelEnum.Search => light.LightNovelSearch(RequestParam),
-                LightNovelEnum.Category => light.LightNovelCategory(RequestParam),
-                LightNovelEnum.Detail => light.LightNovelDetail(RequestParam),
-                LightNovelEnum.View => light.LightNovelView(RequestParam),
-                _ => light.LightNovelInit(RequestParam),
+                LightNovelEnum.Init => light.LightNovelInit(RequestParam, action),
+                LightNovelEnum.Search => light.LightNovelSearch(RequestParam, action),
+                LightNovelEnum.Category => light.LightNovelCategory(RequestParam, action),
+                LightNovelEnum.Detail => light.LightNovelDetail(RequestParam, action),
+                LightNovelEnum.View => light.LightNovelView(RequestParam, action),
+                _ => light.LightNovelInit(RequestParam, action),
             };
         }
     }

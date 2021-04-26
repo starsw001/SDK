@@ -15,12 +15,12 @@ namespace LightNovel.SDK.ViewModel
         /// </summary>
         public LightNovelEnum LightNovelType { get; set; }
         /// <summary>
-        /// 初始化参数
-        /// </summary>
-        public LightNovelInit Init { get; set; }
-        /// <summary>
-        /// 搜索参数
+        /// 搜索
         /// </summary>
         public LightNovelSearch Search { get; set; }
+        /// <summary>
+        /// 分类
+        /// </summary>
+        public LightNovelCategory Category { get; set; }
     }
 }

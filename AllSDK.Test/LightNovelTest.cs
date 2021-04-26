@@ -18,27 +18,51 @@ namespace AllSDK.Test
         /// </summary>
         public static void LightNovelAllTest()
         {
-            var LightNovelInit = LightNovelFactory.Novel(opt =>
+            //初始化
+            var LightNovelInit = LightNovelFactory.LightNovel(opt =>
              {
                  opt.RequestParam = new LightNovelRequestInput
                  {
                      LightNovelType = LightNovelEnum.Init,
-                     Init = new LightNovelInit()
                  };
-             }).Runs();
-            var LightNovelSearch = LightNovelFactory.Novel(opt =>
+             }).Runs(Light =>
+             {
+                 Light.RefreshCookie(new LightNovelRefresh());
+             });
+            Console.WriteLine(LightNovelInit.ToJson());
+            //搜索
+            var LightNovelSearch = LightNovelFactory.LightNovel(opt =>
             {
                 opt.RequestParam = new LightNovelRequestInput
                 {
                     LightNovelType = LightNovelEnum.Search,
                     Search = new LightNovelSearch
                     {
-                        KeyWord = "恶魔高校DxD(High School DxD)",
+                        KeyWord = "异世界",
                         SearchType = LightNovelSearchEnum.ArticleName
                     }
                 };
-            }).Runs();
-            Console.WriteLine(LightNovelInit.ToJson());
+            }).Runs(Light =>
+            {
+                Light.RefreshCookie(new LightNovelRefresh());
+            });
+            Console.WriteLine(LightNovelSearch.ToJson());
+            //分类
+            var LightNovelCate = LightNovelFactory.LightNovel(opt =>
+            {
+                opt.RequestParam = new LightNovelRequestInput
+                {
+                    LightNovelType = LightNovelEnum.Category,
+                    Category = new  LightNovelCategory
+                    {
+                       CategoryAddress= LightNovelInit.CategoryResults.FirstOrDefault().CategoryAddress
+                    }
+                };
+            }).Runs(Light =>
+            {
+                Light.RefreshCookie(new LightNovelRefresh());
+            });
+            Console.WriteLine(LightNovelCate.ToJson());
         }
     }
 }
