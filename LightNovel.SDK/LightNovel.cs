@@ -116,7 +116,7 @@ namespace LightNovel.SDK
 
             LightNovelResponseOutput Result = new LightNovelResponseOutput
             {
-                SingleCategoryResult = new  LightNovelSingleCategoryResult()
+                SingleCategoryResult = new LightNovelSingleCategoryResult()
                 {
                     Result = new List<LightNovelSingleCategoryResults>()
                 }
@@ -155,6 +155,11 @@ namespace LightNovel.SDK
 
         public LightNovelResponseOutput LightNovelDetail(LightNovelRequestInput Input, Action<ILightNovelCookie> action)
         {
+            LightNovelResponseOutput Result = new LightNovelResponseOutput
+            {
+                DetailResult = new LightNovelDetailResult()
+            };
+
             if (GetCookies() == null)
                 action.Invoke(new LightNovelCookie());
 
@@ -165,13 +170,66 @@ namespace LightNovel.SDK
             HtmlDocument document = new HtmlDocument();
             document.LoadHtml(response);
 
-            return default;
+            document.DocumentNode.SelectNodes("//fieldset//a").ForEnumerEach(node =>
+            {
+                if (node.InnerText.Equals("小说目录"))
+                {
+                    Result.DetailResult.Address = node.GetAttributeValue("href", "");
+                    Result.DetailResult.Name = node.InnerText;
+                }
+            });
+
+            return Result;
         }
 
         public LightNovelResponseOutput LightNovelView(LightNovelRequestInput Input, Action<ILightNovelCookie> action)
         {
-            throw new NotImplementedException();
+            LightNovelResponseOutput Result = new LightNovelResponseOutput 
+            {
+                ViewResult = new List<LightNovelViewResult>()
+            };
+
+            if (GetCookies() == null)
+                action.Invoke(new LightNovelCookie());
+
+            var response = HttpMultiClient.HttpMulti.InitCookieContainer()
+                        .Cookie(new Uri(Host), GetCookies())
+                        .AddNode(Input.View.ViewAddress, RequestType.GET, "GBK")
+                        .Build().RunString().FirstOrDefault();
+
+            HtmlDocument document = new HtmlDocument();
+            document.LoadHtml(response);
+
+            document.DocumentNode.SelectNodes("//td[@class='ccss']//a").ForEnumerEach(node =>
+            {
+               var PreFix = Input.View.ViewAddress.AsSpan().Slice(0, Input.View.ViewAddress.LastIndexOf("/")).ToString();
+                LightNovelViewResult view = new LightNovelViewResult
+                {
+                    ChapterURL = $"{PreFix}/{node.GetAttributeValue("href", "")}",
+                    ChapterName = node.InnerText
+                };
+                Result.ViewResult.Add(view);
+            });
+
+            return Result;
+        }
+
+        public LightNovelResponseOutput LightNovelContent(LightNovelRequestInput Input, Action<ILightNovelCookie> action) 
+        {
+            LightNovelResponseOutput Result = new LightNovelResponseOutput
+            {
+                ContentResult = new  LightNovelContentResult()
+            };
+
+            if (GetCookies() == null)
+                action.Invoke(new LightNovelCookie());
+
+            var response = HttpMultiClient.HttpMulti.InitCookieContainer()
+                        .Cookie(new Uri(Host), GetCookies())
+                        .AddNode(Input.Content.ChapterURL, RequestType.GET, "GBK")
+                        .Build().RunString().FirstOrDefault();
+
+            return null;
         }
     }
-
 }

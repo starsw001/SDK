@@ -30,6 +30,10 @@ namespace LightNovel.SDK.ViewModel.Enums
         /// <summary>
         /// 预览
         /// </summary>
-        View
+        View,
+        /// <summary>
+        /// 内容
+        /// </summary>
+        Content
     }
 }

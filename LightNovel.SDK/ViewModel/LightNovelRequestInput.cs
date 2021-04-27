@@ -26,5 +26,14 @@ namespace LightNovel.SDK.ViewModel
         /// 详情
         /// </summary>
         public LightNovelDetail Detail { get; set; }
+        /// <summary>
+        /// 预览
+        /// </summary>
+        public LightNovelView View { get; set; }
+        /// <summary>
+        /// 内容
+        /// </summary>
+
+        public LightNovelContent Content { get; set; }
     }
 }

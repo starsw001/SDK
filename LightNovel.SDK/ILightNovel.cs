@@ -14,5 +14,6 @@ namespace LightNovel.SDK
         LightNovelResponseOutput LightNovelCategory(LightNovelRequestInput Input, Action<ILightNovelCookie> action);
         LightNovelResponseOutput LightNovelDetail(LightNovelRequestInput Input, Action<ILightNovelCookie> action);
         LightNovelResponseOutput LightNovelView(LightNovelRequestInput Input, Action<ILightNovelCookie> action);
+        LightNovelResponseOutput LightNovelContent(LightNovelRequestInput Input, Action<ILightNovelCookie> action);
     }
 }

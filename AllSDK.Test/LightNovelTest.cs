@@ -38,7 +38,7 @@ namespace AllSDK.Test
                     LightNovelType = LightNovelEnum.Search,
                     Search = new LightNovelSearch
                     {
-                        KeyWord = "异世界",
+                        KeyWord = "恶魔高校",
                         SearchType = LightNovelSearchEnum.ArticleName
                     }
                 };
@@ -71,14 +71,46 @@ namespace AllSDK.Test
                     LightNovelType = LightNovelEnum.Detail,
                     Detail = new  LightNovelDetail
                     {
-                       DetailAddress = LightNovelSearch.SearchResults.Result.FirstOrDefault().DetailAddress
+                       DetailAddress = LightNovelSearch.SearchResults.Result.LastOrDefault().DetailAddress
                     }
                 };
             }).Runs(Light =>
             {
                 Light.RefreshCookie(new LightNovelRefresh());
             });
-            Console.WriteLine(LightNovelSearch.ToJson());
+            Console.WriteLine(LightNovelDetail.ToJson());
+            //预览
+            var LightNovelView = LightNovelFactory.LightNovel(opt =>
+            {
+                opt.RequestParam = new LightNovelRequestInput
+                {
+                    LightNovelType = LightNovelEnum.View,
+                    View = new  LightNovelView
+                    {
+                        ViewAddress = LightNovelDetail.DetailResult.Address,
+                    }
+                };
+            }).Runs(Light =>
+            {
+                Light.RefreshCookie(new LightNovelRefresh());
+            });
+            Console.WriteLine(LightNovelView.ToJson());
+            //内容
+            var LightNovelContent = LightNovelFactory.LightNovel(opt =>
+            {
+                opt.RequestParam = new LightNovelRequestInput
+                {
+                    LightNovelType = LightNovelEnum.Content,
+                    Content = new  LightNovelContent
+                    {
+                         ChapterURL = LightNovelView.ViewResult.FirstOrDefault().ChapterURL,
+                    }
+                };
+            }).Runs(Light =>
+            {
+                Light.RefreshCookie(new LightNovelRefresh());
+            });
+            Console.WriteLine(LightNovelContent.ToJson());
         }
     }
 }

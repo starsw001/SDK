@@ -29,6 +29,7 @@ namespace LightNovel.SDK
                 LightNovelEnum.Category => light.LightNovelCategory(RequestParam, action),
                 LightNovelEnum.Detail => light.LightNovelDetail(RequestParam, action),
                 LightNovelEnum.View => light.LightNovelView(RequestParam, action),
+                LightNovelEnum.Content => light.LightNovelContent(RequestParam, action),
                 _ => light.LightNovelInit(RequestParam, action),
             };
         }
