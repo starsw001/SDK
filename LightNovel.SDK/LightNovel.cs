@@ -18,8 +18,6 @@ namespace LightNovel.SDK
 {
     internal class LightNovel : ILightNovel
     {
-        //https://github.com/0x7FFFFF/wenku8downloader/blob/master/src/user.py
-        //https://github.com/chiro2001/Wenku8ToEpub-Online/blob/master/wenku8toepub.py
         private const string Host = "https://www.wenku8.net";
         private const string Search = Host + "/modules/article/search.php?searchtype={0}&searchkey={1}&page={2}";
 
@@ -214,22 +212,26 @@ namespace LightNovel.SDK
             return Result;
         }
 
-        public LightNovelResponseOutput LightNovelContent(LightNovelRequestInput Input, Action<ILightNovelCookie> action) 
+        public LightNovelResponseOutput LightNovelContent(LightNovelRequestInput Input) 
         {
             LightNovelResponseOutput Result = new LightNovelResponseOutput
             {
                 ContentResult = new  LightNovelContentResult()
             };
 
-            if (GetCookies() == null)
-                action.Invoke(new LightNovelCookie());
-
             var response = HttpMultiClient.HttpMulti.InitCookieContainer()
-                        .Cookie(new Uri(Host), GetCookies())
                         .AddNode(Input.Content.ChapterURL, RequestType.GET, "GBK")
                         .Build().RunString().FirstOrDefault();
 
-            return null;
+            HtmlDocument document = new HtmlDocument();
+            document.LoadHtml(response);
+
+            Result.ContentResult.Content = document.DocumentNode.SelectSingleNode("//div[@id='content']")
+                .InnerText.Replace("本文来自 轻小说文库(http://www.wenku8.com)", "")
+                .Replace("最新最全的日本动漫轻小说 轻小说文库(http://www.wenku8.com) 为你一网打尽！", "")
+                .Replace("&nbsp;", "").Trim();
+
+            return Result;
         }
     }
 }

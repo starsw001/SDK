@@ -1,5 +1,6 @@
 ﻿using LightNovel.SDK.ViewModel;
 using LightNovel.SDK.ViewModel.Enums;
+using Synctool.StaticFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,17 +20,17 @@ namespace LightNovel.SDK
                 throw new NullReferenceException("RequestParam Is Null");
             return factory;
         }
-        public LightNovelResponseOutput Runs(Action<ILightNovelCookie> action)
+        public LightNovelResponseOutput Runs(Action<ILightNovelCookie> action=null)
         {
             ILightNovel light = new LightNovel();
             return RequestParam.LightNovelType switch
             {
-                LightNovelEnum.Init => light.LightNovelInit(RequestParam, action),
-                LightNovelEnum.Search => light.LightNovelSearch(RequestParam, action),
-                LightNovelEnum.Category => light.LightNovelCategory(RequestParam, action),
-                LightNovelEnum.Detail => light.LightNovelDetail(RequestParam, action),
-                LightNovelEnum.View => light.LightNovelView(RequestParam, action),
-                LightNovelEnum.Content => light.LightNovelContent(RequestParam, action),
+                LightNovelEnum.Init => light.LightNovelInit(RequestParam, action ?? throw new ArgumentNullException(nameof(action))),
+                LightNovelEnum.Search => light.LightNovelSearch(RequestParam, action ?? throw new ArgumentNullException(nameof(action))),
+                LightNovelEnum.Category => light.LightNovelCategory(RequestParam, action ?? throw new ArgumentNullException(nameof(action))),
+                LightNovelEnum.Detail => light.LightNovelDetail(RequestParam, action ?? throw new ArgumentNullException(nameof(action))),
+                LightNovelEnum.View => light.LightNovelView(RequestParam, action ?? throw new ArgumentNullException(nameof(action))),
+                LightNovelEnum.Content => light.LightNovelContent(RequestParam),
                 _ => light.LightNovelInit(RequestParam, action),
             };
         }

@@ -19,17 +19,21 @@ namespace AllSDK.Test
         public static void LightNovelAllTest()
         {
             //初始化
-            //var LightNovelInit = LightNovelFactory.LightNovel(opt =>
-            // {
-            //     opt.RequestParam = new LightNovelRequestInput
-            //     {
-            //         LightNovelType = LightNovelEnum.Init,
-            //     };
-            // }).Runs(Light =>
-            // {
-            //     Light.RefreshCookie(new LightNovelRefresh());
-            // });
-            //Console.WriteLine(LightNovelInit.ToJson());
+            var LightNovelInit = LightNovelFactory.LightNovel(opt =>
+             {
+                 opt.RequestParam = new LightNovelRequestInput
+                 {
+                     LightNovelType = LightNovelEnum.Init,
+                 };
+             }).Runs(Light =>
+             {
+                 Light.RefreshCookie(new LightNovelRefresh
+                 {
+                     UserName = "kilydoll365",
+                     PassWord = "sion8550"
+                 });
+             });
+            Console.WriteLine(LightNovelInit.ToJson());
             //搜索
             var LightNovelSearch = LightNovelFactory.LightNovel(opt =>
             {
@@ -44,39 +48,51 @@ namespace AllSDK.Test
                 };
             }).Runs(Light =>
             {
-                Light.RefreshCookie(new LightNovelRefresh());
+                Light.RefreshCookie(new LightNovelRefresh
+                {
+                    UserName = "kilydoll365",
+                    PassWord = "sion8550"
+                });
             });
             Console.WriteLine(LightNovelSearch.ToJson());
             //分类
-            //var LightNovelCate = LightNovelFactory.LightNovel(opt =>
-            //{
-            //    opt.RequestParam = new LightNovelRequestInput
-            //    {
-            //        LightNovelType = LightNovelEnum.Category,
-            //        Category = new  LightNovelCategory
-            //        {
-            //           CategoryAddress= LightNovelInit.CategoryResults.FirstOrDefault().CategoryAddress
-            //        }
-            //    };
-            //}).Runs(Light =>
-            //{
-            //    Light.RefreshCookie(new LightNovelRefresh());
-            //});
-            //Console.WriteLine(LightNovelCate.ToJson());
+            var LightNovelCate = LightNovelFactory.LightNovel(opt =>
+            {
+                opt.RequestParam = new LightNovelRequestInput
+                {
+                    LightNovelType = LightNovelEnum.Category,
+                    Category = new LightNovelCategory
+                    {
+                        CategoryAddress = LightNovelInit.CategoryResults.FirstOrDefault().CategoryAddress
+                    }
+                };
+            }).Runs(Light =>
+            {
+                Light.RefreshCookie(new LightNovelRefresh
+                {
+                    UserName = "kilydoll365",
+                    PassWord = "sion8550"
+                });
+            });
+            Console.WriteLine(LightNovelCate.ToJson());
             //详情
             var LightNovelDetail = LightNovelFactory.LightNovel(opt =>
             {
                 opt.RequestParam = new LightNovelRequestInput
                 {
                     LightNovelType = LightNovelEnum.Detail,
-                    Detail = new  LightNovelDetail
+                    Detail = new LightNovelDetail
                     {
-                       DetailAddress = LightNovelSearch.SearchResults.Result.LastOrDefault().DetailAddress
+                        DetailAddress = LightNovelSearch.SearchResults.Result.LastOrDefault().DetailAddress
                     }
                 };
             }).Runs(Light =>
             {
-                Light.RefreshCookie(new LightNovelRefresh());
+                Light.RefreshCookie(new LightNovelRefresh
+                {
+                    UserName = "kilydoll365",
+                    PassWord = "sion8550"
+                });
             });
             Console.WriteLine(LightNovelDetail.ToJson());
             //预览
@@ -85,14 +101,18 @@ namespace AllSDK.Test
                 opt.RequestParam = new LightNovelRequestInput
                 {
                     LightNovelType = LightNovelEnum.View,
-                    View = new  LightNovelView
+                    View = new LightNovelView
                     {
                         ViewAddress = LightNovelDetail.DetailResult.Address,
                     }
                 };
             }).Runs(Light =>
             {
-                Light.RefreshCookie(new LightNovelRefresh());
+                Light.RefreshCookie(new LightNovelRefresh
+                {
+                    UserName = "kilydoll365",
+                    PassWord = "sion8550"
+                });
             });
             Console.WriteLine(LightNovelView.ToJson());
             //内容
@@ -101,15 +121,12 @@ namespace AllSDK.Test
                 opt.RequestParam = new LightNovelRequestInput
                 {
                     LightNovelType = LightNovelEnum.Content,
-                    Content = new  LightNovelContent
+                    Content = new LightNovelContent
                     {
-                         ChapterURL = LightNovelView.ViewResult.FirstOrDefault().ChapterURL,
+                        ChapterURL = LightNovelView.ViewResult[1].ChapterURL,
                     }
                 };
-            }).Runs(Light =>
-            {
-                Light.RefreshCookie(new LightNovelRefresh());
-            });
+            }).Runs();
             Console.WriteLine(LightNovelContent.ToJson());
         }
     }
