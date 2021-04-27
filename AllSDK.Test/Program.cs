@@ -12,7 +12,7 @@ namespace AllSDK.Test
             //小说SDK
             //NovelTest.NovelAllTest();
             //轻小说SDK
-            LightNovelTest.LightNovelAllTest();
+            //LightNovelTest.LightNovelAllTest();
             Console.ReadKey();
         }
 
