@@ -182,7 +182,7 @@ namespace LightNovel.SDK
 
         public LightNovelResponseOutput LightNovelView(LightNovelRequestInput Input, Action<ILightNovelCookie> action)
         {
-            LightNovelResponseOutput Result = new LightNovelResponseOutput 
+            LightNovelResponseOutput Result = new LightNovelResponseOutput
             {
                 ViewResult = new List<LightNovelViewResult>()
             };
@@ -200,7 +200,7 @@ namespace LightNovel.SDK
 
             document.DocumentNode.SelectNodes("//td[@class='ccss']//a").ForEnumerEach(node =>
             {
-               var PreFix = Input.View.ViewAddress.AsSpan().Slice(0, Input.View.ViewAddress.LastIndexOf("/")).ToString();
+                var PreFix = Input.View.ViewAddress.AsSpan().Slice(0, Input.View.ViewAddress.LastIndexOf("/")).ToString();
                 LightNovelViewResult view = new LightNovelViewResult
                 {
                     ChapterURL = $"{PreFix}/{node.GetAttributeValue("href", "")}",
@@ -212,11 +212,11 @@ namespace LightNovel.SDK
             return Result;
         }
 
-        public LightNovelResponseOutput LightNovelContent(LightNovelRequestInput Input) 
+        public LightNovelResponseOutput LightNovelContent(LightNovelRequestInput Input)
         {
             LightNovelResponseOutput Result = new LightNovelResponseOutput
             {
-                ContentResult = new  LightNovelContentResult()
+                ContentResult = new LightNovelContentResult()
             };
 
             var response = HttpMultiClient.HttpMulti.InitCookieContainer()
@@ -230,7 +230,14 @@ namespace LightNovel.SDK
                 .InnerText.Replace("本文来自 轻小说文库(http://www.wenku8.com)", "")
                 .Replace("最新最全的日本动漫轻小说 轻小说文库(http://www.wenku8.com) 为你一网打尽！", "")
                 .Replace("&nbsp;", "").Trim();
-
+            if (Result.ContentResult.Content.IsNullOrEmpty())
+            {
+                Result.ContentResult.Image = new List<string>();
+                document.DocumentNode.SelectNodes("//div[@class='divimage']/a").ForEnumerEach(node =>
+                {
+                    Result.ContentResult.Image.Add(node.GetAttributeValue("href", ""));
+                });
+            }
             return Result;
         }
     }

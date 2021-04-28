@@ -9,9 +9,9 @@ namespace AllSDK.Test
         {
             Console.WriteLine("开始自动化测试...");
             //动漫SDK
-            AnimeTest.AnimeAllTest();
+            //AnimeTest.AnimeAllTest();
             //小说SDK
-            NovelTest.NovelAllTest();
+            //NovelTest.NovelAllTest();
             //轻小说SDK
             LightNovelTest.LightNovelAllTest();
             Console.WriteLine("自动化测试完成，按任意键退出");

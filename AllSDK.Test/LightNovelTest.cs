@@ -129,7 +129,7 @@ namespace AllSDK.Test
                     LightNovelType = LightNovelEnum.Content,
                     Content = new LightNovelContent
                     {
-                        ChapterURL = LightNovelView.ViewResult[1].ChapterURL,
+                        ChapterURL = LightNovelView.ViewResult[7].ChapterURL,
                     }
                 };
             }).Runs();
