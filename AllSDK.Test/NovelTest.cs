@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace AllSDK.Test
 {
@@ -27,6 +28,7 @@ namespace AllSDK.Test
                 };
             }).Runs();
             Console.WriteLine(NovelInit.ToJson());
+            Thread.Sleep(1000);
             //搜索
             var NovelSearch = NovelFactory.Novel(opt =>
             {
@@ -40,6 +42,7 @@ namespace AllSDK.Test
                 };
             }).Runs();
             Console.WriteLine(NovelSearch.ToJson());
+            Thread.Sleep(1000);
             //分类
             var NovelCate = NovelFactory.Novel(opt =>
             {
@@ -53,6 +56,7 @@ namespace AllSDK.Test
                 };
             }).Runs();
             Console.WriteLine(NovelCate.ToJson());
+            Thread.Sleep(1000);
             //详情
             var NovelDetail = NovelFactory.Novel(opt =>
             {
@@ -66,6 +70,7 @@ namespace AllSDK.Test
                 };
             }).Runs();
             Console.WriteLine(NovelDetail.ToJson());
+            Thread.Sleep(1000);
             //内容
             var NovelContent = NovelFactory.Novel(opt =>
             {
@@ -79,6 +84,7 @@ namespace AllSDK.Test
                 };
             }).Runs();
             Console.WriteLine(NovelContent.ToJson());
+            Thread.Sleep(1000);
         }
     }
 }

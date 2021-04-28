@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace AllSDK.Test
 {
@@ -18,7 +19,6 @@ namespace AllSDK.Test
         /// </summary>
         public static void AnimeAllTest()
         {
-
             //初始化
             var AnimeInit = AnimeFactory.Anime(opt =>
             {
@@ -28,6 +28,7 @@ namespace AllSDK.Test
                 };
             }).Runs();
             Console.WriteLine(AnimeInit.ToJson());
+            Thread.Sleep(1000);
             //搜索
             var AnimeSearch = AnimeFactory.Anime(opt =>
             {
@@ -41,6 +42,7 @@ namespace AllSDK.Test
                 };
             }).Runs();
             Console.WriteLine(AnimeSearch.ToJson());
+            Thread.Sleep(1000);
             //分类
             var AnimeCate = AnimeFactory.Anime(opt =>
             {
@@ -54,6 +56,7 @@ namespace AllSDK.Test
                 };
             }).Runs();
             Console.WriteLine(AnimeCate.ToJson());
+            Thread.Sleep(1000);
             //详情页
             var AnimeDetail = AnimeFactory.Anime(opt =>
             {
@@ -67,6 +70,7 @@ namespace AllSDK.Test
                 };
             }).Runs();
             Console.WriteLine(AnimeDetail.ToJson());
+            Thread.Sleep(1000);
             //播放页
             var AnimeWath = AnimeFactory.Anime(opt =>
             {
@@ -80,6 +84,7 @@ namespace AllSDK.Test
                 };
             }).Runs();
             Console.WriteLine(AnimeWath.ToJson());
+            Thread.Sleep(1000);
         }
     }
 }

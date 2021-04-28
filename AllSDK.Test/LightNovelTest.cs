@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace AllSDK.Test
@@ -34,6 +35,7 @@ namespace AllSDK.Test
                  });
              });
             Console.WriteLine(LightNovelInit.ToJson());
+            Thread.Sleep(1000);
             //搜索
             var LightNovelSearch = LightNovelFactory.LightNovel(opt =>
             {
@@ -55,6 +57,7 @@ namespace AllSDK.Test
                 });
             });
             Console.WriteLine(LightNovelSearch.ToJson());
+            Thread.Sleep(1000);
             //分类
             var LightNovelCate = LightNovelFactory.LightNovel(opt =>
             {
@@ -75,6 +78,7 @@ namespace AllSDK.Test
                 });
             });
             Console.WriteLine(LightNovelCate.ToJson());
+            Thread.Sleep(1000);
             //详情
             var LightNovelDetail = LightNovelFactory.LightNovel(opt =>
             {
@@ -95,6 +99,7 @@ namespace AllSDK.Test
                 });
             });
             Console.WriteLine(LightNovelDetail.ToJson());
+            Thread.Sleep(1000);
             //预览
             var LightNovelView = LightNovelFactory.LightNovel(opt =>
             {
@@ -115,6 +120,7 @@ namespace AllSDK.Test
                 });
             });
             Console.WriteLine(LightNovelView.ToJson());
+            Thread.Sleep(1000);
             //内容
             var LightNovelContent = LightNovelFactory.LightNovel(opt =>
             {
@@ -128,6 +134,7 @@ namespace AllSDK.Test
                 };
             }).Runs();
             Console.WriteLine(LightNovelContent.ToJson());
+            Thread.Sleep(1000);
         }
     }
 }
