@@ -14,10 +14,8 @@ namespace LightNovel.SDK
         public void RefreshCookie(LightNovelRefresh Input, LightNovelProxy Proxy)
         {
             IHttpMultiClient.HttpMulti.InitCookieContainer()
-                .InitWebProxy(Proxys =>
-                {
-                    Proxys = Proxy.ToMapper<ProxyURL>();
-                }).AddNode(Login, Input, Input.FieldMap, RequestType.POST, "GBK")
+                .InitWebProxy(Proxy.ToMapper<ProxyURL>())
+                .AddNode(Login, Input, Input.FieldMap, RequestType.POST, "GBK")
                 .Build().RunString((Cookie, Uri) =>
                 {
                     if (Caches.RunTimeCacheGet<CookieCollection>(Host) == null)

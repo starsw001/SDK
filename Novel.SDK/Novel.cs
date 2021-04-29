@@ -33,7 +33,7 @@ namespace Novel.SDK
             };
 
             var response = IHttpMultiClient.HttpMulti
-                .InitWebProxy(Proxy => Proxy = Input.Proxy.ToMapper<ProxyURL>())
+                .InitWebProxy(Input.Proxy.ToMapper<ProxyURL>())
                 .AddNode(Host).Build().RunString().FirstOrDefault();
             HtmlDocument document = new HtmlDocument();
             document.LoadHtml(response);
@@ -82,7 +82,7 @@ namespace Novel.SDK
             };
 
             var response = IHttpMultiClient.HttpMulti
-                .InitWebProxy(Proxy => Proxy = Input.Proxy.ToMapper<ProxyURL>())
+                .InitWebProxy(Input.Proxy.ToMapper<ProxyURL>())
                 .AddNode(string.Format(Search, Input.Search.NovelSearchKeyWord))
                 .Build().RunString().FirstOrDefault();
 
@@ -119,7 +119,7 @@ namespace Novel.SDK
                     .Substring(0, Input.Category.NovelCategoryAddress.LastIndexOf("/"))}/{Input.Category.Page}.htm";
 
             var response = IHttpMultiClient.HttpMulti
-                .InitWebProxy(Proxy => Proxy = Input.Proxy.ToMapper<ProxyURL>())
+                .InitWebProxy(Input.Proxy.ToMapper<ProxyURL>())
                 .AddNode(Input.Category.NovelCategoryAddress)
                 .Build().RunString().FirstOrDefault();
 
@@ -156,7 +156,7 @@ namespace Novel.SDK
                 Input.Detail.NovelDetailAddress = $"{Result.Details.ShortURL}index_{Input.Detail.Page}.html";
 
             var response = IHttpMultiClient.HttpMulti
-                .InitWebProxy(Proxy => Proxy = Input.Proxy.ToMapper<ProxyURL>())
+                .InitWebProxy(Input.Proxy.ToMapper<ProxyURL>())
                 .AddNode(Input.Detail.NovelDetailAddress)
                 .Build().RunString().FirstOrDefault();
 
@@ -197,7 +197,7 @@ namespace Novel.SDK
                 Contents = new NovelContentResult()
             };
             var response = IHttpMultiClient.HttpMulti
-                .InitWebProxy(Proxy => Proxy = Input.Proxy.ToMapper<ProxyURL>())
+                .InitWebProxy(Input.Proxy.ToMapper<ProxyURL>())
                 .AddNode(Input.View.NovelViewAddress)
                 .Build().RunString().FirstOrDefault();
 

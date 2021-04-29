@@ -25,7 +25,11 @@ namespace AllSDK.Test
                 opt.RequestParam = new AnimeRequestInput
                 {
                     AnimeType = AnimeEnum.Init,
-                    Proxy = new AnimeProxy()
+                    Proxy = new AnimeProxy
+                    {
+                        IP = "203.74.120.79",
+                        Port = 3128
+                    }
                 };
             }).Runs();
             Console.WriteLine(AnimeInit.ToJson());

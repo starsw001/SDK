@@ -13,7 +13,7 @@ namespace AllSDK.Test
             //小说SDK
             //NovelTest.NovelAllTest();
             //轻小说SDK
-            LightNovelTest.LightNovelAllTest();
+            //LightNovelTest.LightNovelAllTest();
             Console.WriteLine("自动化测试完成，按任意键退出");
             Console.ReadKey();
         }

@@ -34,7 +34,7 @@ namespace Anime.SDK
             };
 
             var response = IHttpMultiClient.HttpMulti
-                .InitWebProxy(Proxy => Proxy = Input.Proxy.ToMapper<ProxyURL>())
+                .InitWebProxy(Input.Proxy.ToMapper<ProxyURL>())
                 .AddNode(Host, RequestType.GET, "GBK")
                 .Build().RunString().FirstOrDefault();
 
@@ -80,7 +80,7 @@ namespace Anime.SDK
 
             string KeyWord = HttpUtility.UrlEncode(Input.Search.AnimeSearchKeyWord, Encoding.GetEncoding("GBK"));
             var response = IHttpMultiClient.HttpMulti
-                .InitWebProxy(Proxy => Proxy = Input.Proxy.ToMapper<ProxyURL>())
+                .InitWebProxy(Input.Proxy.ToMapper<ProxyURL>())
                 .AddNode(string.Format(Search, KeyWord, Input.Search.Page), RequestType.GET, "GBK")
                 .Build().RunString().FirstOrDefault();
 
@@ -112,7 +112,7 @@ namespace Anime.SDK
             Result.SeachResults.Searchs = new List<AnimeSearchResults>();
 
             var response = IHttpMultiClient.HttpMulti
-                .InitWebProxy(Proxy => Proxy = Input.Proxy.ToMapper<ProxyURL>())
+                .InitWebProxy(Input.Proxy.ToMapper<ProxyURL>())
                 .AddNode(string.Format(Category, Input.Category.AnimeLetterType.ToString(), Input.Category.Page), RequestType.GET, "GBK")
                 .Build().RunString().FirstOrDefault();
 
@@ -143,7 +143,7 @@ namespace Anime.SDK
             };
 
             var response = IHttpMultiClient.HttpMulti
-                .InitWebProxy(Proxy => Proxy = Input.Proxy.ToMapper<ProxyURL>())
+                .InitWebProxy(Input.Proxy.ToMapper<ProxyURL>())
                 .AddNode(Input.Detail.DetailAddress, RequestType.GET, "GBK")
                 .Build().RunString().FirstOrDefault();
 
@@ -171,7 +171,7 @@ namespace Anime.SDK
                 return Result;
 
             var response = IHttpMultiClient.HttpMulti
-                .InitWebProxy(Proxy => Proxy = Input.Proxy.ToMapper<ProxyURL>())
+                .InitWebProxy(Input.Proxy.ToMapper<ProxyURL>())
                 .AddNode(Input.WatchPlay.DetailResult.WatchAddress, RequestType.GET, "GBK")
                 .Build().RunString().FirstOrDefault();
 
