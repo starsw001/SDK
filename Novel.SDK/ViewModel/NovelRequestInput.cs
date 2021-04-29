@@ -15,6 +15,10 @@ namespace Novel.SDK.ViewModel
         /// </summary>
         public NovelEnum NovelType { get; set; }
         /// <summary>
+        /// 代理
+        /// </summary>
+        public NovelProxy Proxy { get; set; }
+        /// <summary>
         /// 初始化
         /// </summary>
         public NovelInit Init { get; }

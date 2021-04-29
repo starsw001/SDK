@@ -24,7 +24,8 @@ namespace AllSDK.Test
             {
                 opt.RequestParam = new NovelRequestInput
                 {
-                    NovelType = NovelEnum.Init
+                    NovelType = NovelEnum.Init,
+                    Proxy = new NovelProxy()
                 };
             }).Runs();
             Console.WriteLine(NovelInit.ToJson());
@@ -35,6 +36,7 @@ namespace AllSDK.Test
                 opt.RequestParam = new NovelRequestInput
                 {
                     NovelType = NovelEnum.Search,
+                    Proxy = new NovelProxy(),
                     Search = new NovelSearch
                     {
                         NovelSearchKeyWord = "神墓"
@@ -49,6 +51,7 @@ namespace AllSDK.Test
                 opt.RequestParam = new NovelRequestInput
                 {
                     NovelType = NovelEnum.Category,
+                    Proxy = new NovelProxy(),
                     Category = new NovelCategory
                     {
                         NovelCategoryAddress = NovelInit.IndexCategories.FirstOrDefault().CollectAddress
@@ -63,6 +66,7 @@ namespace AllSDK.Test
                 opt.RequestParam = new NovelRequestInput
                 {
                     NovelType = NovelEnum.Detail,
+                    Proxy = new NovelProxy(),
                     Detail = new NovelDetail
                     {
                         NovelDetailAddress = NovelCate.SingleCategories.NovelSingles.FirstOrDefault().DetailAddress
@@ -77,6 +81,7 @@ namespace AllSDK.Test
                 opt.RequestParam = new NovelRequestInput
                 {
                     NovelType = NovelEnum.Watch,
+                    Proxy = new NovelProxy(),
                     View = new NovelView
                     {
                         NovelViewAddress = NovelDetail.Details.Details.FirstOrDefault().ChapterURL

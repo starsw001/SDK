@@ -15,6 +15,10 @@ namespace Anime.SDK.ViewModel
         /// </summary>
         public AnimeEnum AnimeType { get; set; }
         /// <summary>
+        /// 代理
+        /// </summary>
+        public AnimeProxy Proxy { get; set; }
+        /// <summary>
         /// 初始化
         /// </summary>
         public AnimeInit Init { get; }

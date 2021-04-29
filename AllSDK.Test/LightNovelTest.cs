@@ -25,6 +25,7 @@ namespace AllSDK.Test
                  opt.RequestParam = new LightNovelRequestInput
                  {
                      LightNovelType = LightNovelEnum.Init,
+                     Proxy= new LightNovelProxy()
                  };
              }).Runs(Light =>
              {
@@ -32,7 +33,7 @@ namespace AllSDK.Test
                  {
                      UserName = "kilydoll365",
                      PassWord = "sion8550"
-                 });
+                 }, new LightNovelProxy());
              });
             Console.WriteLine(LightNovelInit.ToJson());
             Thread.Sleep(1000);
@@ -42,6 +43,7 @@ namespace AllSDK.Test
                 opt.RequestParam = new LightNovelRequestInput
                 {
                     LightNovelType = LightNovelEnum.Search,
+                    Proxy = new LightNovelProxy(),
                     Search = new LightNovelSearch
                     {
                         KeyWord = "恶魔高校",
@@ -54,7 +56,7 @@ namespace AllSDK.Test
                 {
                     UserName = "kilydoll365",
                     PassWord = "sion8550"
-                });
+                }, new LightNovelProxy());
             });
             Console.WriteLine(LightNovelSearch.ToJson());
             Thread.Sleep(1000);
@@ -64,6 +66,7 @@ namespace AllSDK.Test
                 opt.RequestParam = new LightNovelRequestInput
                 {
                     LightNovelType = LightNovelEnum.Category,
+                    Proxy = new LightNovelProxy(),
                     Category = new LightNovelCategory
                     {
                         CategoryAddress = LightNovelInit.CategoryResults.FirstOrDefault().CategoryAddress
@@ -75,7 +78,7 @@ namespace AllSDK.Test
                 {
                     UserName = "kilydoll365",
                     PassWord = "sion8550"
-                });
+                }, new LightNovelProxy());
             });
             Console.WriteLine(LightNovelCate.ToJson());
             Thread.Sleep(1000);
@@ -85,6 +88,7 @@ namespace AllSDK.Test
                 opt.RequestParam = new LightNovelRequestInput
                 {
                     LightNovelType = LightNovelEnum.Detail,
+                    Proxy = new LightNovelProxy(),
                     Detail = new LightNovelDetail
                     {
                         DetailAddress = LightNovelSearch.SearchResults.Result.LastOrDefault().DetailAddress
@@ -96,7 +100,7 @@ namespace AllSDK.Test
                 {
                     UserName = "kilydoll365",
                     PassWord = "sion8550"
-                });
+                }, new LightNovelProxy());
             });
             Console.WriteLine(LightNovelDetail.ToJson());
             Thread.Sleep(1000);
@@ -106,6 +110,7 @@ namespace AllSDK.Test
                 opt.RequestParam = new LightNovelRequestInput
                 {
                     LightNovelType = LightNovelEnum.View,
+                    Proxy = new LightNovelProxy(),
                     View = new LightNovelView
                     {
                         ViewAddress = LightNovelDetail.DetailResult.Address,
@@ -117,7 +122,7 @@ namespace AllSDK.Test
                 {
                     UserName = "kilydoll365",
                     PassWord = "sion8550"
-                });
+                },new LightNovelProxy());
             });
             Console.WriteLine(LightNovelView.ToJson());
             Thread.Sleep(1000);
@@ -127,6 +132,7 @@ namespace AllSDK.Test
                 opt.RequestParam = new LightNovelRequestInput
                 {
                     LightNovelType = LightNovelEnum.Content,
+                    Proxy = new LightNovelProxy(),
                     Content = new LightNovelContent
                     {
                         ChapterURL = LightNovelView.ViewResult[7].ChapterURL,

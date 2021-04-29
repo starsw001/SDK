@@ -2,6 +2,8 @@
 using Novel.SDK.ViewModel;
 using Novel.SDK.ViewModel.Response;
 using Synctool.HttpFramework;
+using Synctool.HttpFramework.MultiCommon;
+using Synctool.HttpFramework.MultiFactory;
 using Synctool.LinqFramework;
 using System;
 using System.Collections.Generic;
@@ -30,7 +32,9 @@ namespace Novel.SDK
                 IndexCategories = new List<NovelCategoryResult>()
             };
 
-            var response = HttpMultiClient.HttpMulti.AddNode(Host).Build().RunString().FirstOrDefault();
+            var response = IHttpMultiClient.HttpMulti
+                .InitWebProxy(Proxy => Proxy = Input.Proxy.ToMapper<ProxyURL>())
+                .AddNode(Host).Build().RunString().FirstOrDefault();
             HtmlDocument document = new HtmlDocument();
             document.LoadHtml(response);
             //分类
@@ -77,7 +81,11 @@ namespace Novel.SDK
                 SearchResults = new List<NovelSearchResult>()
             };
 
-            var response = HttpMultiClient.HttpMulti.AddNode(string.Format(Search, Input.Search.NovelSearchKeyWord)).Build().RunString().FirstOrDefault();
+            var response = IHttpMultiClient.HttpMulti
+                .InitWebProxy(Proxy => Proxy = Input.Proxy.ToMapper<ProxyURL>())
+                .AddNode(string.Format(Search, Input.Search.NovelSearchKeyWord))
+                .Build().RunString().FirstOrDefault();
+
             HtmlDocument document = new HtmlDocument();
             document.LoadHtml(response);
 
@@ -107,10 +115,14 @@ namespace Novel.SDK
             };
 
             if (Input.Category.Page > 1)
-                Input.Category.NovelCategoryAddress =@$"{Input.Category.NovelCategoryAddress
+                Input.Category.NovelCategoryAddress = @$"{Input.Category.NovelCategoryAddress
                     .Substring(0, Input.Category.NovelCategoryAddress.LastIndexOf("/"))}/{Input.Category.Page}.htm";
 
-            var response = HttpMultiClient.HttpMulti.AddNode(Input.Category.NovelCategoryAddress).Build().RunString().FirstOrDefault();
+            var response = IHttpMultiClient.HttpMulti
+                .InitWebProxy(Proxy => Proxy = Input.Proxy.ToMapper<ProxyURL>())
+                .AddNode(Input.Category.NovelCategoryAddress)
+                .Build().RunString().FirstOrDefault();
+
             HtmlDocument document = new HtmlDocument();
             document.LoadHtml(response);
 
@@ -143,8 +155,11 @@ namespace Novel.SDK
             if (Input.Detail.Page > 1)
                 Input.Detail.NovelDetailAddress = $"{Result.Details.ShortURL}index_{Input.Detail.Page}.html";
 
-            var response = HttpMultiClient.HttpMulti.AddNode(Input.Detail.NovelDetailAddress).Build().RunString().FirstOrDefault();
-          
+            var response = IHttpMultiClient.HttpMulti
+                .InitWebProxy(Proxy => Proxy = Input.Proxy.ToMapper<ProxyURL>())
+                .AddNode(Input.Detail.NovelDetailAddress)
+                .Build().RunString().FirstOrDefault();
+
             HtmlDocument document = new HtmlDocument();
             document.LoadHtml(response);
             var HContent = document.DocumentNode.SelectSingleNode("//div[@class='detail-box']");
@@ -181,14 +196,17 @@ namespace Novel.SDK
             {
                 Contents = new NovelContentResult()
             };
-            var response = HttpMultiClient.HttpMulti.AddNode(Input.View.NovelViewAddress).Build().RunString().FirstOrDefault();
-           
+            var response = IHttpMultiClient.HttpMulti
+                .InitWebProxy(Proxy => Proxy = Input.Proxy.ToMapper<ProxyURL>())
+                .AddNode(Input.View.NovelViewAddress)
+                .Build().RunString().FirstOrDefault();
+
             HtmlDocument document = new HtmlDocument();
             document.LoadHtml(response);
-           
+
             Result.Contents.ChapterName = document.DocumentNode.SelectSingleNode("//h1[@class='title']").InnerText;
             Result.Contents.Content = document.DocumentNode.SelectSingleNode("//div[@class='content']")
-                .InnerText.Replace("&nbsp;","")
+                .InnerText.Replace("&nbsp;", "")
                 .Replace("章节错误,点此举报(免注册),举报后维护人员会在两分钟内校正章节内容,请耐心等待,并刷新页面。", "").Trim();
             return Result;
         }

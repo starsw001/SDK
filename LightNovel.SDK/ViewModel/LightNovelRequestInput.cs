@@ -15,6 +15,10 @@ namespace LightNovel.SDK.ViewModel
         /// </summary>
         public LightNovelEnum LightNovelType { get; set; }
         /// <summary>
+        /// 代理
+        /// </summary>
+        public LightNovelProxy Proxy { get; set; }
+        /// <summary>
         /// 搜索
         /// </summary>
         public LightNovelSearch Search { get; set; }

@@ -9,6 +9,6 @@ namespace LightNovel.SDK
 {
     public interface ILightNovelCookie
     {
-        void RefreshCookie(LightNovelRefresh Input);
+        void RefreshCookie(LightNovelRefresh Input, LightNovelProxy Proxy);
     }
 }

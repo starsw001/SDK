@@ -1,17 +1,16 @@
 ﻿using Anime.SDK.ViewModel;
-using Synctool.HttpFramework;
+using Anime.SDK.ViewModel.Response;
+using HtmlAgilityPack;
+using Synctool.HttpFramework.MultiCommon;
+using Synctool.HttpFramework.MultiFactory;
+using Synctool.LinqFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
-using HtmlAgilityPack;
-using Synctool.LinqFramework;
-using System.Web;
-using System.Text.RegularExpressions;
 using System.Net;
-using Anime.SDK.ViewModel.Response;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Web;
 
 namespace Anime.SDK
 {
@@ -33,7 +32,12 @@ namespace Anime.SDK
                 WeekDays = new List<AnimeWeekDayResult>(),
                 RecommendCategory = new Dictionary<string, string>()
             };
-            var response = HttpMultiClient.HttpMulti.AddNode(Host,RequestType.GET,"GBK").Build().RunString().FirstOrDefault();
+
+            var response = IHttpMultiClient.HttpMulti
+                .InitWebProxy(Proxy => Proxy = Input.Proxy.ToMapper<ProxyURL>())
+                .AddNode(Host, RequestType.GET, "GBK")
+                .Build().RunString().FirstOrDefault();
+
             HtmlDocument document = new HtmlDocument();
             document.LoadHtml(response);
 
@@ -73,14 +77,19 @@ namespace Anime.SDK
                 SeachResults = new AnimeSearchResult()
             };
             Result.SeachResults.Searchs = new List<AnimeSearchResults>();
+
             string KeyWord = HttpUtility.UrlEncode(Input.Search.AnimeSearchKeyWord, Encoding.GetEncoding("GBK"));
-            var response = HttpMultiClient.HttpMulti.AddNode(string.Format(Search, KeyWord, Input.Search.Page), RequestType.GET, "GBK").Build().RunString().FirstOrDefault();
+            var response = IHttpMultiClient.HttpMulti
+                .InitWebProxy(Proxy => Proxy = Input.Proxy.ToMapper<ProxyURL>())
+                .AddNode(string.Format(Search, KeyWord, Input.Search.Page), RequestType.GET, "GBK")
+                .Build().RunString().FirstOrDefault();
+
             HtmlDocument document = new HtmlDocument();
             document.LoadHtml(response);
 
             var content = document.DocumentNode.SelectSingleNode("//div[@class='movie-chrList']");
             Result.SeachResults.Page = Regex.Match(content.Descendants("span").ToList()[1].InnerText.Split("/")[1], "\\d+").Value.AsInt();
-           
+
             content.SelectNodes("ul/li/div[@class='cover']/a").ToList().ForEach(item =>
             {
                 AnimeSearchResults SearchResult = new AnimeSearchResults
@@ -101,13 +110,18 @@ namespace Anime.SDK
                 SeachResults = new AnimeSearchResult()
             };
             Result.SeachResults.Searchs = new List<AnimeSearchResults>();
-            var response = HttpMultiClient.HttpMulti.AddNode(string.Format(Category, Input.Category.AnimeLetterType.ToString(), Input.Category.Page), RequestType.GET, "GBK").Build().RunString().FirstOrDefault();
+
+            var response = IHttpMultiClient.HttpMulti
+                .InitWebProxy(Proxy => Proxy = Input.Proxy.ToMapper<ProxyURL>())
+                .AddNode(string.Format(Category, Input.Category.AnimeLetterType.ToString(), Input.Category.Page), RequestType.GET, "GBK")
+                .Build().RunString().FirstOrDefault();
+
             HtmlDocument document = new HtmlDocument();
             document.LoadHtml(response);
 
             var content = document.DocumentNode.SelectSingleNode("//div[@class='movie-chrList']");
             Result.SeachResults.Page = Regex.Match(content.Descendants("span").ToList()[1].InnerText.Split("/")[1], "\\d+").Value.AsInt();
-           
+
             content.SelectNodes("ul/li/div[@class='cover']/a").ToList().ForEach(item =>
             {
                 AnimeSearchResults SearchResult = new AnimeSearchResults
@@ -127,7 +141,12 @@ namespace Anime.SDK
             {
                 DetailResults = new List<AnimeDetailResult>()
             };
-            var response = HttpMultiClient.HttpMulti.AddNode(Input.Detail.DetailAddress,RequestType.GET, "GBK").Build().RunString().FirstOrDefault();
+
+            var response = IHttpMultiClient.HttpMulti
+                .InitWebProxy(Proxy => Proxy = Input.Proxy.ToMapper<ProxyURL>())
+                .AddNode(Input.Detail.DetailAddress, RequestType.GET, "GBK")
+                .Build().RunString().FirstOrDefault();
+
             HtmlDocument document = new HtmlDocument();
             document.LoadHtml(response);
 
@@ -150,7 +169,12 @@ namespace Anime.SDK
                 throw new NullReferenceException($"{nameof(AnimeDetailResult)} Is Null");
             if (Input.WatchPlay.DetailResult.IsDownURL)
                 return Result;
-            var response = HttpMultiClient.HttpMulti.AddNode(Input.WatchPlay.DetailResult.WatchAddress, RequestType.GET, "GBK").Build().RunString().FirstOrDefault();
+
+            var response = IHttpMultiClient.HttpMulti
+                .InitWebProxy(Proxy => Proxy = Input.Proxy.ToMapper<ProxyURL>())
+                .AddNode(Input.WatchPlay.DetailResult.WatchAddress, RequestType.GET, "GBK")
+                .Build().RunString().FirstOrDefault();
+
             HtmlDocument document = new HtmlDocument();
             document.LoadHtml(response);
 

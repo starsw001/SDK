@@ -24,7 +24,8 @@ namespace AllSDK.Test
             {
                 opt.RequestParam = new AnimeRequestInput
                 {
-                    AnimeType = AnimeEnum.Init
+                    AnimeType = AnimeEnum.Init,
+                    Proxy = new AnimeProxy()
                 };
             }).Runs();
             Console.WriteLine(AnimeInit.ToJson());
@@ -35,6 +36,7 @@ namespace AllSDK.Test
                 opt.RequestParam = new AnimeRequestInput
                 {
                     AnimeType = AnimeEnum.Search,
+                    Proxy = new AnimeProxy(),
                     Search = new AnimeSearch
                     {
                         AnimeSearchKeyWord = "盾之勇者"
@@ -49,6 +51,7 @@ namespace AllSDK.Test
                 opt.RequestParam = new AnimeRequestInput
                 {
                     AnimeType = AnimeEnum.Category,
+                    Proxy = new AnimeProxy(),
                     Category = new AnimeCategory
                     {
                         AnimeLetterType = AnimeLetterEnum.A
@@ -63,6 +66,7 @@ namespace AllSDK.Test
                 opt.RequestParam = new AnimeRequestInput
                 {
                     AnimeType = AnimeEnum.Detail,
+                    Proxy = new AnimeProxy(),
                     Detail = new AnimeDetail
                     {
                         DetailAddress = AnimeCate.SeachResults.Searchs.FirstOrDefault().DetailAddress
@@ -77,6 +81,7 @@ namespace AllSDK.Test
                 opt.RequestParam = new AnimeRequestInput
                 {
                     AnimeType = AnimeEnum.Watch,
+                    Proxy = new AnimeProxy(),
                     WatchPlay = new AnimeWatchPlay
                     {
                         DetailResult = AnimeDetail.DetailResults.FirstOrDefault()
