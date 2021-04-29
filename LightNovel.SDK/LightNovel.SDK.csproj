@@ -9,7 +9,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="HtmlAgilityPack" Version="1.11.33" />
-		<PackageReference Include="XExten.Advance" Version="1.0.2.1-preview" />
+		<PackageReference Include="XExten.Advance" Version="1.0.2.1-preview-2" />
 	</ItemGroup>
 
 </Project>
