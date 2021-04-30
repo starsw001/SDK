@@ -22,5 +22,9 @@ namespace Wallpaper.SDK.ViewModel
         /// 初始化
         /// </summary>
         public WallpaperInit Init { get; set; }
+        /// <summary>
+        /// 检索
+        /// </summary>
+        public WallpaperSearch Search { get; set; }
     } 
 }

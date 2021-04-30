@@ -25,10 +25,7 @@ namespace Wallpaper.SDK
             return RequestParam.WallpaperType switch
             {
                 WallpaperEnum.Init => wallpaper.WallpaperInit(RequestParam),
-                WallpaperEnum.Search => wallpaper.WallpaperInit(RequestParam),
-                WallpaperEnum.Category => wallpaper.WallpaperInit(RequestParam),
-                WallpaperEnum.Detail => wallpaper.WallpaperInit(RequestParam),
-                WallpaperEnum.Watch => wallpaper.WallpaperInit(RequestParam),
+                WallpaperEnum.Search => wallpaper.WallpaperSearch(RequestParam),
                 _ => wallpaper.WallpaperInit(RequestParam),
             };
         }

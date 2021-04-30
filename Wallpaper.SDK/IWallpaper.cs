@@ -10,5 +10,7 @@ namespace Wallpaper.SDK
     public interface IWallpaper
     {
         WallpaperResponseOutput WallpaperInit(WallpaperRequestInput Input);
+
+        WallpaperResponseOutput WallpaperSearch(WallpaperRequestInput Input);
     }
 }

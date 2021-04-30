@@ -18,18 +18,6 @@ namespace Wallpaper.SDK.ViewModel.Enums
         /// <summary>
         /// 查询
         /// </summary>
-        Search,
-        /// <summary>
-        /// 分类
-        /// </summary>
-        Category,
-        /// <summary>
-        /// 详情
-        /// </summary>
-        Detail,
-        /// <summary>
-        /// 观看
-        /// </summary>
-        Watch
+        Search
     }
 }

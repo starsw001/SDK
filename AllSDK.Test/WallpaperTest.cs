@@ -22,6 +22,7 @@ namespace AllSDK.Test
                       WallpaperType = WallpaperEnum.Init,
                       Init = new WallpaperInit(),
                       Proxy = new WallpaperProxy()
+                    
                   };
               }).Runs();
             Console.WriteLine(WallpaperInit.ToJson());
