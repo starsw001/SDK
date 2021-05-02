@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
-using Synctool.LinqFramework;
-using Synctool.StaticFramework;
+using XExten.Advance.LinqFramework;
+using XExten.Advance.StaticFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;

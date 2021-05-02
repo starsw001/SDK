@@ -1,7 +1,7 @@
 ﻿using Novel.SDK;
 using Novel.SDK.ViewModel;
 using Novel.SDK.ViewModel.Enums;
-using Synctool.LinqFramework;
+using XExten.Advance.LinqFramework;
 using Novel.SDK.ViewModel.Request;
 using System;
 using System.Collections.Generic;

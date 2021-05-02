@@ -1,8 +1,8 @@
 ﻿using LightNovel.SDK.ViewModel.Request;
-using Synctool.CacheFramework;
-using Synctool.HttpFramework.MultiCommon;
-using Synctool.HttpFramework.MultiFactory;
-using Synctool.LinqFramework;
+using XExten.Advance.CacheFramework;
+using XExten.Advance.HttpFramework.MultiCommon;
+using XExten.Advance.HttpFramework.MultiFactory;
+using XExten.Advance.LinqFramework;
 using System.Net;
 
 namespace LightNovel.SDK

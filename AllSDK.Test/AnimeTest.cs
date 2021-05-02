@@ -2,7 +2,7 @@
 using Anime.SDK.ViewModel;
 using Anime.SDK.ViewModel.Request;
 using Anime.SDK.ViewModel.Enums;
-using Synctool.LinqFramework;
+using XExten.Advance.LinqFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;

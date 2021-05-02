@@ -1,10 +1,10 @@
 ﻿using HtmlAgilityPack;
 using Novel.SDK.ViewModel;
 using Novel.SDK.ViewModel.Response;
-using Synctool.HttpFramework;
-using Synctool.HttpFramework.MultiCommon;
-using Synctool.HttpFramework.MultiFactory;
-using Synctool.LinqFramework;
+using XExten.Advance.HttpFramework;
+using XExten.Advance.HttpFramework.MultiCommon;
+using XExten.Advance.HttpFramework.MultiFactory;
+using XExten.Advance.LinqFramework;
 using System;
 using System.Collections.Generic;
 using System.IO;

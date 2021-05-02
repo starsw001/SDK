@@ -1,9 +1,9 @@
 ﻿using Anime.SDK.ViewModel;
 using Anime.SDK.ViewModel.Response;
 using HtmlAgilityPack;
-using Synctool.HttpFramework.MultiCommon;
-using Synctool.HttpFramework.MultiFactory;
-using Synctool.LinqFramework;
+using XExten.Advance.HttpFramework.MultiCommon;
+using XExten.Advance.HttpFramework.MultiFactory;
+using XExten.Advance.LinqFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;

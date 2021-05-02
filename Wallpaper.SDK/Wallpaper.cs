@@ -1,7 +1,7 @@
-﻿using Synctool.HttpFramework.MultiCommon;
-using Synctool.HttpFramework.MultiFactory;
-using Synctool.LinqFramework;
-using Synctool.StaticFramework;
+﻿using XExten.Advance.HttpFramework.MultiCommon;
+using XExten.Advance.HttpFramework.MultiFactory;
+using XExten.Advance.LinqFramework;
+using XExten.Advance.StaticFramework;
 using System.Collections.Generic;
 using System.Linq;
 using Wallpaper.SDK.ViewModel;

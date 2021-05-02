@@ -1,6 +1,6 @@
 ﻿using LightNovel.SDK.ViewModel;
 using LightNovel.SDK.ViewModel.Enums;
-using Synctool.StaticFramework;
+using XExten.Advance.StaticFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;

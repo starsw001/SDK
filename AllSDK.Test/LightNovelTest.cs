@@ -2,7 +2,7 @@
 using LightNovel.SDK.ViewModel;
 using LightNovel.SDK.ViewModel.Enums;
 using LightNovel.SDK.ViewModel.Request;
-using Synctool.LinqFramework;
+using XExten.Advance.LinqFramework;
 using System;
 using System.Collections.Generic;
 using System.Linq;
