@@ -1,5 +1,4 @@
-﻿using LightNovel.SDK;
-using System;
+﻿using System;
 
 namespace AllSDK.Test
 {
@@ -15,7 +14,7 @@ namespace AllSDK.Test
             //轻小说SDK
             //LightNovelTest.LightNovelAllTest();
             //图片SDK
-            WallpaperTest.WallpaperAllTest();
+            //WallpaperTest.WallpaperAllTest();
             Console.WriteLine("自动化测试完成，按任意键退出");
             Console.ReadKey();
         }
