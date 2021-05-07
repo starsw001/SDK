@@ -29,7 +29,7 @@ namespace Anime.SDK
                 AnimeEnum.Category => anime.AnimeCategory(RequestParam),
                 AnimeEnum.Detail => anime.AnimeDetail(RequestParam),
                 AnimeEnum.Watch => anime.AnimeWatchPlay(RequestParam),
-                _ => anime.AnimeInit(RequestParam),
+                _ => null
             };
         }
     }

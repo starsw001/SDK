@@ -29,7 +29,7 @@ namespace Novel.SDK
                 NovelEnum.Category => novel.NovelCategory(RequestParam),
                 NovelEnum.Detail => novel.NovelDetail(RequestParam),
                 NovelEnum.Watch => novel.NovelView(RequestParam),
-                _ => novel.NovelInit(RequestParam),
+                _ => null
             };
         }
     }

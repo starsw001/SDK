@@ -26,7 +26,7 @@ namespace Wallpaper.SDK
             {
                 WallpaperEnum.Init => wallpaper.WallpaperInit(RequestParam),
                 WallpaperEnum.Search => wallpaper.WallpaperSearch(RequestParam),
-                _ => wallpaper.WallpaperInit(RequestParam),
+                _ => null
             };
         }
     }

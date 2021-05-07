@@ -31,7 +31,7 @@ namespace LightNovel.SDK
                 LightNovelEnum.Detail => light.LightNovelDetail(RequestParam, action ?? throw new ArgumentNullException(nameof(action))),
                 LightNovelEnum.View => light.LightNovelView(RequestParam, action ?? throw new ArgumentNullException(nameof(action))),
                 LightNovelEnum.Content => light.LightNovelContent(RequestParam),
-                _ => light.LightNovelInit(RequestParam, action ?? throw new ArgumentNullException(nameof(action))),
+                _ => null
             };
         }
     }

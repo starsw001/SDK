@@ -22,10 +22,24 @@ namespace AllSDK.Test
                       WallpaperType = WallpaperEnum.Init,
                       Init = new WallpaperInit(),
                       Proxy = new WallpaperProxy()
-                    
+
                   };
               }).Runs();
             Console.WriteLine(WallpaperInit.ToJson());
+            var WallpaperSearch = WallpaperFactory.Wallpaper(opt =>
+            {
+                opt.RequestParam = new WallpaperRequestInput
+                {
+                    WallpaperType = WallpaperEnum.Search,
+                    Search = new WallpaperSearch()
+                    {
+                        KeyWord = WallpaperInit.Result.FirstOrDefault().Labels.FirstOrDefault()
+                    },
+                    Proxy = new WallpaperProxy()
+
+                };
+            }).Runs();
+            Console.WriteLine(WallpaperSearch.ToJson());
         }
     }
 }
