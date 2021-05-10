@@ -6,7 +6,18 @@
 
   <ItemGroup>
     <PackageReference Include="HtmlAgilityPack" Version="1.11.33" />
+    <PackageReference Include="JavaScriptEngineSwitcher.V8" Version="3.12.1" />
+    <PackageReference Include="JavaScriptEngineSwitcher.V8.Native.win-x64" Version="3.12.1" />
     <PackageReference Include="XExten.Advance" Version="1.0.2.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="JS\cmd5x.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="JS\iqiyi.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

@@ -15,6 +15,7 @@ namespace AllSDK.Test
             //LightNovelTest.LightNovelAllTest();
             //图片SDK
             //WallpaperTest.WallpaperAllTest();
+            Video.SDK.Test.Tests();
             Console.WriteLine("自动化测试完成，按任意键退出");
             Console.ReadKey();
         }
