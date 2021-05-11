@@ -6,7 +6,7 @@ namespace Music.SDK.ViewModel.Response
 {
     public class MusicSearchResult
     {
-        public int Page { get; set; }
+        public int Total { get; set; }
         public List<MusicSongItem> SongItems { get; set; }
     }
 }

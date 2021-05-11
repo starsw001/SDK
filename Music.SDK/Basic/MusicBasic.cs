@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Music.SDK.ViewModel.Response;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Music.SDK.Basic
 {
-    internal abstract class BasicMusic
+    public abstract class BasicMusic
     {
+        public abstract MusicSearchResult SearchSong(string KeyWord, int Page = 0);
     }
 }
