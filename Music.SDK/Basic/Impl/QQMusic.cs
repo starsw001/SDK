@@ -57,5 +57,32 @@ namespace Music.SDK.Basic.Impl
             }
             return Result;
         }
+        public override MusicSongSheetResult SearchSongSheet(string KeyWord, int Page = 1)
+        {
+            MusicSongSheetResult Result = new MusicSongSheetResult
+            {
+                SongSheetItems = new List<MusicSongSheetItem>()
+            };
+            var response = IHttpMultiClient.HttpMulti.Headers(Headers)
+                .AddNode(string.Format(SongSheetURL, KeyWord, Page))
+                .Build().RunString().FirstOrDefault();
+
+            var jobject = response.ToModel<JObject>();
+            Result.Total = jobject.SelectToken("data.sum").ToString().AsInt();
+            foreach (var jToken in jobject["data"]["list"])
+            {
+                MusicSongSheetItem Item = new MusicSongSheetItem
+                {
+                    MusicPlatformType = MusicPlatformEnum.QQMusic,
+                    Cover = (string)jToken["imgurl"],
+                    SongSheetId = (long)jToken["dissid"],
+                    SongSheetName = (string)jToken["dissname"],
+                    CreateTime = (string)jToken["createtime"],
+                    ListenNumber = (string)jToken["listennum"]
+                };
+                Result.SongSheetItems.Add(Item);
+            }
+            return Result;
+        }
     }
 }

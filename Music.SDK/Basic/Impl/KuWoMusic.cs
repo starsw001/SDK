@@ -11,5 +11,10 @@ namespace Music.SDK.Basic.Impl
         {
             throw new NotImplementedException();
         }
+
+        public override MusicSongSheetResult SearchSongSheet(string KeyWord, int Page = 1)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
