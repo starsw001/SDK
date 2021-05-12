@@ -5,9 +5,21 @@ using System.Text;
 
 namespace Music.SDK.Basic
 {
-    public abstract class BasicMusic
+    internal abstract class BasicMusic
     {
-        public abstract MusicSearchResult SearchSong(string KeyWord, int Page = 0);
-        public abstract MusicSongSheetResult SearchSongSheet(string KeyWord, int Page = 1);
+        /// <summary>
+        /// 歌曲检索
+        /// </summary>
+        /// <param name="KeyWord"></param>
+        /// <param name="Page"></param>
+        /// <returns></returns>
+        internal abstract MusicSongItemResult SearchSong(string KeyWord, int Page);
+        /// <summary>
+        /// 歌单检索
+        /// </summary>
+        /// <param name="KeyWord"></param>
+        /// <param name="Page"></param>
+        /// <returns></returns>
+        internal abstract MusicSongSheetResult SearchSongSheet(string KeyWord, int Page);
     }
 }

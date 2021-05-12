@@ -7,6 +7,7 @@ namespace Music.SDK.ViewModel
 {
     public class MusicResponseOutput
     {
-        public MusicSearchResult SearchResult { get; set; }
+        public MusicSongItemResult SongItemResult { get; set; }
+        public MusicSongSheetResult SongSheetResult { get; set; }
     }
 }

@@ -1,7 +1,4 @@
-﻿using Music.SDK.Basic;
-using Music.SDK.Basic.Impl;
-using System;
-using XExten.Advance.LinqFramework;
+﻿using System;
 
 namespace AllSDK.Test
 {
@@ -18,8 +15,6 @@ namespace AllSDK.Test
             //LightNovelTest.LightNovelAllTest();
             //图片SDK
             //WallpaperTest.WallpaperAllTest();
-            BasicMusic music = new QQMusic();
-            Console.WriteLine(music.SearchSongSheet("galgame").ToJson());
             Console.WriteLine("自动化测试完成，按任意键退出");
             Console.ReadKey();
         }

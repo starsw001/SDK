@@ -7,6 +7,7 @@ namespace Music.SDK
 {
     public interface IMusic
     {
-        MusicResponseOutput MusicSearch(MusicRequestInput Input);
+        MusicResponseOutput MusicSearchItem(MusicRequestInput Input);
+        MusicResponseOutput MusicSearchSheet(MusicRequestInput Input);
     }
 }

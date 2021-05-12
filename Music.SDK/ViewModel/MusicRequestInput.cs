@@ -13,6 +13,10 @@ namespace Music.SDK.ViewModel
         /// </summary>
         public MusicPlatformEnum MusicPlatformType { get; set; }
         /// <summary>
+        /// 查询模式
+        /// </summary>
+        public MusicTypeEnum MusicType { get; set; }
+        /// <summary>
         /// 关键字检索
         /// </summary>
         public MusicSearch Search { get; set; }

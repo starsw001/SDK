@@ -8,7 +8,7 @@ using XExten.Advance.LinqFramework;
 
 namespace Music.SDK.Basic.Impl
 {
-    public class QQMusic : BasicMusic
+    internal class QQMusic : BasicMusic
     {
         private const string SongURL = "https://i.y.qq.com/s.music/fcgi-bin/search_for_qq_cp?g_tk=938407465&uin=0&format=json&inCharset=utf-8&outCharset=utf-8&notice=0&platform=h5&needNewCode=1&w={0}&zhidaqu=1&catZhida=1&t=0&flag=1&ie=utf-8&sem=1&aggr=0&perpage=20&n=20&p={1}&remoteplace=txt.mqq.all&jsonpCallback=json";
         private const string SongSheetURL = "https://c.y.qq.com/soso/fcgi-bin/client_music_search_songlist?remoteplace=txt.yqq.top&searchid=1&flag_qc=0&page_no={0}&num_per_page=20&query={1}&cv=4747474&ct=24&format=json&inCharset=utf-8&outCharset=utf-8&notice=0&platform=yqq.json&needNewCode=0&uin=0&g_tk_new_20200303=5381&g_tk=5381&hostUin=0&loginUin=0";
@@ -21,9 +21,9 @@ namespace Music.SDK.Basic.Impl
             {"Origin","https://y.qq.com" }
         };
 
-        public override MusicSearchResult SearchSong(string KeyWord, int Page = 1)
+        internal override MusicSongItemResult SearchSong(string KeyWord, int Page)
         {
-            MusicSearchResult Result = new MusicSearchResult
+            MusicSongItemResult Result = new MusicSongItemResult
             {
                 SongItems = new List<MusicSongItem>()
             };
@@ -57,7 +57,7 @@ namespace Music.SDK.Basic.Impl
             }
             return Result;
         }
-        public override MusicSongSheetResult SearchSongSheet(string KeyWord, int Page = 1)
+        internal override MusicSongSheetResult SearchSongSheet(string KeyWord, int Page)
         {
             MusicSongSheetResult Result = new MusicSongSheetResult
             {

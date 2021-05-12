@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Music.SDK.ViewModel.Response
 {
-    public class MusicSearchResult
+    public class MusicSongItemResult
     {
         public int Total { get; set; }
         public List<MusicSongItem> SongItems { get; set; }

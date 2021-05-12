@@ -7,11 +7,7 @@ namespace Music.SDK.ViewModel.Request
 {
     public class MusicSearch
     {
-        public int Page { get; set; }
+        public int Page { get; set; } = 1;
         public string KeyWord { get; set; }
-        /// <summary>
-        /// 查询模式
-        /// </summary>
-        public MusicTypeEnum MusicType { get; set; }
     }
 }
