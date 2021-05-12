@@ -25,6 +25,8 @@ namespace Music.SDK
                 MusicTypeEnum.SongItem => music.MusicSearchItem(RequestParam),
                 MusicTypeEnum.SongSheet => music.MusicSearchSheet(RequestParam),
                 MusicTypeEnum.SheetDetail=> music.MusicSearchSheetDetail(RequestParam),
+                MusicTypeEnum.PlayAddress=> music.MusicPlayAddress(RequestParam),
+                MusicTypeEnum.Lyric => music.MusicLyric(RequestParam),
                 _ => null
             };
         }

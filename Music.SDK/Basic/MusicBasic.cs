@@ -27,5 +27,17 @@ namespace Music.SDK.Basic
         /// <param name="SheetId"></param>
         /// <returns></returns>
         internal abstract MusicSongSheetDetailResult SongSheetDetail(string SheetId);
+        /// <summary>
+        /// 获取播放地址
+        /// </summary>
+        /// <param name="Dynamic"></param>
+        /// <returns></returns>
+        internal abstract MusicSongPlayAddressResult SongPlayAddress(dynamic Dynamic);
+        /// <summary>
+        /// 获取歌词
+        /// </summary>
+        /// <param name="Dynamic"></param>
+        /// <returns></returns>
+        internal abstract MusicLyricResult SongLyric(dynamic Dynamic);
     }
 }

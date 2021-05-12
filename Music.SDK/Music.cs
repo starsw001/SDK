@@ -57,5 +57,27 @@ namespace Music.SDK
                 return Result;
             }, ex => throw ex);
         }
+
+        public MusicResponseOutput MusicPlayAddress(MusicRequestInput Input)
+        {
+            return SyncStatic.TryCatch(() =>
+            {
+                BasicMusic BaseMusic = Instance(Input.MusicPlatformType);
+                MusicResponseOutput Result = new MusicResponseOutput();
+                Result.SongPlayAddressResult = BaseMusic.SongPlayAddress(Input.SheetSearch.Id);
+                return Result;
+            }, ex => throw ex);
+        }
+
+        public MusicResponseOutput MusicLyric(MusicRequestInput Input)
+        {
+            return SyncStatic.TryCatch(() =>
+            {
+                BasicMusic BaseMusic = Instance(Input.MusicPlatformType);
+                MusicResponseOutput Result = new MusicResponseOutput();
+                Result.SongLyricResult = BaseMusic.SongLyric(Input.SheetSearch.Id);
+                return Result;
+            }, ex => throw ex);
+        }
     }
 }

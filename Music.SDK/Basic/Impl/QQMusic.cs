@@ -85,6 +85,17 @@ namespace Music.SDK.Basic.Impl
             }
             return Result;
         }
+
+        internal override MusicLyricResult SongLyric(dynamic Dynamic)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        internal override MusicSongPlayAddressResult SongPlayAddress(dynamic Dynamic)
+        {
+            throw new System.NotImplementedException();
+        }
+
         internal override MusicSongSheetDetailResult SongSheetDetail(string SheetId)
         {
             MusicSongSheetDetailResult Result = new MusicSongSheetDetailResult

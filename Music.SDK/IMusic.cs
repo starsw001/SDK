@@ -10,5 +10,7 @@ namespace Music.SDK
         MusicResponseOutput MusicSearchItem(MusicRequestInput Input);
         MusicResponseOutput MusicSearchSheet(MusicRequestInput Input);
         MusicResponseOutput MusicSearchSheetDetail(MusicRequestInput Input);
+        MusicResponseOutput MusicPlayAddress(MusicRequestInput Input);
+        MusicResponseOutput MusicLyric(MusicRequestInput Input);
     }
 }

@@ -7,6 +7,6 @@ namespace Music.SDK.ViewModel.Request
 {
     public class MusicPlaySearch
     {
-        public MusicSongItem SongItem { get; set; }
+        public dynamic Dynamic  { get; set; }
     }
 }

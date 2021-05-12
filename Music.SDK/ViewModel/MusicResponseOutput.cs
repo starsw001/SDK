@@ -14,5 +14,9 @@ namespace Music.SDK.ViewModel
         public MusicSongSheetResult SongSheetResult { get; set; }
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public MusicSongSheetDetailResult SongSheetDetailResult { get; set; }
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public MusicSongPlayAddressResult SongPlayAddressResult { get; set; }
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public MusicLyricResult SongLyricResult { get; set; }
     }
 }
