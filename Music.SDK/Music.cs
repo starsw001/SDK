@@ -64,7 +64,7 @@ namespace Music.SDK
             {
                 BasicMusic BaseMusic = Instance(Input.MusicPlatformType);
                 MusicResponseOutput Result = new MusicResponseOutput();
-                Result.SongPlayAddressResult = BaseMusic.SongPlayAddress(Input.SheetSearch.Id);
+                Result.SongPlayAddressResult = BaseMusic.SongPlayAddress(Input.AddressSearch.Dynamic);
                 return Result;
             }, ex => throw ex);
         }
@@ -75,7 +75,7 @@ namespace Music.SDK
             {
                 BasicMusic BaseMusic = Instance(Input.MusicPlatformType);
                 MusicResponseOutput Result = new MusicResponseOutput();
-                Result.SongLyricResult = BaseMusic.SongLyric(Input.SheetSearch.Id);
+                Result.SongLyricResult = BaseMusic.SongLyric(Input.LyricSearch.Dynamic);
                 return Result;
             }, ex => throw ex);
         }

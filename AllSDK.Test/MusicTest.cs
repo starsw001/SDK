@@ -54,6 +54,19 @@ namespace AllSDK.Test
                 };
             }).Runs();
             Console.WriteLine(SheetDetail.ToJson());
+            var SongURL = MusicFactory.Music(opt =>
+            {
+                opt.RequestParam = new MusicRequestInput
+                {
+                    MusicPlatformType = MusicPlatformEnum.QQMusic,
+                    MusicType = MusicTypeEnum.PlayAddress,
+                    AddressSearch = new  MusicPlaySearch
+                    {
+                       Dynamic= SheetDetail.SongSheetDetailResult.SongItems.FirstOrDefault().SongMId
+                    }
+                };
+            }).Runs();
+            Console.WriteLine(SongURL.ToJson());
         }
     }
 }

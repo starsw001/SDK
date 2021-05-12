@@ -27,7 +27,7 @@ namespace Music.SDK.ViewModel
         /// <summary>
         /// 地址检索
         /// </summary>
-        public MusicPlaySearch PlaySearch { get; set; }
+        public MusicPlaySearch AddressSearch { get; set; }
         /// <summary>
         /// 歌词检索
         /// </summary>
