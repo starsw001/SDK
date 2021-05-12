@@ -21,5 +21,11 @@ namespace Music.SDK.Basic
         /// <param name="Page"></param>
         /// <returns></returns>
         internal abstract MusicSongSheetResult SearchSongSheet(string KeyWord, int Page);
+        /// <summary>
+        /// 获取歌单详情
+        /// </summary>
+        /// <param name="SheetId"></param>
+        /// <returns></returns>
+        internal abstract MusicSongSheetDetailResult SongSheetDetail(string SheetId);
     }
 }

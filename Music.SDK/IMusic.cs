@@ -9,5 +9,6 @@ namespace Music.SDK
     {
         MusicResponseOutput MusicSearchItem(MusicRequestInput Input);
         MusicResponseOutput MusicSearchSheet(MusicRequestInput Input);
+        MusicResponseOutput MusicSearchSheetDetail(MusicRequestInput Input);
     }
 }

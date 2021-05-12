@@ -9,7 +9,7 @@ namespace Music.SDK
     public class MusicFactory
     {
         public MusicRequestInput RequestParam { get; set; }
-        public static MusicFactory LightNovel(Action<MusicFactory> action)
+        public static MusicFactory Music(Action<MusicFactory> action)
         {
             MusicFactory factory = new MusicFactory();
             action(factory);
@@ -24,6 +24,7 @@ namespace Music.SDK
             {
                 MusicTypeEnum.SongItem => music.MusicSearchItem(RequestParam),
                 MusicTypeEnum.SongSheet => music.MusicSearchSheet(RequestParam),
+                MusicTypeEnum.SheetDetail=> music.MusicSearchSheetDetail(RequestParam),
                 _ => null
             };
         }

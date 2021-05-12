@@ -21,6 +21,10 @@ namespace Music.SDK.ViewModel
         /// </summary>
         public MusicSearch Search { get; set; }
         /// <summary>
+        /// 歌单详情
+        /// </summary>
+        public MusicSheetSearch SheetSearch { get; set; }
+        /// <summary>
         /// 地址检索
         /// </summary>
         public MusicPlaySearch PlaySearch { get; set; }

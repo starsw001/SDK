@@ -15,6 +15,10 @@ namespace Music.SDK.ViewModel.Enums
         /// </summary>
         SongSheet,
         /// <summary>
+        /// 歌单详情
+        /// </summary>
+        SheetDetail,
+        /// <summary>
         /// 地址
         /// </summary>
         PlayAddress,
