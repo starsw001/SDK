@@ -23,6 +23,7 @@ namespace Music.SDK
             return RequestParam.MusicType switch
             {
                 MusicTypeEnum.SongItem => music.MusicSearchItem(RequestParam),
+                MusicTypeEnum.AlbumDetail => music.MusicSearchAlbumDetail(RequestParam),
                 MusicTypeEnum.SongSheet => music.MusicSearchSheet(RequestParam),
                 MusicTypeEnum.SheetDetail=> music.MusicSearchSheetDetail(RequestParam),
                 MusicTypeEnum.PlayAddress=> music.MusicPlayAddress(RequestParam),

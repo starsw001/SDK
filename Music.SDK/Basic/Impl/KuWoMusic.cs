@@ -16,6 +16,11 @@ namespace Music.SDK.Basic.Impl
             throw new NotImplementedException();
         }
 
+        internal override MusicSongAlbumDetailResult SongAlbumDetail(string AlbumId)
+        {
+            throw new NotImplementedException();
+        }
+
         internal override MusicLyricResult SongLyric(dynamic Dynamic)
         {
             throw new NotImplementedException();

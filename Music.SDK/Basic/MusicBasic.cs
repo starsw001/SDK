@@ -28,6 +28,12 @@ namespace Music.SDK.Basic
         /// <returns></returns>
         internal abstract MusicSongSheetDetailResult SongSheetDetail(string SheetId);
         /// <summary>
+        /// 获取专辑
+        /// </summary>
+        /// <param name="AlbumId"></param>
+        /// <returns></returns>
+        internal abstract MusicSongAlbumDetailResult SongAlbumDetail(string AlbumId);
+        /// <summary>
         /// 获取播放地址
         /// </summary>
         /// <param name="Dynamic"></param>

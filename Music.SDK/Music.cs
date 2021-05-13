@@ -47,6 +47,17 @@ namespace Music.SDK
             }, ex => throw ex);
         }
 
+        public MusicResponseOutput MusicSearchAlbumDetail(MusicRequestInput Input)
+        {
+            return SyncStatic.TryCatch(() =>
+            {
+                BasicMusic BaseMusic = Instance(Input.MusicPlatformType);
+                MusicResponseOutput Result = new MusicResponseOutput();
+                Result.SongAlbumDetailResult = BaseMusic.SongAlbumDetail(Input.AlbumSearch.AlbumId);
+                return Result;
+            }, ex => throw ex);
+        }
+
         public MusicResponseOutput MusicSearchSheetDetail(MusicRequestInput Input)
         {
             return SyncStatic.TryCatch(() =>
@@ -79,5 +90,6 @@ namespace Music.SDK
                 return Result;
             }, ex => throw ex);
         }
+
     }
 }

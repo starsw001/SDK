@@ -14,6 +14,11 @@ namespace Music.SDK.ViewModel.Response
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public MusicPlatformEnum? MusicPlatformType { get; set; }
         /// <summary>
+        /// 能否播放
+        /// </summary>
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public bool CanPlay { get; set; }
+        /// <summary>
         /// 歌曲地址
         /// </summary>
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]

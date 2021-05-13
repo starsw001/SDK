@@ -15,19 +15,36 @@ namespace AllSDK.Test
     {
         public static void MusicAllTest()
         {
-            /* var SongItem = MusicFactory.Music(opt =>
-             {
-                 opt.RequestParam = new MusicRequestInput
-                 {
-                     MusicPlatformType = MusicPlatformEnum.QQMusic,
-                     MusicType = MusicTypeEnum.SongItem,
-                     Search = new MusicSearch
-                     {
-                         KeyWord = "杨千嬅"
-                     }
-                 };
-             }).Runs();
-             Console.WriteLine(SongItem.ToJson());*/
+
+            //单曲
+            var SongItem = MusicFactory.Music(opt =>
+            {
+                opt.RequestParam = new MusicRequestInput
+                {
+                    MusicPlatformType = MusicPlatformEnum.QQMusic,
+                    MusicType = MusicTypeEnum.SongItem,
+                    Search = new MusicSearch
+                    {
+                        KeyWord = "杨千嬅"
+                    }
+                };
+            }).Runs();
+            Console.WriteLine(SongItem.ToJson());
+            //专辑
+            var SongAlbum = MusicFactory.Music(opt =>
+            {
+                opt.RequestParam = new MusicRequestInput
+                {
+                    MusicPlatformType = MusicPlatformEnum.QQMusic,
+                    MusicType = MusicTypeEnum.AlbumDetail,
+                    AlbumSearch = new MusicAlbumSearch
+                    {
+                        AlbumId = SongItem.SongItemResult.SongItems.FirstOrDefault().SongAlbumMId
+                    }
+                };
+            }).Runs();
+            Console.WriteLine(SongAlbum.ToJson());
+            //歌单
             var SongSheet = MusicFactory.Music(opt =>
             {
                 opt.RequestParam = new MusicRequestInput
@@ -41,6 +58,7 @@ namespace AllSDK.Test
                 };
             }).Runs();
             Console.WriteLine(SongSheet.ToJson());
+            //歌单详情
             var SheetDetail = MusicFactory.Music(opt =>
             {
                 opt.RequestParam = new MusicRequestInput
@@ -54,19 +72,34 @@ namespace AllSDK.Test
                 };
             }).Runs();
             Console.WriteLine(SheetDetail.ToJson());
+            //地址
             var SongURL = MusicFactory.Music(opt =>
             {
                 opt.RequestParam = new MusicRequestInput
                 {
                     MusicPlatformType = MusicPlatformEnum.QQMusic,
                     MusicType = MusicTypeEnum.PlayAddress,
-                    AddressSearch = new  MusicPlaySearch
+                    AddressSearch = new MusicPlaySearch
                     {
-                       Dynamic= SheetDetail.SongSheetDetailResult.SongItems.FirstOrDefault().SongMId
+                        Dynamic = SheetDetail.SongSheetDetailResult.SongItems.FirstOrDefault().SongMId
                     }
                 };
             }).Runs();
             Console.WriteLine(SongURL.ToJson());
+            //歌词
+            var SongLyric = MusicFactory.Music(opt =>
+            {
+                opt.RequestParam = new MusicRequestInput
+                {
+                    MusicPlatformType = MusicPlatformEnum.QQMusic,
+                    MusicType = MusicTypeEnum.Lyric,
+                    LyricSearch = new MusicLyricSearch
+                    {
+                        Dynamic = SheetDetail.SongSheetDetailResult.SongItems.FirstOrDefault().SongMId
+                    }
+                };
+            }).Runs();
+            Console.WriteLine(SongLyric.ToJson());
         }
     }
 }
