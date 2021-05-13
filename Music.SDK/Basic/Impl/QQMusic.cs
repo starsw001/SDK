@@ -41,6 +41,7 @@ namespace Music.SDK.Basic.Impl
                 MusicSongItem Item = new MusicSongItem
                 {
                     MusicPlatformType = MusicPlatformEnum.QQMusic,
+                    SongUrl= (string)jToken["songurl"],
                     SongId = (long)jToken["songid"],
                     SongMId = (string)jToken["songmid"],
                     SongGId = (string)jToken["songmid"],
@@ -99,6 +100,7 @@ namespace Music.SDK.Basic.Impl
               .Build().RunString().FirstOrDefault();
             var jobject = response.ToModel<JObject>();
             Result.AlbumName = (string)jobject.SelectToken("data.album_name");
+            Result.MusicPlatformType = MusicPlatformEnum.QQMusic;
             foreach (var jToken in jobject["data"]["songlist"])
             {
                 MusicSongItem Item = new MusicSongItem

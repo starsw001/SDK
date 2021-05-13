@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -65,16 +66,17 @@ namespace Music.SDK.ViewModel.Response
                 }
             }
         }
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string Title { get; set; }
-
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string Artist { get; set; }
-
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string Album { get; set; }
-
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string LrcBy { get; set; }
-
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string Offset { get; set; }
-
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public List<MusicLyricItemResult> Lyrics { get; set; }
 
         public override string ToString()

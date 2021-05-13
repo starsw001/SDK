@@ -13,93 +13,135 @@ namespace AllSDK.Test
 {
     public class MusicTest
     {
-        public static void MusicAllTest()
+        public static void MusicAllTest(int Type)
         {
-
-            //单曲
-            var SongItem = MusicFactory.Music(opt =>
+            if (Type == 0)
             {
-                opt.RequestParam = new MusicRequestInput
+                #region QQ
+                //单曲
+                var SongItem = MusicFactory.Music(opt =>
                 {
-                    MusicPlatformType = MusicPlatformEnum.QQMusic,
-                    MusicType = MusicTypeEnum.SongItem,
-                    Search = new MusicSearch
+                    opt.RequestParam = new MusicRequestInput
                     {
-                        KeyWord = "杨千嬅"
-                    }
-                };
-            }).Runs();
-            Console.WriteLine(SongItem.ToJson());
-            //专辑
-            var SongAlbum = MusicFactory.Music(opt =>
+                        MusicPlatformType = MusicPlatformEnum.QQMusic,
+                        MusicType = MusicTypeEnum.SongItem,
+                        Search = new MusicSearch
+                        {
+                            KeyWord = "杨千嬅"
+                        }
+                    };
+                }).Runs();
+                Console.WriteLine(SongItem.ToJson());
+                //专辑
+                var SongAlbum = MusicFactory.Music(opt =>
+                {
+                    opt.RequestParam = new MusicRequestInput
+                    {
+                        MusicPlatformType = MusicPlatformEnum.QQMusic,
+                        MusicType = MusicTypeEnum.AlbumDetail,
+                        AlbumSearch = new MusicAlbumSearch
+                        {
+                            AlbumId = SongItem.SongItemResult.SongItems.FirstOrDefault().SongAlbumMId
+                        }
+                    };
+                }).Runs();
+                Console.WriteLine(SongAlbum.ToJson());
+                //歌单
+                var SongSheet = MusicFactory.Music(opt =>
+                {
+                    opt.RequestParam = new MusicRequestInput
+                    {
+                        MusicPlatformType = MusicPlatformEnum.QQMusic,
+                        MusicType = MusicTypeEnum.SongSheet,
+                        Search = new MusicSearch
+                        {
+                            KeyWord = "杨千嬅"
+                        }
+                    };
+                }).Runs();
+                Console.WriteLine(SongSheet.ToJson());
+                //歌单详情
+                var SheetDetail = MusicFactory.Music(opt =>
+                {
+                    opt.RequestParam = new MusicRequestInput
+                    {
+                        MusicPlatformType = MusicPlatformEnum.QQMusic,
+                        MusicType = MusicTypeEnum.SheetDetail,
+                        SheetSearch = new MusicSheetSearch
+                        {
+                            Id = SongSheet.SongSheetResult.SongSheetItems.FirstOrDefault().SongSheetId.AsString()
+                        }
+                    };
+                }).Runs();
+                Console.WriteLine(SheetDetail.ToJson());
+                //地址
+                var SongURL = MusicFactory.Music(opt =>
+                {
+                    opt.RequestParam = new MusicRequestInput
+                    {
+                        MusicPlatformType = MusicPlatformEnum.QQMusic,
+                        MusicType = MusicTypeEnum.PlayAddress,
+                        AddressSearch = new MusicPlaySearch
+                        {
+                            Dynamic = SheetDetail.SongSheetDetailResult.SongItems.FirstOrDefault().SongMId
+                        }
+                    };
+                }).Runs();
+                Console.WriteLine(SongURL.ToJson());
+                //歌词
+                var SongLyric = MusicFactory.Music(opt =>
+                {
+                    opt.RequestParam = new MusicRequestInput
+                    {
+                        MusicPlatformType = MusicPlatformEnum.QQMusic,
+                        MusicType = MusicTypeEnum.Lyric,
+                        LyricSearch = new MusicLyricSearch
+                        {
+                            Dynamic = SheetDetail.SongSheetDetailResult.SongItems.FirstOrDefault().SongMId
+                        }
+                    };
+                }).Runs();
+                Console.WriteLine(SongLyric.ToJson());
+                #endregion
+            }
+            else if (Type == 1)
             {
-                opt.RequestParam = new MusicRequestInput
+                #region KuGou
+                //单曲
+                var SongItem = MusicFactory.Music(opt =>
                 {
-                    MusicPlatformType = MusicPlatformEnum.QQMusic,
-                    MusicType = MusicTypeEnum.AlbumDetail,
-                    AlbumSearch = new MusicAlbumSearch
+                    opt.RequestParam = new MusicRequestInput
                     {
-                        AlbumId = SongItem.SongItemResult.SongItems.FirstOrDefault().SongAlbumMId
-                    }
-                };
-            }).Runs();
-            Console.WriteLine(SongAlbum.ToJson());
-            //歌单
-            var SongSheet = MusicFactory.Music(opt =>
+                        MusicPlatformType = MusicPlatformEnum.KuGouMusic,
+                        MusicType = MusicTypeEnum.SongItem,
+                        Search = new MusicSearch
+                        {
+                            KeyWord = "处处吻"
+                        }
+                    };
+                }).Runs();
+                Console.WriteLine(SongItem.ToJson());
+                #endregion
+            }
+            else if (Type == 2)
             {
-                opt.RequestParam = new MusicRequestInput
+                #region KuWo
+                //单曲
+                var SongItem = MusicFactory.Music(opt =>
                 {
-                    MusicPlatformType = MusicPlatformEnum.QQMusic,
-                    MusicType = MusicTypeEnum.SongSheet,
-                    Search = new MusicSearch
+                    opt.RequestParam = new MusicRequestInput
                     {
-                        KeyWord = "杨千嬅"
-                    }
-                };
-            }).Runs();
-            Console.WriteLine(SongSheet.ToJson());
-            //歌单详情
-            var SheetDetail = MusicFactory.Music(opt =>
-            {
-                opt.RequestParam = new MusicRequestInput
-                {
-                    MusicPlatformType = MusicPlatformEnum.QQMusic,
-                    MusicType = MusicTypeEnum.SheetDetail,
-                    SheetSearch = new MusicSheetSearch
-                    {
-                        Id = SongSheet.SongSheetResult.SongSheetItems.FirstOrDefault().SongSheetId.AsString()
-                    }
-                };
-            }).Runs();
-            Console.WriteLine(SheetDetail.ToJson());
-            //地址
-            var SongURL = MusicFactory.Music(opt =>
-            {
-                opt.RequestParam = new MusicRequestInput
-                {
-                    MusicPlatformType = MusicPlatformEnum.QQMusic,
-                    MusicType = MusicTypeEnum.PlayAddress,
-                    AddressSearch = new MusicPlaySearch
-                    {
-                        Dynamic = SheetDetail.SongSheetDetailResult.SongItems.FirstOrDefault().SongMId
-                    }
-                };
-            }).Runs();
-            Console.WriteLine(SongURL.ToJson());
-            //歌词
-            var SongLyric = MusicFactory.Music(opt =>
-            {
-                opt.RequestParam = new MusicRequestInput
-                {
-                    MusicPlatformType = MusicPlatformEnum.QQMusic,
-                    MusicType = MusicTypeEnum.Lyric,
-                    LyricSearch = new MusicLyricSearch
-                    {
-                        Dynamic = SheetDetail.SongSheetDetailResult.SongItems.FirstOrDefault().SongMId
-                    }
-                };
-            }).Runs();
-            Console.WriteLine(SongLyric.ToJson());
+                        MusicPlatformType = MusicPlatformEnum.KuWoMusic,
+                        MusicType = MusicTypeEnum.SongItem,
+                        Search = new MusicSearch
+                        {
+                            KeyWord = "处处吻"
+                        }
+                    };
+                }).Runs();
+                Console.WriteLine(SongItem.ToJson());
+                #endregion
+            }
         }
     }
 }
