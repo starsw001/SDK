@@ -32,7 +32,7 @@ namespace AllSDK.Test
                     };
                 }).Runs();
                 Console.WriteLine(SongItem.ToJson());
-                //专辑
+                //关联专辑
                 var SongAlbum = MusicFactory.Music(opt =>
                 {
                     opt.RequestParam = new MusicRequestInput
@@ -127,7 +127,7 @@ namespace AllSDK.Test
             {
                 #region KuWo
                 //单曲
-               /* var SongItem = MusicFactory.Music(opt =>
+                var SongItem = MusicFactory.Music(opt =>
                 {
                     opt.RequestParam = new MusicRequestInput
                     {
@@ -153,7 +153,7 @@ namespace AllSDK.Test
                         }
                     };
                 }).Runs();
-                Console.WriteLine(SongSheet.ToJson());*/
+                Console.WriteLine(SongSheet.ToJson());
                 //歌单详情
                 var SheetDetail = MusicFactory.Music(opt =>
                 {
@@ -163,11 +163,53 @@ namespace AllSDK.Test
                         MusicType = MusicTypeEnum.SheetDetail,
                         SheetSearch = new MusicSheetSearch
                         {
-                            Id = "2602564582"//SongSheet.SongSheetResult.SongSheetItems.FirstOrDefault().SongSheetId.AsString()
+                            Id = SongSheet.SongSheetResult.SongSheetItems.FirstOrDefault().SongSheetId.AsString()
                         }
                     };
                 }).Runs();
                 Console.WriteLine(SheetDetail.ToJson());
+                //关联专辑
+                var SongAlbum = MusicFactory.Music(opt =>
+                {
+                    opt.RequestParam = new MusicRequestInput
+                    {
+                        MusicPlatformType = MusicPlatformEnum.KuWoMusic,
+                        MusicType = MusicTypeEnum.AlbumDetail,
+                        AlbumSearch = new MusicAlbumSearch
+                        {
+                            AlbumId = SongItem.SongItemResult.SongItems.FirstOrDefault().SongAlbumId.AsString()
+                        }
+                    };
+                }).Runs();
+                Console.WriteLine(SongAlbum.ToJson());
+                //歌词
+                var SongLyric = MusicFactory.Music(opt =>
+                {
+                    opt.RequestParam = new MusicRequestInput
+                    {
+                        MusicPlatformType = MusicPlatformEnum.KuWoMusic,
+                        MusicType = MusicTypeEnum.Lyric,
+                        LyricSearch = new MusicLyricSearch
+                        {
+                            Dynamic = SheetDetail.SongSheetDetailResult.SongItems.FirstOrDefault().SongId
+                        }
+                    };
+                }).Runs();
+                Console.WriteLine(SongLyric.ToJson());
+                //地址
+                var SongURL = MusicFactory.Music(opt =>
+                {
+                    opt.RequestParam = new MusicRequestInput
+                    {
+                        MusicPlatformType = MusicPlatformEnum.KuWoMusic,
+                        MusicType = MusicTypeEnum.PlayAddress,
+                        AddressSearch = new MusicPlaySearch
+                        {
+                            Dynamic = 89656617//SheetDetail.SongSheetDetailResult.SongItems.FirstOrDefault().SongId
+                        }
+                    };
+                }).Runs();
+                Console.WriteLine(SongURL.ToJson());
                 #endregion
             }
         }
