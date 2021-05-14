@@ -15,9 +15,9 @@ namespace Music.SDK.Basic.Impl
         private const string SongURL = "https://songsearch.kugou.com/song_search_v2?keyword={0}&page={1}";
         private Dictionary<string, string> Headers = new Dictionary<string, string>
         {
-            {"Referer","https://www.kuwo.cn/" },
-            {"Origin","https://www.kuwo.cn/" },
-            { "Cookie","kg_mid=c4ca4238a0b923820dcc509a6f75849b;"}
+            {"Referer","https://www.kugou.com/" },
+            {"Origin","https://www.kugou.com/" },
+            {"Cookie","kg_mid=c4ca4238a0b923820dcc509a6f75849b;"}
         };
 
         internal override MusicSongItemResult SearchSong(string KeyWord, int Page)
@@ -26,7 +26,7 @@ namespace Music.SDK.Basic.Impl
             {
                 SongItems = new List<MusicSongItem>()
             };
-            var response = IHttpMultiClient.HttpMulti.Headers(Headers)
+            var response = IHttpMultiClient.HttpMulti.Header(Headers)
                  .AddNode(string.Format(SongURL, KeyWord, Page))
                  .Build().RunString().FirstOrDefault();
 
@@ -39,8 +39,6 @@ namespace Music.SDK.Basic.Impl
                 MusicSongItem songItem = new MusicSongItem
                 {
                     MusicPlatformType = MusicPlatformEnum.KuGouMusic,
-                    SongUrl = $"https://www.kugou.com/song/#hash={fileHash}&album_id={albumId}",
-                    SongGId = fileHash,
                     SongFileHash = fileHash,
                     SongName = (string)jToken["SongName"],
                     SongAlbumId = albumId,
@@ -76,7 +74,7 @@ namespace Music.SDK.Basic.Impl
             throw new NotImplementedException();
         }
 
-        internal override MusicSongSheetDetailResult SongSheetDetail(string SheetId)
+        internal override MusicSongSheetDetailResult SongSheetDetail(string SheetId, int Page)
         {
             throw new NotImplementedException();
         }

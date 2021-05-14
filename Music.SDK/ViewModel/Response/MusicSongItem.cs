@@ -15,12 +15,6 @@ namespace Music.SDK.ViewModel.Response
         public MusicPlatformEnum? MusicPlatformType { get; set; }
 
         /// <summary>
-        /// 歌曲Url链接
-        /// </summary>
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public string SongUrl { get; set; }
-
-        /// <summary>
         /// 歌曲ID
         /// </summary>
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
@@ -31,12 +25,6 @@ namespace Music.SDK.ViewModel.Response
         /// </summary>
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string SongMId { get; set; }
-
-        /// <summary>
-        /// 歌曲GID (通用ID)
-        /// </summary>
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public string SongGId { get; set; }
 
         /// <summary>
         /// 歌曲文件Hash

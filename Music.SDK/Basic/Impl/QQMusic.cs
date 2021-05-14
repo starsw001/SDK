@@ -30,7 +30,7 @@ namespace Music.SDK.Basic.Impl
             {
                 SongItems = new List<MusicSongItem>()
             };
-            var response = IHttpMultiClient.HttpMulti.Headers(Headers)
+            var response = IHttpMultiClient.HttpMulti.Header(Headers)
                  .AddNode(string.Format(SongURL, KeyWord, Page))
                  .Build().RunString().FirstOrDefault();
 
@@ -41,10 +41,8 @@ namespace Music.SDK.Basic.Impl
                 MusicSongItem Item = new MusicSongItem
                 {
                     MusicPlatformType = MusicPlatformEnum.QQMusic,
-                    SongUrl= (string)jToken["songurl"],
                     SongId = (long)jToken["songid"],
                     SongMId = (string)jToken["songmid"],
-                    SongGId = (string)jToken["songmid"],
                     SongName = (string)jToken["songname"],
                     SongAlbumId = (long)jToken["albumid"],
                     SongAlbumMId = (string)jToken["albummid"],
@@ -67,7 +65,7 @@ namespace Music.SDK.Basic.Impl
             {
                 SongSheetItems = new List<MusicSongSheetItem>()
             };
-            var response = IHttpMultiClient.HttpMulti.Headers(Headers)
+            var response = IHttpMultiClient.HttpMulti.Header(Headers)
                 .AddNode(string.Format(SongSheetURL, KeyWord, Page))
                 .Build().RunString().FirstOrDefault();
 
@@ -95,7 +93,7 @@ namespace Music.SDK.Basic.Impl
             {
                 SongItems = new List<MusicSongItem>()
             };
-            var response = IHttpMultiClient.HttpMulti.Headers(Headers)
+            var response = IHttpMultiClient.HttpMulti.Header(Headers)
               .AddNode(string.Format(AlbumURL, AlbumId))
               .Build().RunString().FirstOrDefault();
             var jobject = response.ToModel<JObject>();
@@ -108,7 +106,6 @@ namespace Music.SDK.Basic.Impl
                     MusicPlatformType = MusicPlatformEnum.QQMusic,
                     SongId = (long)jToken["songid"],
                     SongMId = (string)jToken["songmid"],
-                    SongGId = (string)jToken["songmid"],
                     SongName = (string)jToken["songname"],
                     SongAlbumId = (long)jToken["albumid"],
                     SongAlbumMId = (string)jToken["albummid"],
@@ -127,7 +124,7 @@ namespace Music.SDK.Basic.Impl
 
         internal override MusicLyricResult SongLyric(dynamic Dynamic)
         {
-            var response = IHttpMultiClient.HttpMulti.Headers(Headers)
+            var response = IHttpMultiClient.HttpMulti.Header(Headers)
                 .AddNode((string)string.Format(LyricURL, Dynamic))
                 .Build().RunString().FirstOrDefault();
             var jToken = response.ToModel<JObject>().Value<string>("lyric");
@@ -158,14 +155,14 @@ namespace Music.SDK.Basic.Impl
             return Result;
         }
 
-        internal override MusicSongSheetDetailResult SongSheetDetail(string SheetId)
+        internal override MusicSongSheetDetailResult SongSheetDetail(string SheetId, int Page)
         {
             MusicSongSheetDetailResult Result = new MusicSongSheetDetailResult
             {
                 SongItems = new List<MusicSongItem>()
             };
 
-            var response = IHttpMultiClient.HttpMulti.Headers(Headers)
+            var response = IHttpMultiClient.HttpMulti.Header(Headers)
                .AddNode(string.Format(PlayListURL, SheetId))
                .Build().RunString().FirstOrDefault();
 
@@ -182,7 +179,6 @@ namespace Music.SDK.Basic.Impl
                 {
                     SongId = (long)jToken["songid"],
                     SongMId = (string)jToken["songmid"],
-                    SongGId = (string)jToken["songmid"],
                     SongName = (string)jToken["songname"],
                     SongAlbumId = (long)jToken["albumid"],
                     SongAlbumMId = (string)jToken["albummid"],

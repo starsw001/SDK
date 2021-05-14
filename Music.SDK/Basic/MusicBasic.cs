@@ -25,8 +25,9 @@ namespace Music.SDK.Basic
         /// 获取歌单详情
         /// </summary>
         /// <param name="SheetId"></param>
+        /// <param name="Page"></param>
         /// <returns></returns>
-        internal abstract MusicSongSheetDetailResult SongSheetDetail(string SheetId);
+        internal abstract MusicSongSheetDetailResult SongSheetDetail(string SheetId,int Page);
         /// <summary>
         /// 获取专辑
         /// </summary>

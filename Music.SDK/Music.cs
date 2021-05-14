@@ -64,7 +64,7 @@ namespace Music.SDK
             {
                 BasicMusic BaseMusic = Instance(Input.MusicPlatformType);
                 MusicResponseOutput Result = new MusicResponseOutput();
-                Result.SongSheetDetailResult = BaseMusic.SongSheetDetail(Input.SheetSearch.Id);
+                Result.SongSheetDetailResult = BaseMusic.SongSheetDetail(Input.SheetSearch.Id,Input.SheetSearch.Page);
                 return Result;
             }, ex => throw ex);
         }

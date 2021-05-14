@@ -32,7 +32,7 @@ namespace Music.SDK.Basic.Impl
             throw new NotImplementedException();
         }
 
-        internal override MusicSongSheetDetailResult SongSheetDetail(string SheetId)
+        internal override MusicSongSheetDetailResult SongSheetDetail(string SheetId, int Page)
         {
             throw new NotImplementedException();
         }

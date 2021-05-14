@@ -10,5 +10,6 @@ namespace Music.SDK.ViewModel.Request
         /// 歌单Id
         /// </summary>
         public string Id { get; set; }
+        public int Page { get; set; } = 1;
     }
 }
