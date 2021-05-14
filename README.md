@@ -6,3 +6,5 @@
 	Novel.SDK 是小说的SDK
 	Wallpaper.SDK 是konachan的SDK
 	Music.SDK 是国内音乐平台的SDK
+##### **食用**
+	参考AllSDK.Test
