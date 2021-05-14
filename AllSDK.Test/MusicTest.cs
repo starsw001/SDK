@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using XExten.Advance.LinqFramework;
 
@@ -32,6 +33,7 @@ namespace AllSDK.Test
                     };
                 }).Runs();
                 Console.WriteLine(SongItem.ToJson());
+                Thread.Sleep(1000);
                 //关联专辑
                 var SongAlbum = MusicFactory.Music(opt =>
                 {
@@ -46,6 +48,7 @@ namespace AllSDK.Test
                     };
                 }).Runs();
                 Console.WriteLine(SongAlbum.ToJson());
+                Thread.Sleep(1000);
                 //歌单
                 var SongSheet = MusicFactory.Music(opt =>
                 {
@@ -60,6 +63,7 @@ namespace AllSDK.Test
                     };
                 }).Runs();
                 Console.WriteLine(SongSheet.ToJson());
+                Thread.Sleep(1000);
                 //歌单详情
                 var SheetDetail = MusicFactory.Music(opt =>
                 {
@@ -74,6 +78,7 @@ namespace AllSDK.Test
                     };
                 }).Runs();
                 Console.WriteLine(SheetDetail.ToJson());
+                Thread.Sleep(1000);
                 //地址
                 var SongURL = MusicFactory.Music(opt =>
                 {
@@ -88,6 +93,7 @@ namespace AllSDK.Test
                     };
                 }).Runs();
                 Console.WriteLine(SongURL.ToJson());
+                Thread.Sleep(1000);
                 //歌词
                 var SongLyric = MusicFactory.Music(opt =>
                 {
@@ -140,6 +146,7 @@ namespace AllSDK.Test
                     };
                 }).Runs();
                 Console.WriteLine(SongItem.ToJson());
+                Thread.Sleep(1000);
                 //歌单
                 var SongSheet = MusicFactory.Music(opt =>
                 {
@@ -154,6 +161,7 @@ namespace AllSDK.Test
                     };
                 }).Runs();
                 Console.WriteLine(SongSheet.ToJson());
+                Thread.Sleep(1000);
                 //歌单详情
                 var SheetDetail = MusicFactory.Music(opt =>
                 {
@@ -168,6 +176,7 @@ namespace AllSDK.Test
                     };
                 }).Runs();
                 Console.WriteLine(SheetDetail.ToJson());
+                Thread.Sleep(1000);
                 //关联专辑
                 var SongAlbum = MusicFactory.Music(opt =>
                 {
@@ -196,6 +205,7 @@ namespace AllSDK.Test
                     };
                 }).Runs();
                 Console.WriteLine(SongLyric.ToJson());
+                Thread.Sleep(1000);
                 //地址
                 var SongURL = MusicFactory.Music(opt =>
                 {

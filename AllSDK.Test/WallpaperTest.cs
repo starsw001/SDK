@@ -8,6 +8,7 @@ using Wallpaper.SDK;
 using Wallpaper.SDK.ViewModel;
 using Wallpaper.SDK.ViewModel.Enums;
 using Wallpaper.SDK.ViewModel.Request;
+using System.Threading;
 
 namespace AllSDK.Test
 {
@@ -26,6 +27,7 @@ namespace AllSDK.Test
                   };
               }).Runs();
             Console.WriteLine(WallpaperInit.ToJson());
+            Thread.Sleep(1000);
             var WallpaperSearch = WallpaperFactory.Wallpaper(opt =>
             {
                 opt.RequestParam = new WallpaperRequestInput
