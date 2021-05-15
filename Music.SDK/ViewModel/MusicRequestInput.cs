@@ -17,6 +17,10 @@ namespace Music.SDK.ViewModel
         /// </summary>
         public MusicTypeEnum MusicType { get; set; }
         /// <summary>
+        /// 代理
+        /// </summary>
+        public MusicProxy Proxy { get; set; }
+        /// <summary>
         /// 关键字检索
         /// </summary>
         public MusicSearch Search { get; set; }

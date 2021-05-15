@@ -31,7 +31,7 @@ namespace Music.SDK
             {
                 BasicMusic BaseMusic = Instance(Input.MusicPlatformType);
                 MusicResponseOutput Result = new MusicResponseOutput();
-                Result.SongItemResult = BaseMusic.SearchSong(Input.Search.KeyWord, Input.Search.Page);
+                Result.SongItemResult = BaseMusic.SearchSong(Input.Search,Input.Proxy);
                 return Result;
             }, ex => throw ex);
         }
@@ -42,7 +42,7 @@ namespace Music.SDK
             {
                 BasicMusic BaseMusic = Instance(Input.MusicPlatformType);
                 MusicResponseOutput Result = new MusicResponseOutput();
-                Result.SongSheetResult = BaseMusic.SearchSongSheet(Input.Search.KeyWord, Input.Search.Page);
+                Result.SongSheetResult = BaseMusic.SearchSongSheet(Input.Search, Input.Proxy);
                 return Result;
             }, ex => throw ex);
         }
@@ -53,7 +53,7 @@ namespace Music.SDK
             {
                 BasicMusic BaseMusic = Instance(Input.MusicPlatformType);
                 MusicResponseOutput Result = new MusicResponseOutput();
-                Result.SongAlbumDetailResult = BaseMusic.SongAlbumDetail(Input.AlbumSearch.AlbumId);
+                Result.SongAlbumDetailResult = BaseMusic.SongAlbumDetail(Input.AlbumSearch, Input.Proxy);
                 return Result;
             }, ex => throw ex);
         }
@@ -64,7 +64,7 @@ namespace Music.SDK
             {
                 BasicMusic BaseMusic = Instance(Input.MusicPlatformType);
                 MusicResponseOutput Result = new MusicResponseOutput();
-                Result.SongSheetDetailResult = BaseMusic.SongSheetDetail(Input.SheetSearch.Id,Input.SheetSearch.Page);
+                Result.SongSheetDetailResult = BaseMusic.SongSheetDetail(Input.SheetSearch, Input.Proxy);
                 return Result;
             }, ex => throw ex);
         }
@@ -75,7 +75,7 @@ namespace Music.SDK
             {
                 BasicMusic BaseMusic = Instance(Input.MusicPlatformType);
                 MusicResponseOutput Result = new MusicResponseOutput();
-                Result.SongPlayAddressResult = BaseMusic.SongPlayAddress(Input.AddressSearch.Dynamic);
+                Result.SongPlayAddressResult = BaseMusic.SongPlayAddress(Input.AddressSearch, Input.Proxy);
                 return Result;
             }, ex => throw ex);
         }
@@ -86,7 +86,7 @@ namespace Music.SDK
             {
                 BasicMusic BaseMusic = Instance(Input.MusicPlatformType);
                 MusicResponseOutput Result = new MusicResponseOutput();
-                Result.SongLyricResult = BaseMusic.SongLyric(Input.LyricSearch.Dynamic);
+                Result.SongLyricResult = BaseMusic.SongLyric(Input.LyricSearch, Input.Proxy);
                 return Result;
             }, ex => throw ex);
         }

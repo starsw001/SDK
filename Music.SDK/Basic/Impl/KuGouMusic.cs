@@ -1,4 +1,5 @@
 ﻿using Music.SDK.ViewModel.Enums;
+using Music.SDK.ViewModel.Request;
 using Music.SDK.ViewModel.Response;
 using Newtonsoft.Json.Linq;
 using System;
@@ -20,14 +21,14 @@ namespace Music.SDK.Basic.Impl
             {"Cookie","kg_mid=c4ca4238a0b923820dcc509a6f75849b;"}
         };
 
-        internal override MusicSongItemResult SearchSong(string KeyWord, int Page)
+        internal override MusicSongItemResult SearchSong(MusicSearch Input, MusicProxy Proxy)
         {
             MusicSongItemResult Result = new MusicSongItemResult
             {
                 SongItems = new List<MusicSongItem>()
             };
             var response = IHttpMultiClient.HttpMulti.Header(Headers)
-                 .AddNode(string.Format(SongURL, KeyWord, Page))
+                 .AddNode(string.Format(SongURL, Input.KeyWord, Input.Page))
                  .Build().RunString().FirstOrDefault();
 
             var jobject = response.ToModel<JObject>();
@@ -54,27 +55,27 @@ namespace Music.SDK.Basic.Impl
             return Result;
         }
 
-        internal override MusicSongSheetResult SearchSongSheet(string KeyWord, int Page)
+        internal override MusicSongSheetResult SearchSongSheet(MusicSearch Input, MusicProxy Proxy)
         {
             throw new NotImplementedException();
         }
 
-        internal override MusicSongAlbumDetailResult SongAlbumDetail(string AlbumId)
+        internal override MusicSongAlbumDetailResult SongAlbumDetail(MusicAlbumSearch Input, MusicProxy Proxy)
         {
             throw new NotImplementedException();
         }
 
-        internal override MusicLyricResult SongLyric(dynamic Dynamic)
+        internal override MusicLyricResult SongLyric(MusicLyricSearch Input, MusicProxy Proxy)
         {
             throw new NotImplementedException();
         }
 
-        internal override MusicSongPlayAddressResult SongPlayAddress(dynamic Dynamic)
+        internal override MusicSongPlayAddressResult SongPlayAddress(MusicPlaySearch Input, MusicProxy Proxy)
         {
             throw new NotImplementedException();
         }
 
-        internal override MusicSongSheetDetailResult SongSheetDetail(string SheetId, int Page)
+        internal override MusicSongSheetDetailResult SongSheetDetail(MusicSheetSearch Input, MusicProxy Proxy)
         {
             throw new NotImplementedException();
         }

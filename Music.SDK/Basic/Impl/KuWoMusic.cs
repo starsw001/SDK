@@ -1,4 +1,5 @@
 ﻿using Music.SDK.ViewModel.Enums;
+using Music.SDK.ViewModel.Request;
 using Music.SDK.ViewModel.Response;
 using Newtonsoft.Json.Linq;
 using System;
@@ -26,16 +27,16 @@ namespace Music.SDK.Basic.Impl
             { "csrf","TSGD1QV8KJA"}
         };
 
-        internal override MusicSongItemResult SearchSong(string KeyWord, int Page)
+        internal override MusicSongItemResult SearchSong(MusicSearch Input, MusicProxy Proxy)
         {
             MusicSongItemResult Result = new MusicSongItemResult
             {
                 SongItems = new List<MusicSongItem>()
             };
             var response = IHttpMultiClient.HttpMulti
-                .Header(Referer, Host + $"/search/playlist?key={HttpUtility.UrlEncode(KeyWord)}")
+                .Header(Referer, Host + $"/search/playlist?key={HttpUtility.UrlEncode(Input.KeyWord)}")
                 .Header(Headers)
-                .AddNode(string.Format(SongURL, "searchMusicBykeyWord", KeyWord, Page))
+                .AddNode(string.Format(SongURL, "searchMusicBykeyWord", Input.KeyWord, Input.Page))
                 .Build().RunString().FirstOrDefault();
 
             var jobject = response.ToModel<JObject>();
@@ -60,7 +61,7 @@ namespace Music.SDK.Basic.Impl
             return Result;
         }
 
-        internal override MusicSongSheetResult SearchSongSheet(string KeyWord, int Page)
+        internal override MusicSongSheetResult SearchSongSheet(MusicSearch Input, MusicProxy Proxy)
         {
             MusicSongSheetResult Result = new MusicSongSheetResult
             {
@@ -68,9 +69,9 @@ namespace Music.SDK.Basic.Impl
             };
 
             var response = IHttpMultiClient.HttpMulti
-               .Header(Referer, Host + $"/search/playlist?key={HttpUtility.UrlEncode(KeyWord)}")
+               .Header(Referer, Host + $"/search/playlist?key={HttpUtility.UrlEncode(Input.KeyWord)}")
                .Header(Headers)
-               .AddNode(string.Format(SongURL, "searchPlayListBykeyWord", KeyWord, Page))
+               .AddNode(string.Format(SongURL, "searchPlayListBykeyWord", Input.KeyWord, Input.Page))
                .Build().RunString().FirstOrDefault();
             var jobject = response.ToModel<JObject>();
 
@@ -90,7 +91,7 @@ namespace Music.SDK.Basic.Impl
             return Result;
         }
 
-        internal override MusicSongSheetDetailResult SongSheetDetail(string SheetId, int Page)
+        internal override MusicSongSheetDetailResult SongSheetDetail(MusicSheetSearch Input, MusicProxy Proxy)
         {
             MusicSongSheetDetailResult Result = new MusicSongSheetDetailResult
             {
@@ -98,7 +99,7 @@ namespace Music.SDK.Basic.Impl
             };
 
             var response = IHttpMultiClient.HttpMulti.Header(Headers)
-             .AddNode(string.Format(PlayListURL, SheetId, Page))
+             .AddNode(string.Format(PlayListURL, Input.Id, Input.Page))
              .Build().RunString().FirstOrDefault();
 
             var jobject = response.ToModel<JObject>();
@@ -124,7 +125,7 @@ namespace Music.SDK.Basic.Impl
             return Result;
         }
 
-        internal override MusicSongAlbumDetailResult SongAlbumDetail(string AlbumId)
+        internal override MusicSongAlbumDetailResult SongAlbumDetail(MusicAlbumSearch Input, MusicProxy Proxy)
         {
             MusicSongAlbumDetailResult Result = new MusicSongAlbumDetailResult
             {
@@ -132,7 +133,7 @@ namespace Music.SDK.Basic.Impl
             };
 
             var response = IHttpMultiClient.HttpMulti.Header(Headers)
-             .AddNode(string.Format(AlbumURL, AlbumId))
+             .AddNode(string.Format(AlbumURL, Input.AlbumId))
              .Build().RunString().FirstOrDefault();
 
             var jobject = response.ToModel<JObject>();
@@ -156,12 +157,12 @@ namespace Music.SDK.Basic.Impl
             return Result;
         }
 
-        internal override MusicLyricResult SongLyric(dynamic Dynamic)
+        internal override MusicLyricResult SongLyric(MusicLyricSearch Input, MusicProxy Proxy)
         {
             MusicLyricResult Result = new MusicLyricResult();
 
             var response = IHttpMultiClient.HttpMulti.Header(Headers)
-                    .AddNode((string)string.Format(LyricURL, Dynamic))
+                    .AddNode((string)string.Format(LyricURL, Input.Dynamic))
                     .Build().RunString().FirstOrDefault();
 
             var jobject = response.ToModel<JObject>();
@@ -183,12 +184,12 @@ namespace Music.SDK.Basic.Impl
             return Result;
         }
 
-        internal override MusicSongPlayAddressResult SongPlayAddress(dynamic Dynamic)
+        internal override MusicSongPlayAddressResult SongPlayAddress(MusicPlaySearch Input, MusicProxy Proxy)
         {
             MusicSongPlayAddressResult Result = new MusicSongPlayAddressResult();
 
             var response = IHttpMultiClient.HttpMulti.Header(Headers)
-                .AddNode((string)string.Format(PlayURL, Dynamic))
+                .AddNode((string)string.Format(PlayURL, Input.Dynamic))
                 .Build().RunString().FirstOrDefault();
 
             var jobject = response.ToModel<JObject>();

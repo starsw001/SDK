@@ -1,4 +1,5 @@
-﻿using Music.SDK.ViewModel.Response;
+﻿using Music.SDK.ViewModel.Request;
+using Music.SDK.ViewModel.Response;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -7,31 +8,32 @@ namespace Music.SDK.Basic.Impl
 {
     internal class NeteaseMusic : BasicMusic
     {
-        internal override MusicSongItemResult SearchSong(string KeyWord, int Page)
-        {
-            throw new NotImplementedException();
-        }
-        internal override MusicSongSheetResult SearchSongSheet(string KeyWord, int Page)
+        internal override MusicSongItemResult SearchSong(MusicSearch Input, MusicProxy Proxy)
         {
             throw new NotImplementedException();
         }
 
-        internal override MusicSongAlbumDetailResult SongAlbumDetail(string AlbumId)
+        internal override MusicSongSheetResult SearchSongSheet(MusicSearch Input, MusicProxy Proxy)
         {
             throw new NotImplementedException();
         }
 
-        internal override MusicLyricResult SongLyric(dynamic Dynamic)
+        internal override MusicSongAlbumDetailResult SongAlbumDetail(MusicAlbumSearch Input, MusicProxy Proxy)
         {
             throw new NotImplementedException();
         }
 
-        internal override MusicSongPlayAddressResult SongPlayAddress(dynamic Dynamic)
+        internal override MusicLyricResult SongLyric(MusicLyricSearch Input, MusicProxy Proxy)
         {
             throw new NotImplementedException();
         }
 
-        internal override MusicSongSheetDetailResult SongSheetDetail(string SheetId, int Page)
+        internal override MusicSongPlayAddressResult SongPlayAddress(MusicPlaySearch Input, MusicProxy Proxy)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal override MusicSongSheetDetailResult SongSheetDetail(MusicSheetSearch Input, MusicProxy Proxy)
         {
             throw new NotImplementedException();
         }
