@@ -114,19 +114,50 @@ namespace AllSDK.Test
             {
                 #region KuGou
                 //单曲
-                var SongItem = MusicFactory.Music(opt =>
+                //var SongItem = MusicFactory.Music(opt =>
+                //{
+                //    opt.RequestParam = new MusicRequestInput
+                //    {
+                //        MusicPlatformType = MusicPlatformEnum.KuGouMusic,
+                //        MusicType = MusicTypeEnum.SongItem,
+                //        Search = new MusicSearch
+                //        {
+                //            KeyWord = "醉酒的蝴蝶"
+                //        }
+                //    };
+                //}).Runs();
+                //Console.WriteLine(SongItem.ToJson());
+                //Thread.Sleep(1000);
+                ////歌单
+                //var SongSheet = MusicFactory.Music(opt =>
+                //{
+                //    opt.RequestParam = new MusicRequestInput
+                //    {
+                //        MusicPlatformType = MusicPlatformEnum.KuGouMusic,
+                //        MusicType = MusicTypeEnum.SongSheet,
+                //        Search = new MusicSearch
+                //        {
+                //            KeyWord = "醉酒的蝴蝶"
+                //        }
+                //    };
+                //}).Runs();
+                //Console.WriteLine(SongSheet.ToJson());
+                //Thread.Sleep(1000);
+                //歌单详情
+                var SheetDetail = MusicFactory.Music(opt =>
                 {
                     opt.RequestParam = new MusicRequestInput
                     {
                         MusicPlatformType = MusicPlatformEnum.KuGouMusic,
-                        MusicType = MusicTypeEnum.SongItem,
-                        Search = new MusicSearch
+                        MusicType = MusicTypeEnum.SheetDetail,
+                        SheetSearch = new MusicSheetSearch
                         {
-                            KeyWord = "处处吻"
+                            Id = "3603145"//SongSheet.SongSheetResult.SongSheetItems.FirstOrDefault().SongSheetId.AsString()
                         }
                     };
                 }).Runs();
-                Console.WriteLine(SongItem.ToJson());
+                Console.WriteLine(SheetDetail.ToJson());
+                Thread.Sleep(1000);
                 #endregion
             }
             else if (Type == 2)

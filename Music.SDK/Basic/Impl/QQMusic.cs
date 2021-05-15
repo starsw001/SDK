@@ -93,80 +93,6 @@ namespace Music.SDK.Basic.Impl
             return Result;
         }
 
-        internal override MusicSongAlbumDetailResult SongAlbumDetail(MusicAlbumSearch Input, MusicProxy Proxy)
-        {
-            MusicSongAlbumDetailResult Result = new MusicSongAlbumDetailResult
-            {
-                SongItems = new List<MusicSongItem>()
-            };
-            var response = IHttpMultiClient.HttpMulti
-                .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<ProxyURL>())
-                .Header(Headers)
-                .AddNode(string.Format(AlbumURL, Input.AlbumId))
-                .Build().RunString().FirstOrDefault();
-            var jobject = response.ToModel<JObject>();
-            Result.AlbumName = (string)jobject.SelectToken("data.album_name");
-            Result.MusicPlatformType = MusicPlatformEnum.QQMusic;
-            foreach (var jToken in jobject["data"]["songlist"])
-            {
-                MusicSongItem Item = new MusicSongItem
-                {
-                    MusicPlatformType = MusicPlatformEnum.QQMusic,
-                    SongId = (long)jToken["songid"],
-                    SongMId = (string)jToken["songmid"],
-                    SongName = (string)jToken["songname"],
-                    SongAlbumId = (long)jToken["albumid"],
-                    SongAlbumMId = (string)jToken["albummid"],
-                    SongAlbumName = (string)jToken["albumname"]
-                };
-                foreach (var artist in jToken["singer"])
-                {
-                    Item.SongArtistId.Add((long)artist["id"]);
-                    Item.SongArtistMId.Add((string)artist["mid"]);
-                    Item.SongArtistName.Add((string)artist["name"]);
-                }
-                Result.SongItems.Add(Item);
-            }
-            return Result;
-        }
-
-        internal override MusicLyricResult SongLyric(MusicLyricSearch Input, MusicProxy Proxy)
-        {
-            var response = IHttpMultiClient.HttpMulti
-                .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<ProxyURL>())
-                .Header(Headers)
-                .AddNode((string)string.Format(LyricURL, Input.Dynamic))
-                .Build().RunString().FirstOrDefault();
-            var jToken = response.ToModel<JObject>().Value<string>("lyric");
-            if (!jToken.IsNullOrEmpty())
-            {
-                return new MusicLyricResult(jToken.ToString());
-            }
-            return null;
-        }
-
-        internal override MusicSongPlayAddressResult SongPlayAddress(MusicPlaySearch Input, MusicProxy Proxy)
-        {
-            MusicSongPlayAddressResult Result = new MusicSongPlayAddressResult
-            {
-                MusicPlatformType = MusicPlatformEnum.QQMusic
-            };
-
-            string Host = PlayURL.Replace("@id", Input.Dynamic);
-            var response = IHttpMultiClient.HttpMulti
-                .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<ProxyURL>())
-                .AddNode(Host).Build().RunString().FirstOrDefault();
-
-            var jobject = response.ToModel<JObject>();
-
-            var SongIp = (string)jobject["req_0"]["data"]["sip"][0];
-            var PlayUrl = (string)jobject["req_0"]["data"]["midurlinfo"][0]["purl"];
-
-            Result.CanPlay = !PlayUrl.IsNullOrEmpty();
-            Result.SongURL = SongIp + PlayUrl;
-            return Result;
-        }
-
         internal override MusicSongSheetDetailResult SongSheetDetail(MusicSheetSearch Input, MusicProxy Proxy)
         {
             MusicSongSheetDetailResult Result = new MusicSongSheetDetailResult
@@ -208,5 +134,80 @@ namespace Music.SDK.Basic.Impl
             }
             return Result;
         }
+
+        internal override MusicSongAlbumDetailResult SongAlbumDetail(MusicAlbumSearch Input, MusicProxy Proxy)
+        {
+            MusicSongAlbumDetailResult Result = new MusicSongAlbumDetailResult
+            {
+                SongItems = new List<MusicSongItem>()
+            };
+            var response = IHttpMultiClient.HttpMulti
+                .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<ProxyURL>())
+                .Header(Headers)
+                .AddNode(string.Format(AlbumURL, Input.AlbumId))
+                .Build().RunString().FirstOrDefault();
+            var jobject = response.ToModel<JObject>();
+            Result.AlbumName = (string)jobject.SelectToken("data.album_name");
+            Result.MusicPlatformType = MusicPlatformEnum.QQMusic;
+            foreach (var jToken in jobject["data"]["songlist"])
+            {
+                MusicSongItem Item = new MusicSongItem
+                {
+                    MusicPlatformType = MusicPlatformEnum.QQMusic,
+                    SongId = (long)jToken["songid"],
+                    SongMId = (string)jToken["songmid"],
+                    SongName = (string)jToken["songname"],
+                    SongAlbumId = (long)jToken["albumid"],
+                    SongAlbumMId = (string)jToken["albummid"],
+                    SongAlbumName = (string)jToken["albumname"]
+                };
+                foreach (var artist in jToken["singer"])
+                {
+                    Item.SongArtistId.Add((long)artist["id"]);
+                    Item.SongArtistMId.Add((string)artist["mid"]);
+                    Item.SongArtistName.Add((string)artist["name"]);
+                }
+                Result.SongItems.Add(Item);
+            }
+            return Result;
+        }
+
+        internal override MusicSongPlayAddressResult SongPlayAddress(MusicPlaySearch Input, MusicProxy Proxy)
+        {
+            MusicSongPlayAddressResult Result = new MusicSongPlayAddressResult
+            {
+                MusicPlatformType = MusicPlatformEnum.QQMusic
+            };
+
+            string Host = PlayURL.Replace("@id", Input.Dynamic);
+            var response = IHttpMultiClient.HttpMulti
+                .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<ProxyURL>())
+                .AddNode(Host).Build().RunString().FirstOrDefault();
+
+            var jobject = response.ToModel<JObject>();
+
+            var SongIp = (string)jobject["req_0"]["data"]["sip"][0];
+            var PlayUrl = (string)jobject["req_0"]["data"]["midurlinfo"][0]["purl"];
+
+            Result.CanPlay = !PlayUrl.IsNullOrEmpty();
+            Result.SongURL = SongIp + PlayUrl;
+            return Result;
+        }
+
+        internal override MusicLyricResult SongLyric(MusicLyricSearch Input, MusicProxy Proxy)
+        {
+            var response = IHttpMultiClient.HttpMulti
+                .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<ProxyURL>())
+                .Header(Headers)
+                .AddNode((string)string.Format(LyricURL, Input.Dynamic))
+                .Build().RunString().FirstOrDefault();
+            var jToken = response.ToModel<JObject>().Value<string>("lyric");
+            if (!jToken.IsNullOrEmpty())
+            {
+                return new MusicLyricResult(jToken.ToString());
+            }
+            return null;
+        }
+
     }
 }

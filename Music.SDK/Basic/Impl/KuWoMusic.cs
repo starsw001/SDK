@@ -162,6 +162,22 @@ namespace Music.SDK.Basic.Impl
             return Result;
         }
 
+        internal override MusicSongPlayAddressResult SongPlayAddress(MusicPlaySearch Input, MusicProxy Proxy)
+        {
+            MusicSongPlayAddressResult Result = new MusicSongPlayAddressResult();
+
+            var response = IHttpMultiClient.HttpMulti
+                .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<ProxyURL>()).Header(Headers)
+                .AddNode((string)string.Format(PlayURL, Input.Dynamic))
+                .Build().RunString().FirstOrDefault();
+
+            var jobject = response.ToModel<JObject>();
+            Result.MusicPlatformType = MusicPlatformEnum.KuWoMusic;
+            Result.CanPlay = !jobject["url"].AsString().IsNullOrEmpty();
+            Result.SongURL = (string)jobject["url"];
+            return Result;
+        }
+
         internal override MusicLyricResult SongLyric(MusicLyricSearch Input, MusicProxy Proxy)
         {
             MusicLyricResult Result = new MusicLyricResult();
@@ -186,22 +202,6 @@ namespace Music.SDK.Basic.Impl
                 Result.Lyrics.Add(lineLyricItem);
             }
 
-            return Result;
-        }
-
-        internal override MusicSongPlayAddressResult SongPlayAddress(MusicPlaySearch Input, MusicProxy Proxy)
-        {
-            MusicSongPlayAddressResult Result = new MusicSongPlayAddressResult();
-
-            var response = IHttpMultiClient.HttpMulti
-                .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<ProxyURL>()).Header(Headers)
-                .AddNode((string)string.Format(PlayURL, Input.Dynamic))
-                .Build().RunString().FirstOrDefault();
-
-            var jobject = response.ToModel<JObject>();
-            Result.MusicPlatformType = MusicPlatformEnum.KuWoMusic;
-            Result.CanPlay = !jobject["url"].AsString().IsNullOrEmpty();
-            Result.SongURL = (string)jobject["url"];
             return Result;
         }
     }
