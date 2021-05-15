@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web;
+using XExten.Advance.HttpFramework.MultiCommon;
 using XExten.Advance.HttpFramework.MultiFactory;
 using XExten.Advance.LinqFramework;
 
@@ -34,6 +35,7 @@ namespace Music.SDK.Basic.Impl
                 SongItems = new List<MusicSongItem>()
             };
             var response = IHttpMultiClient.HttpMulti
+                .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<ProxyURL>())
                 .Header(Referer, Host + $"/search/playlist?key={HttpUtility.UrlEncode(Input.KeyWord)}")
                 .Header(Headers)
                 .AddNode(string.Format(SongURL, "searchMusicBykeyWord", Input.KeyWord, Input.Page))
@@ -69,10 +71,11 @@ namespace Music.SDK.Basic.Impl
             };
 
             var response = IHttpMultiClient.HttpMulti
-               .Header(Referer, Host + $"/search/playlist?key={HttpUtility.UrlEncode(Input.KeyWord)}")
-               .Header(Headers)
-               .AddNode(string.Format(SongURL, "searchPlayListBykeyWord", Input.KeyWord, Input.Page))
-               .Build().RunString().FirstOrDefault();
+                .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<ProxyURL>())
+                .Header(Referer, Host + $"/search/playlist?key={HttpUtility.UrlEncode(Input.KeyWord)}")
+                .Header(Headers)
+                .AddNode(string.Format(SongURL, "searchPlayListBykeyWord", Input.KeyWord, Input.Page))
+                .Build().RunString().FirstOrDefault();
             var jobject = response.ToModel<JObject>();
 
             Result.Total = (int)jobject["data"]["total"];
@@ -98,9 +101,10 @@ namespace Music.SDK.Basic.Impl
                 SongItems = new List<MusicSongItem>()
             };
 
-            var response = IHttpMultiClient.HttpMulti.Header(Headers)
-             .AddNode(string.Format(PlayListURL, Input.Id, Input.Page))
-             .Build().RunString().FirstOrDefault();
+            var response = IHttpMultiClient.HttpMulti
+                .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<ProxyURL>())
+                .Header(Headers).AddNode(string.Format(PlayListURL, Input.Id, Input.Page))
+                .Build().RunString().FirstOrDefault();
 
             var jobject = response.ToModel<JObject>();
             Result.MusicPlatformType = MusicPlatformEnum.KuWoMusic;
@@ -132,9 +136,10 @@ namespace Music.SDK.Basic.Impl
                 SongItems = new List<MusicSongItem>()
             };
 
-            var response = IHttpMultiClient.HttpMulti.Header(Headers)
-             .AddNode(string.Format(AlbumURL, Input.AlbumId))
-             .Build().RunString().FirstOrDefault();
+            var response = IHttpMultiClient.HttpMulti
+                .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<ProxyURL>())
+                .Header(Headers).AddNode(string.Format(AlbumURL, Input.AlbumId))
+                .Build().RunString().FirstOrDefault();
 
             var jobject = response.ToModel<JObject>();
 
@@ -161,9 +166,9 @@ namespace Music.SDK.Basic.Impl
         {
             MusicLyricResult Result = new MusicLyricResult();
 
-            var response = IHttpMultiClient.HttpMulti.Header(Headers)
-                    .AddNode((string)string.Format(LyricURL, Input.Dynamic))
-                    .Build().RunString().FirstOrDefault();
+            var response = IHttpMultiClient.HttpMulti
+                .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<ProxyURL>()).Header(Headers)
+                .AddNode((string)string.Format(LyricURL, Input.Dynamic)).Build().RunString().FirstOrDefault();
 
             var jobject = response.ToModel<JObject>();
             Result.Title = (string)jobject["data"]["songinfo"]["songName"];
@@ -188,7 +193,8 @@ namespace Music.SDK.Basic.Impl
         {
             MusicSongPlayAddressResult Result = new MusicSongPlayAddressResult();
 
-            var response = IHttpMultiClient.HttpMulti.Header(Headers)
+            var response = IHttpMultiClient.HttpMulti
+                .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<ProxyURL>()).Header(Headers)
                 .AddNode((string)string.Format(PlayURL, Input.Dynamic))
                 .Build().RunString().FirstOrDefault();
 

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using XExten.Advance.HttpFramework.MultiCommon;
 using XExten.Advance.HttpFramework.MultiFactory;
 using XExten.Advance.LinqFramework;
 
@@ -27,9 +28,10 @@ namespace Music.SDK.Basic.Impl
             {
                 SongItems = new List<MusicSongItem>()
             };
-            var response = IHttpMultiClient.HttpMulti.Header(Headers)
-                 .AddNode(string.Format(SongURL, Input.KeyWord, Input.Page))
-                 .Build().RunString().FirstOrDefault();
+            var response = IHttpMultiClient.HttpMulti
+                .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<ProxyURL>())
+                .Header(Headers).AddNode(string.Format(SongURL, Input.KeyWord, Input.Page))
+                .Build().RunString().FirstOrDefault();
 
             var jobject = response.ToModel<JObject>();
             Result.Total = (int)jobject["data"]["total"];

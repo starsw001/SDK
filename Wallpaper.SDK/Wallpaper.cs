@@ -9,6 +9,7 @@ using Wallpaper.SDK.ViewModel.Response;
 using System;
 using Newtonsoft.Json.Linq;
 using System.Web;
+using Wallpaper.SDK.ViewModel.Request;
 
 namespace Wallpaper.SDK
 {
@@ -25,7 +26,7 @@ namespace Wallpaper.SDK
                 Result = new List<WallpaperResult>()
             };
 
-            IHttpMultiClient.HttpMulti.InitWebProxy(Input.Proxy.ToMapper<ProxyURL>())
+            IHttpMultiClient.HttpMulti.InitWebProxy((Input.Proxy ?? new WallpaperProxy()).ToMapper<ProxyURL>())
                  .AddNode(string.Format(All, Input.Init.Page, Input.Init.Limit))
                  .Build().RunString().FirstOrDefault().ToModel<List<JObject>>()
                  .ForEach(Item =>
@@ -33,16 +34,16 @@ namespace Wallpaper.SDK
                      WallpaperResult wallpaper = new WallpaperResult
                      {
                          Author = Item["author"].ToString(),
-                         Created= SyncStatic.ConvertStamptime(Item["created_at"].ToString()),
-                         FileSizeJepg =$"{Math.Round(Item["jpeg_file_size"].ToObject<long>() / (1024d*1024d),2,MidpointRounding.AwayFromZero)}MB",
+                         Created = SyncStatic.ConvertStamptime(Item["created_at"].ToString()),
+                         FileSizeJepg = $"{Math.Round(Item["jpeg_file_size"].ToObject<long>() / (1024d * 1024d), 2, MidpointRounding.AwayFromZero)}MB",
                          FileSizePng = $"{Math.Round(Item["file_size"].ToObject<long>() / (1024d * 1024d), 2, MidpointRounding.AwayFromZero)}MB",
-                         Height=Item["height"].ToObject<int>(),
-                         Width= Item["width"].ToObject<int>(),
+                         Height = Item["height"].ToObject<int>(),
+                         Width = Item["width"].ToObject<int>(),
                          Labels = Item["tags"].ToString().Split(" ").ToList(),
-                         OriginalJepg=HttpUtility.UrlDecode(Item["jpeg_url"].ToString()),
+                         OriginalJepg = HttpUtility.UrlDecode(Item["jpeg_url"].ToString()),
                          OriginalPng = HttpUtility.UrlDecode(Item["file_url"].ToString()),
-                         Preview= HttpUtility.UrlDecode(Item["preview_url"].ToString()),
-                         Rating= Item["rating"].ToString().ToUpper()
+                         Preview = HttpUtility.UrlDecode(Item["preview_url"].ToString()),
+                         Rating = Item["rating"].ToString().ToUpper()
                      };
                      Result.Result.Add(wallpaper);
                  });
@@ -57,8 +58,8 @@ namespace Wallpaper.SDK
                 Result = new List<WallpaperResult>()
             };
 
-            IHttpMultiClient.HttpMulti.InitWebProxy(Input.Proxy.ToMapper<ProxyURL>())
-                 .AddNode(string.Format(Search, Input.Search.Page, Input.Search.Limit,Input.Search.KeyWord))
+            IHttpMultiClient.HttpMulti.InitWebProxy((Input.Proxy ?? new WallpaperProxy()).ToMapper<ProxyURL>())
+                 .AddNode(string.Format(Search, Input.Search.Page, Input.Search.Limit, Input.Search.KeyWord))
                  .Build().RunString().FirstOrDefault().ToModel<List<JObject>>()
                  .ForEach(Item =>
                  {
