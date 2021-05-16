@@ -97,6 +97,7 @@ namespace Music.SDK.Basic.Impl
         {
             MusicSongSheetDetailResult Result = new MusicSongSheetDetailResult
             {
+                MusicPlatformType = MusicPlatformEnum.QQMusic,
                 SongItems = new List<MusicSongItem>()
             };
 
@@ -112,7 +113,6 @@ namespace Music.SDK.Basic.Impl
             Result.DissName = (string)jobject["cdlist"][0]["dissname"];
             Result.ListenNum = (string)jobject["cdlist"][0]["visitnum"];
             Result.Logo = (string)jobject["cdlist"][0]["logo"];
-            Result.MusicPlatformType = MusicPlatformEnum.QQMusic;
             foreach (var jToken in jobject["cdlist"][0]["songlist"])
             {
                 MusicSongItem SongItem = new MusicSongItem
@@ -139,6 +139,7 @@ namespace Music.SDK.Basic.Impl
         {
             MusicSongAlbumDetailResult Result = new MusicSongAlbumDetailResult
             {
+                MusicPlatformType = MusicPlatformEnum.QQMusic,
                 SongItems = new List<MusicSongItem>()
             };
             var response = IHttpMultiClient.HttpMulti
@@ -148,7 +149,6 @@ namespace Music.SDK.Basic.Impl
                 .Build().RunString().FirstOrDefault();
             var jobject = response.ToModel<JObject>();
             Result.AlbumName = (string)jobject.SelectToken("data.album_name");
-            Result.MusicPlatformType = MusicPlatformEnum.QQMusic;
             foreach (var jToken in jobject["data"]["songlist"])
             {
                 MusicSongItem Item = new MusicSongItem

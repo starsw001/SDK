@@ -114,35 +114,35 @@ namespace AllSDK.Test
             {
                 #region KuGou
                 //单曲
-                //var SongItem = MusicFactory.Music(opt =>
-                //{
-                //    opt.RequestParam = new MusicRequestInput
-                //    {
-                //        MusicPlatformType = MusicPlatformEnum.KuGouMusic,
-                //        MusicType = MusicTypeEnum.SongItem,
-                //        Search = new MusicSearch
-                //        {
-                //            KeyWord = "醉酒的蝴蝶"
-                //        }
-                //    };
-                //}).Runs();
-                //Console.WriteLine(SongItem.ToJson());
-                //Thread.Sleep(1000);
-                ////歌单
-                //var SongSheet = MusicFactory.Music(opt =>
-                //{
-                //    opt.RequestParam = new MusicRequestInput
-                //    {
-                //        MusicPlatformType = MusicPlatformEnum.KuGouMusic,
-                //        MusicType = MusicTypeEnum.SongSheet,
-                //        Search = new MusicSearch
-                //        {
-                //            KeyWord = "醉酒的蝴蝶"
-                //        }
-                //    };
-                //}).Runs();
-                //Console.WriteLine(SongSheet.ToJson());
-                //Thread.Sleep(1000);
+                var SongItem = MusicFactory.Music(opt =>
+                {
+                    opt.RequestParam = new MusicRequestInput
+                    {
+                        MusicPlatformType = MusicPlatformEnum.KuGouMusic,
+                        MusicType = MusicTypeEnum.SongItem,
+                        Search = new MusicSearch
+                        {
+                            KeyWord = "醉酒的蝴蝶"
+                        }
+                    };
+                }).Runs();
+                Console.WriteLine(SongItem.ToJson());
+                Thread.Sleep(1000);
+                //歌单
+                var SongSheet = MusicFactory.Music(opt =>
+                {
+                    opt.RequestParam = new MusicRequestInput
+                    {
+                        MusicPlatformType = MusicPlatformEnum.KuGouMusic,
+                        MusicType = MusicTypeEnum.SongSheet,
+                        Search = new MusicSearch
+                        {
+                            KeyWord = "动漫"
+                        }
+                    };
+                }).Runs();
+                Console.WriteLine(SongSheet.ToJson());
+                Thread.Sleep(1000);
                 //歌单详情
                 var SheetDetail = MusicFactory.Music(opt =>
                 {
@@ -152,12 +152,57 @@ namespace AllSDK.Test
                         MusicType = MusicTypeEnum.SheetDetail,
                         SheetSearch = new MusicSheetSearch
                         {
-                            Id = "3603145"//SongSheet.SongSheetResult.SongSheetItems.FirstOrDefault().SongSheetId.AsString()
+                            Id = SongSheet.SongSheetResult.SongSheetItems.FirstOrDefault().SongSheetId.AsString()
                         }
                     };
                 }).Runs();
                 Console.WriteLine(SheetDetail.ToJson());
                 Thread.Sleep(1000);
+                //关联专辑
+                var SongAlbum = MusicFactory.Music(opt =>
+                {
+                    opt.RequestParam = new MusicRequestInput
+                    {
+                        MusicPlatformType = MusicPlatformEnum.KuGouMusic,
+                        MusicType = MusicTypeEnum.AlbumDetail,
+                        AlbumSearch = new MusicAlbumSearch
+                        {
+                            AlbumId = SongItem.SongItemResult.SongItems.LastOrDefault().SongAlbumId.AsString()
+                        }
+                    };
+                }).Runs();
+                Console.WriteLine(SongAlbum.ToJson());
+                Thread.Sleep(1000);
+                //地址
+                var SongURL = MusicFactory.Music(opt =>
+                {
+                    opt.RequestParam = new MusicRequestInput
+                    {
+                        MusicPlatformType = MusicPlatformEnum.KuGouMusic,
+                        MusicType = MusicTypeEnum.PlayAddress,
+                        AddressSearch = new MusicPlaySearch
+                        {
+                            KuGouAlbumId= SongItem.SongItemResult.SongItems.FirstOrDefault().SongAlbumId,
+                            Dynamic = SongItem.SongItemResult.SongItems.FirstOrDefault().SongFileHash
+                        }
+                    };
+                }).Runs();
+                Console.WriteLine(SongURL.ToJson());
+                Thread.Sleep(1000);
+                //歌词
+                var SongLyric = MusicFactory.Music(opt =>
+                {
+                    opt.RequestParam = new MusicRequestInput
+                    {
+                        MusicPlatformType = MusicPlatformEnum.KuGouMusic,
+                        MusicType = MusicTypeEnum.Lyric,
+                        LyricSearch = new MusicLyricSearch
+                        {
+                            Dynamic = SongItem.SongItemResult.SongItems.FirstOrDefault().SongFileHash
+                        }
+                    };
+                }).Runs();
+                Console.WriteLine(SongLyric.ToJson());
                 #endregion
             }
             else if (Type == 2)
@@ -222,6 +267,7 @@ namespace AllSDK.Test
                     };
                 }).Runs();
                 Console.WriteLine(SongAlbum.ToJson());
+                Thread.Sleep(1000);
                 //歌词
                 var SongLyric = MusicFactory.Music(opt =>
                 {
@@ -246,7 +292,7 @@ namespace AllSDK.Test
                         MusicType = MusicTypeEnum.PlayAddress,
                         AddressSearch = new MusicPlaySearch
                         {
-                            Dynamic = 89656617//SheetDetail.SongSheetDetailResult.SongItems.FirstOrDefault().SongId
+                            Dynamic = SheetDetail.SongSheetDetailResult.SongItems.FirstOrDefault().SongId
                         }
                     };
                 }).Runs();

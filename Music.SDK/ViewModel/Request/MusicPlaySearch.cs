@@ -8,5 +8,9 @@ namespace Music.SDK.ViewModel.Request
     public class MusicPlaySearch
     {
         public dynamic Dynamic  { get; set; }
+        /// <summary>
+        /// 酷狗专用专辑ID
+        /// </summary>
+        public long KuGouAlbumId { get; set; }
     }
 }

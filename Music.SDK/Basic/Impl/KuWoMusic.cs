@@ -98,6 +98,7 @@ namespace Music.SDK.Basic.Impl
         {
             MusicSongSheetDetailResult Result = new MusicSongSheetDetailResult
             {
+                MusicPlatformType = MusicPlatformEnum.KuWoMusic,
                 SongItems = new List<MusicSongItem>()
             };
 
@@ -107,7 +108,6 @@ namespace Music.SDK.Basic.Impl
                 .Build().RunString().FirstOrDefault();
 
             var jobject = response.ToModel<JObject>();
-            Result.MusicPlatformType = MusicPlatformEnum.KuWoMusic;
             Result.MusicNum = (int)jobject["data"]["total"];
             Result.DissName = (string)jobject["data"]["name"];
             Result.Logo = (string)jobject["data"]["img"];
@@ -133,6 +133,7 @@ namespace Music.SDK.Basic.Impl
         {
             MusicSongAlbumDetailResult Result = new MusicSongAlbumDetailResult
             {
+                MusicPlatformType = MusicPlatformEnum.KuWoMusic,
                 SongItems = new List<MusicSongItem>()
             };
 
@@ -143,7 +144,6 @@ namespace Music.SDK.Basic.Impl
 
             var jobject = response.ToModel<JObject>();
 
-            Result.MusicPlatformType = MusicPlatformEnum.KuWoMusic;
             Result.AlbumName = (string)jobject["data"]["album"];
 
             foreach (var jToken in jobject["data"]["musicList"])
@@ -164,7 +164,10 @@ namespace Music.SDK.Basic.Impl
 
         internal override MusicSongPlayAddressResult SongPlayAddress(MusicPlaySearch Input, MusicProxy Proxy)
         {
-            MusicSongPlayAddressResult Result = new MusicSongPlayAddressResult();
+            MusicSongPlayAddressResult Result = new MusicSongPlayAddressResult
+            {
+                MusicPlatformType = MusicPlatformEnum.KuWoMusic
+            };
 
             var response = IHttpMultiClient.HttpMulti
                 .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<ProxyURL>()).Header(Headers)
@@ -172,7 +175,6 @@ namespace Music.SDK.Basic.Impl
                 .Build().RunString().FirstOrDefault();
 
             var jobject = response.ToModel<JObject>();
-            Result.MusicPlatformType = MusicPlatformEnum.KuWoMusic;
             Result.CanPlay = !jobject["url"].AsString().IsNullOrEmpty();
             Result.SongURL = (string)jobject["url"];
             return Result;
