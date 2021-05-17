@@ -182,7 +182,7 @@ namespace AllSDK.Test
                         MusicType = MusicTypeEnum.PlayAddress,
                         AddressSearch = new MusicPlaySearch
                         {
-                            KuGouAlbumId= SongItem.SongItemResult.SongItems.FirstOrDefault().SongAlbumId,
+                            KuGouAlbumId = SongItem.SongItemResult.SongItems.FirstOrDefault().SongAlbumId,
                             Dynamic = SongItem.SongItemResult.SongItems.FirstOrDefault().SongFileHash
                         }
                     };
@@ -297,6 +297,26 @@ namespace AllSDK.Test
                     };
                 }).Runs();
                 Console.WriteLine(SongURL.ToJson());
+                #endregion
+            }
+            else if (Type == 3)
+            {
+                #region BiliBili
+                //单曲
+                var SongItem = MusicFactory.Music(opt =>
+                {
+                    opt.RequestParam = new MusicRequestInput
+                    {
+                        MusicPlatformType = MusicPlatformEnum.BiliBiliMusic,
+                        MusicType = MusicTypeEnum.SongItem,
+                        Search = new MusicSearch
+                        {
+                            KeyWord = "醉酒的蝴蝶"
+                        }
+                    };
+                }).Runs();
+                Console.WriteLine(SongItem.ToJson());
+                Thread.Sleep(1000);
                 #endregion
             }
         }
