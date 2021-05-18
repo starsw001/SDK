@@ -23,5 +23,10 @@ namespace Music.SDK.ViewModel.Response
         /// </summary>
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string SongURL { get; set; }
+        /// <summary>
+        /// B站文件流
+        /// </summary>
+        [JsonIgnore]
+        public byte[] BilibiliFileBytes { get; set; }
     }
 }

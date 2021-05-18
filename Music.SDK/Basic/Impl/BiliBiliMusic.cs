@@ -4,6 +4,7 @@ using Music.SDK.ViewModel.Response;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -101,8 +102,8 @@ namespace Music.SDK.Basic.Impl
             var Info = jobject["data"]["menusRespones"];
             Result.ListenNum = (string)Info["playNum"];
             Result.MusicNum = (int)Info["songNum"];
-            Result.CreateTime = SyncStatic.ConvertStamptime((((long)Info["ctime"])/1000).ToString()).ToFmtDate(-1,"yyyy-MM-dd");
-            Result.Logo= (string)Info["coverUrl"];
+            Result.CreateTime = SyncStatic.ConvertStamptime((((long)Info["ctime"]) / 1000).ToString()).ToFmtDate(-1, "yyyy-MM-dd");
+            Result.Logo = (string)Info["coverUrl"];
             Result.DissName = (string)Info["title"];
             foreach (var jToken in jobject["data"]["songsList"])
             {
@@ -150,20 +151,30 @@ namespace Music.SDK.Basic.Impl
         {
             MusicSongPlayAddressResult Result = new MusicSongPlayAddressResult
             {
-                 MusicPlatformType = MusicPlatformEnum.BiliBiliMusic
+                MusicPlatformType = MusicPlatformEnum.BiliBiliMusic
             };
 
             var response = IHttpMultiClient.HttpMulti
               .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<ProxyURL>())
               .AddNode((string)string.Format(PlayURL, Input.Dynamic))
-              .Build(action:handle => {
-                  handle.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
-              })
+              .Build(action: handle => handle.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate)
               .RunString().FirstOrDefault();
 
             var jobject = response.ToModel<JObject>();
             Result.CanPlay = !jobject["data"]["cdns"][0].ToString().IsNullOrEmpty();
             Result.SongURL = jobject["data"]["cdns"][0].ToString();
+
+            if (Result.CanPlay)
+            {
+                //20*1024*1024=20971520 分段大小 20M 一首歌应该不会超过20M 192kbps
+                Result.BilibiliFileBytes = IHttpMultiClient.HttpMulti
+                    .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<ProxyURL>())
+                    .Header("User-Agent", "Mozilla/5.0")
+                    .Header("Referer", "https://www.bilibili.com")
+                    .Header("Range", $"bytes=0-20971520")
+                    .AddNode(Result.SongURL)
+                    .Build().RunBytes().FirstOrDefault();
+            }
             return Result;
         }
 
