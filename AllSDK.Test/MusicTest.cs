@@ -428,34 +428,34 @@ namespace AllSDK.Test
                 Console.WriteLine(SheetDetail.ToJson());
                 Thread.Sleep(1000);
                 //地址
-                var SongURL = MusicFactory.Music(opt =>
-                {
-                    opt.RequestParam = new MusicRequestInput
-                    {
-                        MusicPlatformType = MusicPlatformEnum.BiliBiliMusic,
-                        MusicType = MusicTypeEnum.PlayAddress,
-                        AddressSearch = new MusicPlaySearch
-                        {
-                            Dynamic = SheetDetail.SongSheetDetailResult.SongItems.FirstOrDefault().SongId
-                        }
-                    };
-                }).Runs();
-                Console.WriteLine(SongURL.ToJson());
-                Thread.Sleep(1000);
+                //var SongURL = MusicFactory.Music(opt =>
+                //{
+                //    opt.RequestParam = new MusicRequestInput
+                //    {
+                //        MusicPlatformType = MusicPlatformEnum.BiliBiliMusic,
+                //        MusicType = MusicTypeEnum.PlayAddress,
+                //        AddressSearch = new MusicPlaySearch
+                //        {
+                //            Dynamic = SheetDetail.SongSheetDetailResult.SongItems.FirstOrDefault().SongId
+                //        }
+                //    };
+                //}).Runs();
+                //Console.WriteLine(SongURL.ToJson());
+                //Thread.Sleep(1000);
                 //歌词
-                var SongLyric = MusicFactory.Music(opt =>
-                {
-                    opt.RequestParam = new MusicRequestInput
-                    {
-                        MusicPlatformType = MusicPlatformEnum.BiliBiliMusic,
-                        MusicType = MusicTypeEnum.Lyric,
-                        LyricSearch = new MusicLyricSearch
-                        {
-                            Dynamic = SheetDetail.SongSheetDetailResult.SongItems.FirstOrDefault().SongId
-                        }
-                    };
-                }).Runs();
-                Console.WriteLine(SongLyric.ToJson());
+                //var SongLyric = MusicFactory.Music(opt =>
+                //{
+                //    opt.RequestParam = new MusicRequestInput
+                //    {
+                //        MusicPlatformType = MusicPlatformEnum.BiliBiliMusic,
+                //        MusicType = MusicTypeEnum.Lyric,
+                //        LyricSearch = new MusicLyricSearch
+                //        {
+                //            Dynamic = SheetDetail.SongSheetDetailResult.SongItems.FirstOrDefault().SongId
+                //        }
+                //    };
+                //}).Runs();
+                //Console.WriteLine(SongLyric.ToJson());
                 #endregion
             }
         }

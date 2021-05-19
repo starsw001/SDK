@@ -19,7 +19,7 @@ namespace Music.SDK.ViewModel.Response
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public bool CanPlay { get; set; }
         /// <summary>
-        /// 歌曲地址
+        /// 歌曲地址 B站的连接直接访问会报403注意B站只能使用文件流
         /// </summary>
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string SongURL { get; set; }

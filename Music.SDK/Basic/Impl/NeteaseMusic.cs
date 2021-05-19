@@ -121,6 +121,24 @@ namespace Music.SDK.Basic.Impl
                  .AddNode(SongDetailURL, data, RequestType.POST)
                  .Build().RunString().FirstOrDefault();
 
+            var Info = res.ToModel<JObject>();
+
+            foreach (var item in Info["songs"])
+            {
+                MusicSongItem SongItem = new MusicSongItem
+                {
+                    SongName = item["name"].ToString(),
+                    SongId = (long)item["id"],
+                    SongAlbumId = (long)item["al"]["id"],
+                    SongAlbumName = (string)item["al"]["name"]
+                };
+                foreach (var artist in item["ar"])
+                {
+                    SongItem.SongArtistId.Add((long)artist["id"]);
+                    SongItem.SongArtistName.Add((string)artist["name"]);
+                }
+                Result.SongItems.Add(SongItem);
+            }
             return Result;
         }
 
