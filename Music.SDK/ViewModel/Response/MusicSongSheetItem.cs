@@ -9,11 +9,6 @@ namespace Music.SDK.ViewModel.Response
     public class MusicSongSheetItem
     {
         /// <summary>
-        /// 歌曲平台
-        /// </summary>
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public MusicPlatformEnum? MusicPlatformType { get; set; }
-        /// <summary>
         /// 歌单Id
         /// </summary>
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]

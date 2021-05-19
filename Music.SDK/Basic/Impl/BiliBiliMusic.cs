@@ -31,6 +31,7 @@ namespace Music.SDK.Basic.Impl
         {
             MusicSongItemResult Result = new MusicSongItemResult
             {
+                MusicPlatformType = MusicPlatformEnum.BiliBiliMusic,
                 SongItems = new List<MusicSongItem>()
             };
             var response = IHttpMultiClient.HttpMulti
@@ -44,7 +45,6 @@ namespace Music.SDK.Basic.Impl
             {
                 MusicSongItem SongItem = new MusicSongItem
                 {
-                    MusicPlatformType = MusicPlatformEnum.BiliBiliMusic,
                     SongId = (long)jToken["id"],
                     SongName = jToken["title"].ToString().Replace("<em class=\"keyword\">", "").Replace("</em>", "")
                 };
@@ -59,6 +59,7 @@ namespace Music.SDK.Basic.Impl
         {
             MusicSongSheetResult Result = new MusicSongSheetResult
             {
+                MusicPlatformType = MusicPlatformEnum.BiliBiliMusic,
                 SongSheetItems = new List<MusicSongSheetItem>()
             };
 
@@ -74,7 +75,6 @@ namespace Music.SDK.Basic.Impl
             {
                 MusicSongSheetItem SongSheetItem = new MusicSongSheetItem
                 {
-                    MusicPlatformType = MusicPlatformEnum.BiliBiliMusic,
                     Cover = (string)jToken["cover"],
                     ListenNumber = (string)jToken["play_count"],
                     SongSheetId = (long)jToken["id"],

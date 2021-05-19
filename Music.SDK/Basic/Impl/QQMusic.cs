@@ -30,6 +30,7 @@ namespace Music.SDK.Basic.Impl
         {
             MusicSongItemResult Result = new MusicSongItemResult
             {
+                MusicPlatformType = MusicPlatformEnum.QQMusic,
                 SongItems = new List<MusicSongItem>()
             };
             var response = IHttpMultiClient.HttpMulti
@@ -44,7 +45,6 @@ namespace Music.SDK.Basic.Impl
             {
                 MusicSongItem Item = new MusicSongItem
                 {
-                    MusicPlatformType = MusicPlatformEnum.QQMusic,
                     SongId = (long)jToken["songid"],
                     SongMId = (string)jToken["songmid"],
                     SongName = (string)jToken["songname"],
@@ -67,6 +67,7 @@ namespace Music.SDK.Basic.Impl
         {
             MusicSongSheetResult Result = new MusicSongSheetResult
             {
+                MusicPlatformType = MusicPlatformEnum.QQMusic,
                 SongSheetItems = new List<MusicSongSheetItem>()
             };
             var response = IHttpMultiClient.HttpMulti
@@ -81,7 +82,6 @@ namespace Music.SDK.Basic.Impl
             {
                 MusicSongSheetItem Item = new MusicSongSheetItem
                 {
-                    MusicPlatformType = MusicPlatformEnum.QQMusic,
                     Cover = (string)jToken["imgurl"],
                     SongSheetId = (long)jToken["dissid"],
                     SongSheetName = (string)jToken["dissname"],
@@ -153,7 +153,6 @@ namespace Music.SDK.Basic.Impl
             {
                 MusicSongItem Item = new MusicSongItem
                 {
-                    MusicPlatformType = MusicPlatformEnum.QQMusic,
                     SongId = (long)jToken["songid"],
                     SongMId = (string)jToken["songmid"],
                     SongName = (string)jToken["songname"],

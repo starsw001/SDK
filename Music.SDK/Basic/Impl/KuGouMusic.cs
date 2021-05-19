@@ -27,6 +27,7 @@ namespace Music.SDK.Basic.Impl
         {
             MusicSongItemResult Result = new MusicSongItemResult
             {
+                MusicPlatformType = MusicPlatformEnum.KuGouMusic,
                 SongItems = new List<MusicSongItem>()
             };
             var response = IHttpMultiClient.HttpMulti
@@ -42,7 +43,6 @@ namespace Music.SDK.Basic.Impl
                 long albumId = ((string)jToken["AlbumID"]).AsLong();
                 MusicSongItem songItem = new MusicSongItem
                 {
-                    MusicPlatformType = MusicPlatformEnum.KuGouMusic,
                     SongFileHash = fileHash,
                     SongName = (string)jToken["SongName"],
                     SongAlbumId = albumId,
@@ -62,6 +62,7 @@ namespace Music.SDK.Basic.Impl
         {
             MusicSongSheetResult Result = new MusicSongSheetResult
             {
+                MusicPlatformType = MusicPlatformEnum.KuGouMusic,
                 SongSheetItems = new List<MusicSongSheetItem>()
             };
             var Host = SongSheetURL + KuGouHelper.GetParam(Input.KeyWord, Input.Page);
@@ -79,8 +80,7 @@ namespace Music.SDK.Basic.Impl
                     SongSheetId = (long)jToken["specialid"],
                     SongSheetName = (string)jToken["specialname"],
                     CreateTime = ((DateTime)jToken["publish_time"]).ToString("yyyy-MM-dd"),
-                    ListenNumber = (string)jToken["play_count"],
-                    MusicPlatformType = MusicPlatformEnum.KuGouMusic
+                    ListenNumber = (string)jToken["play_count"]
                 };
                 Result.SongSheetItems.Add(SongSheetItem);
             }

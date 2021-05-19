@@ -32,6 +32,7 @@ namespace Music.SDK.Basic.Impl
         {
             MusicSongItemResult Result = new MusicSongItemResult
             {
+                MusicPlatformType = MusicPlatformEnum.KuWoMusic,
                 SongItems = new List<MusicSongItem>()
             };
             var response = IHttpMultiClient.HttpMulti
@@ -51,7 +52,6 @@ namespace Music.SDK.Basic.Impl
                 {
                     SongAlbumId = (long)jToken["albumid"],
                     SongAlbumName = (string)jToken["album"],
-                    MusicPlatformType = MusicPlatformEnum.KuWoMusic,
                     SongId = (long)jToken["rid"],
                     SongName = (string)jToken["name"],
                 };
@@ -67,6 +67,7 @@ namespace Music.SDK.Basic.Impl
         {
             MusicSongSheetResult Result = new MusicSongSheetResult
             {
+                MusicPlatformType = MusicPlatformEnum.KuWoMusic,
                 SongSheetItems = new List<MusicSongSheetItem>()
             };
 
@@ -83,7 +84,6 @@ namespace Music.SDK.Basic.Impl
             {
                 MusicSongSheetItem SongSheetItem = new MusicSongSheetItem
                 {
-                    MusicPlatformType = MusicPlatformEnum.KuWoMusic,
                     Cover = (string)jToken["img"],
                     ListenNumber = (string)jToken["listencnt"],
                     SongSheetId = (long)jToken["id"],
