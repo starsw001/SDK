@@ -268,21 +268,6 @@ namespace AllSDK.Test
                 }).Runs();
                 Console.WriteLine(SongAlbum.ToJson());
                 Thread.Sleep(1000);
-                //歌词
-                var SongLyric = MusicFactory.Music(opt =>
-                {
-                    opt.RequestParam = new MusicRequestInput
-                    {
-                        MusicPlatformType = MusicPlatformEnum.KuWoMusic,
-                        MusicType = MusicTypeEnum.Lyric,
-                        LyricSearch = new MusicLyricSearch
-                        {
-                            Dynamic = SheetDetail.SongSheetDetailResult.SongItems.FirstOrDefault().SongId
-                        }
-                    };
-                }).Runs();
-                Console.WriteLine(SongLyric.ToJson());
-                Thread.Sleep(1000);
                 //地址
                 var SongURL = MusicFactory.Music(opt =>
                 {
@@ -297,26 +282,42 @@ namespace AllSDK.Test
                     };
                 }).Runs();
                 Console.WriteLine(SongURL.ToJson());
+                Thread.Sleep(1000);
+                //歌词
+                var SongLyric = MusicFactory.Music(opt =>
+                {
+                    opt.RequestParam = new MusicRequestInput
+                    {
+                        MusicPlatformType = MusicPlatformEnum.KuWoMusic,
+                        MusicType = MusicTypeEnum.Lyric,
+                        LyricSearch = new MusicLyricSearch
+                        {
+                            Dynamic = SheetDetail.SongSheetDetailResult.SongItems.FirstOrDefault().SongId
+                        }
+                    };
+                }).Runs();
+                Console.WriteLine(SongLyric.ToJson());
+                
                 #endregion
             }
             else if (Type == 3)
             {
                 #region BiliBili
                 //单曲
-                //var SongItem = MusicFactory.Music(opt =>
-                //{
-                //    opt.RequestParam = new MusicRequestInput
-                //    {
-                //        MusicPlatformType = MusicPlatformEnum.BiliBiliMusic,
-                //        MusicType = MusicTypeEnum.SongItem,
-                //        Search = new MusicSearch
-                //        {
-                //            KeyWord = "醉酒的蝴蝶"
-                //        }
-                //    };
-                //}).Runs();
-                //Console.WriteLine(SongItem.ToJson());
-                //Thread.Sleep(1000);
+                var SongItem = MusicFactory.Music(opt =>
+                {
+                    opt.RequestParam = new MusicRequestInput
+                    {
+                        MusicPlatformType = MusicPlatformEnum.BiliBiliMusic,
+                        MusicType = MusicTypeEnum.SongItem,
+                        Search = new MusicSearch
+                        {
+                            KeyWord = "醉酒的蝴蝶"
+                        }
+                    };
+                }).Runs();
+                Console.WriteLine(SongItem.ToJson());
+                Thread.Sleep(1000);
                 //歌单
                 var SongSheet = MusicFactory.Music(opt =>
                 {
@@ -326,7 +327,7 @@ namespace AllSDK.Test
                         MusicType = MusicTypeEnum.SongSheet,
                         Search = new MusicSearch
                         {
-                            KeyWord = "诸葛亮"
+                            KeyWord = "起风了"
                         }
                     };
                 }).Runs();
@@ -347,21 +348,6 @@ namespace AllSDK.Test
                 }).Runs();
                 Console.WriteLine(SheetDetail.ToJson());
                 Thread.Sleep(1000);
-                //歌词
-                //var SongLyric = MusicFactory.Music(opt =>
-                //{
-                //    opt.RequestParam = new MusicRequestInput
-                //    {
-                //        MusicPlatformType = MusicPlatformEnum.KuWoMusic,
-                //        MusicType = MusicTypeEnum.Lyric,
-                //        LyricSearch = new MusicLyricSearch
-                //        {
-                //            Dynamic = SheetDetail.SongSheetDetailResult.SongItems.FirstOrDefault().SongId
-                //        }
-                //    };
-                //}).Runs();
-                //Console.WriteLine(SongLyric.ToJson());
-                //Thread.Sleep(1000);
                 //地址
                 var SongURL = MusicFactory.Music(opt =>
                 {
@@ -376,6 +362,21 @@ namespace AllSDK.Test
                     };
                 }).Runs();
                 Console.WriteLine(SongURL.ToJson());
+                Thread.Sleep(1000);
+                //歌词
+                var SongLyric = MusicFactory.Music(opt =>
+                {
+                    opt.RequestParam = new MusicRequestInput
+                    {
+                        MusicPlatformType = MusicPlatformEnum.BiliBiliMusic,
+                        MusicType = MusicTypeEnum.Lyric,
+                        LyricSearch = new MusicLyricSearch
+                        {
+                            Dynamic = SheetDetail.SongSheetDetailResult.SongItems.FirstOrDefault().SongId
+                        }
+                    };
+                }).Runs();
+                Console.WriteLine(SongLyric.ToJson());
                 #endregion
             }
         }

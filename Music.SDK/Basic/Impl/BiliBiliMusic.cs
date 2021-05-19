@@ -24,7 +24,7 @@ namespace Music.SDK.Basic.Impl
         private const string SongSheetURL = "https://api.bilibili.com/audio/music-service-c/s?keyword={0}&page={1}&pagesize=10&search_type=menus";
         private const string PlayListURL = "https://api.bilibili.com/audio/music-service-c/menus/{0}";
         private const string PlayURL = "https://www.bilibili.com/audio/music-service-c/web/url?sid={0}";
-        private const string LyricURL = "";
+        private const string LyricURL = "https://www.bilibili.com/audio/music-service-c/web/song/info?sid={0}";
 
 
         internal override MusicSongItemResult SearchSong(MusicSearch Input, MusicProxy Proxy)
@@ -180,7 +180,26 @@ namespace Music.SDK.Basic.Impl
 
         internal override MusicLyricResult SongLyric(MusicLyricSearch Input, MusicProxy Proxy)
         {
-            throw new NotImplementedException();
+            var response = IHttpMultiClient.HttpMulti
+             .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<ProxyURL>())
+             .AddNode((string)string.Format(LyricURL, Input.Dynamic))
+             .Build(action: handle => handle.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate)
+             .RunString().FirstOrDefault();
+
+            var jobject = response.ToModel<JObject>();
+            var LyricUrl = jobject["data"]["lyric"].ToString();
+            if (LyricUrl.IsNullOrEmpty())
+                return new MusicLyricResult();
+            var Lyr = new WebClient().DownloadString(LyricUrl);
+            MusicLyricResult Result = new MusicLyricResult
+            {
+                BiliBiliLyric = Lyr
+            };
+            if (Result.Title.IsNullOrEmpty())
+                Result.Title = (string)jobject["data"]["title"];
+            if (Result.Artist.IsNullOrEmpty())
+                Result.Artist = (string)jobject["data"]["author"];
+            return Result;
         }
     }
 }

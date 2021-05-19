@@ -78,7 +78,8 @@ namespace Music.SDK.ViewModel.Response
         public string Offset { get; set; }
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public List<MusicLyricItemResult> Lyrics { get; set; }
-
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public string BiliBiliLyric { get; set; }
         public override string ToString()
         {
             string result = string.Empty;
