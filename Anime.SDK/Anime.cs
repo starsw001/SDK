@@ -17,7 +17,7 @@ namespace Anime.SDK
 {
     internal class Anime : IAnime
     {
-        private const string Host = "http://www.cgdm.net";
+        private const string Host = "http://www.txdm.net";
         private const string Search = Host + "/search.asp?searchword={0}&page={1}";
         private const string Category = Search + "&searchtype=4";
         /*
