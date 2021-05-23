@@ -14,6 +14,10 @@ namespace AllSDK.Test
 {
     public class MusicTest
     {
+        /// <summary>
+        /// 平台音乐测试
+        /// </summary>
+        /// <param name="Type"></param>
         public static void MusicAllTest(int Type)
         {
             if (Type == 0)
