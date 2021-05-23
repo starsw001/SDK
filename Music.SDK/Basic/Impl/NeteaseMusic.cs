@@ -1,4 +1,5 @@
-﻿using Music.SDK.ViewModel.Enums;
+﻿using Music.SDK.Utilily.NeteaseUtility;
+using Music.SDK.ViewModel.Enums;
 using Music.SDK.ViewModel.Request;
 using Music.SDK.ViewModel.Response;
 using Newtonsoft.Json.Linq;
@@ -18,9 +19,9 @@ namespace Music.SDK.Basic.Impl
         private const string SongURL = "https://music.163.com/api/cloudsearch/pc?s={0}&offset={1}&limit=10&type={2}";
         private const string SongDetailURL = "https://music.163.com/api/v3/song/detail";
         private const string PlayListURL = "https://music.163.com/api/v6/playlist/detail?s=8&n=100000&id={0}";
-        private const string AlbumURL = "";
-        private const string PlayURL = "";
-        private const string LyricURL = "";
+        private const string AlbumURL = "https://music.163.com/weapi/v1/album/{0}";
+        private const string PlayURL = "https://music.163.com/weapi/song/enhance/player/url/v1";
+        private const string LyricURL = "https://music.163.com/api/song/media?id={0}";
 
 
         internal override MusicSongItemResult SearchSong(MusicSearch Input, MusicProxy Proxy)
@@ -144,17 +145,73 @@ namespace Music.SDK.Basic.Impl
 
         internal override MusicSongAlbumDetailResult SongAlbumDetail(MusicAlbumSearch Input, MusicProxy Proxy)
         {
-            throw new NotImplementedException();
-        }
+            var data = new { csrf_token = "" }.EncryptRequest();
+            MusicSongAlbumDetailResult Result = new MusicSongAlbumDetailResult
+            {
+                MusicPlatformType = MusicPlatformEnum.NeteaseMusic,
+                SongItems = new List<MusicSongItem>()
+            };
+            var response = IHttpMultiClient.HttpMulti
+                .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<ProxyURL>())
+                .AddNode(string.Format(AlbumURL, Input.AlbumId), data, RequestType.POST)
+                .Build().RunString().FirstOrDefault();
 
-        internal override MusicLyricResult SongLyric(MusicLyricSearch Input, MusicProxy Proxy)
-        {
-            throw new NotImplementedException();
+            var jobject = response.ToModel<JObject>();
+            Result.AlbumName = jobject["album"]["alias"][0].ToString();
+            foreach (var jToken in jobject["songs"])
+            {
+                MusicSongItem SongItem = new MusicSongItem
+                {
+                    SongName = jToken["name"].ToString(),
+                    SongId = (long)jToken["id"],
+                    SongAlbumId = (long)jToken["al"]["id"],
+                    SongAlbumName = (string)jToken["al"]["name"]
+                };
+                foreach (var artist in jToken["ar"])
+                {
+                    SongItem.SongArtistId.Add((long)artist["id"]);
+                    SongItem.SongArtistName.Add((string)artist["name"]);
+                }
+                Result.SongItems.Add(SongItem);
+            }
+
+            return Result;
         }
 
         internal override MusicSongPlayAddressResult SongPlayAddress(MusicPlaySearch Input, MusicProxy Proxy)
         {
-            throw new NotImplementedException();
+            MusicSongPlayAddressResult Result = new MusicSongPlayAddressResult
+            {
+                MusicPlatformType = MusicPlatformEnum.NeteaseMusic
+            };
+
+            var data = new
+            {
+                ids = "[" + Input.Dynamic + "]",
+                level = "standard",
+                encodeType = "aac",
+                csrf_token = ""
+            }.EncryptRequest();
+            var response = IHttpMultiClient.HttpMulti
+                .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<ProxyURL>())
+                .AddNode(PlayURL, data, RequestType.POST)
+                .Build().RunString().FirstOrDefault();
+
+            var jobject = response.ToModel<JObject>();
+            Result.CanPlay = !jobject["data"][0]["url"][0].ToString().IsNullOrEmpty();
+            Result.SongURL = jobject["data"][0]["url"][0].ToString();
+
+            return Result;
+        }
+
+        internal override MusicLyricResult SongLyric(MusicLyricSearch Input, MusicProxy Proxy)
+        {
+            var response = IHttpMultiClient.HttpMulti
+              .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<ProxyURL>())
+              .AddNode((string)string.Format(LyricURL, Input.Dynamic))
+              .Build().RunString().FirstOrDefault();
+            var jobject = response.ToModel<JObject>();
+            return new MusicLyricResult(jobject["lyric"].ToString());
         }
     }
 }
