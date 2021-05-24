@@ -20,7 +20,7 @@ namespace Music.SDK
                 MusicPlatformEnum.KuGouMusic => new KuGouMusic(),
                 MusicPlatformEnum.KuWoMusic => new KuWoMusic(),
                 MusicPlatformEnum.BiliBiliMusic => new BiliBiliMusic(),
-                MusicPlatformEnum.QianQianMusic => new QianQianMusic(),
+                MusicPlatformEnum.MiGuMusic => new MiGuMusic(),
                 _ => throw new NullReferenceException(nameof(BasicMusic)),
             };
         }

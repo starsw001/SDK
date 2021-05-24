@@ -16,7 +16,6 @@ namespace Music.SDK.ViewModel.Enums
 
         BiliBiliMusic,
 
-        QianQianMusic
-
+        MiGuMusic
     }
 }

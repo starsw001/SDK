@@ -16,7 +16,7 @@ namespace AllSDK.Test
             //图片SDK
             //WallpaperTest.WallpaperAllTest();
             //音乐SDK
-            MusicTest.MusicAllTest(4);
+            MusicTest.MusicAllTest(5);
             Console.WriteLine("自动化测试完成，按任意键退出");
             Console.ReadKey();
         }

@@ -301,7 +301,7 @@ namespace AllSDK.Test
                     };
                 }).Runs();
                 Console.WriteLine(SongLyric.ToJson());
-                
+
                 #endregion
             }
             else if (Type == 3)
@@ -475,6 +475,26 @@ namespace AllSDK.Test
                     };
                 }).Runs();
                 Console.WriteLine(SongLyric.ToJson());
+                #endregion
+            }
+            else
+            {
+                #region MiGu
+                //单曲
+                var SongItem = MusicFactory.Music(opt =>
+                {
+                    opt.RequestParam = new MusicRequestInput
+                    {
+                        MusicPlatformType = MusicPlatformEnum.MiGuMusic,
+                        MusicType = MusicTypeEnum.SongItem,
+                        Search = new MusicSearch
+                        {
+                            KeyWord = "七里香"
+                        }
+                    };
+                }).Runs();
+                Console.WriteLine(SongItem.ToJson());
+                Thread.Sleep(1000);
                 #endregion
             }
         }
