@@ -50,12 +50,12 @@ namespace Music.SDK.Basic.Impl
             {
                 MusicSongItem SongItem = new MusicSongItem
                 {
-                    SongAlbumId = (long)jToken["albumid"],
+                    SongAlbumId = jToken["albumid"].ToString(),
                     SongAlbumName = (string)jToken["album"],
-                    SongId = (long)jToken["rid"],
+                    SongId = jToken["rid"].ToString(),
                     SongName = (string)jToken["name"],
                 };
-                SongItem.SongArtistId.Add((long)jToken["artistid"]);
+                SongItem.SongArtistId.Add(jToken["artistid"].ToString());
                 SongItem.SongArtistName.Add((string)jToken["artist"]);
                 Result.SongItems.Add(SongItem);
             }
@@ -117,12 +117,12 @@ namespace Music.SDK.Basic.Impl
             {
                 MusicSongItem SongItem = new MusicSongItem
                 {
-                    SongAlbumId = (long)jToken["albumid"],
+                    SongAlbumId = jToken["albumid"].ToString(),
                     SongAlbumName = (string)jToken["album"],
-                    SongId = (long)jToken["rid"],
+                    SongId = jToken["rid"].ToString(),
                     SongName = (string)jToken["name"],
                 };
-                SongItem.SongArtistId.Add((long)jToken["artistid"]);
+                SongItem.SongArtistId.Add(jToken["artistid"].ToString());
                 SongItem.SongArtistName.Add((string)jToken["artist"]);
                 Result.SongItems.Add(SongItem);
             }
@@ -150,12 +150,12 @@ namespace Music.SDK.Basic.Impl
             {
                 MusicSongItem SongItem = new MusicSongItem
                 {
-                    SongAlbumId = (long)jToken["albumid"],
+                    SongAlbumId = jToken["albumid"].ToString(),
                     SongAlbumName = (string)jToken["album"],
-                    SongId = (long)jToken["rid"],
+                    SongId = jToken["rid"].ToString(),
                     SongName = (string)jToken["name"],
                 };
-                SongItem.SongArtistId.Add((long)jToken["artistid"]);
+                SongItem.SongArtistId.Add(jToken["artistid"].ToString());
                 SongItem.SongArtistName.Add((string)jToken["artist"]);
                 Result.SongItems.Add(SongItem);
             }

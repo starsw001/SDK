@@ -11,6 +11,6 @@ namespace Music.SDK.ViewModel.Request
         /// <summary>
         /// 酷狗专用专辑ID
         /// </summary>
-        public long KuGouAlbumId { get; set; }
+        public string KuGouAlbumId { get; set; }
     }
 }

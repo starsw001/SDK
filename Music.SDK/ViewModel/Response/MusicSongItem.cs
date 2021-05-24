@@ -12,19 +12,7 @@ namespace Music.SDK.ViewModel.Response
         /// 歌曲ID
         /// </summary>
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public long SongId { get; set; }
-
-        /// <summary>
-        /// 歌曲MID
-        /// </summary>
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public string SongMId { get; set; }
-
-        /// <summary>
-        /// 歌曲文件Hash
-        /// </summary>
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public string SongFileHash { get; set; }
+        public string SongId { get; set; }
 
         /// <summary>
         /// 歌曲名称
@@ -33,39 +21,27 @@ namespace Music.SDK.ViewModel.Response
         public string SongName { get; set; }
 
         /// <summary>
-        /// 歌曲艺术家ID
-        /// </summary>
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public List<long> SongArtistId { get; set; } = new List<long>();
-
-        /// <summary>
-        /// 歌曲艺术家MID
-        /// </summary>
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public List<string> SongArtistMId { get; set; } = new List<string>();
-
-        /// <summary>
-        /// 歌曲艺术家名称
-        /// </summary>
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public List<string> SongArtistName { get; set; } = new List<string>();
-
-        /// <summary>
         /// 歌曲专辑ID
         /// </summary>
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public long SongAlbumId { get; set; }
-
-        /// <summary>
-        /// 歌曲专辑MID
-        /// </summary>
-        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
-        public string SongAlbumMId { get; set; }
+        public string SongAlbumId { get; set; }
 
         /// <summary>
         /// 歌曲专辑名称
         /// </summary>
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string SongAlbumName { get; set; }
+
+        /// <summary>
+        /// 歌曲艺术家ID
+        /// </summary>
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public List<string> SongArtistId { get; set; } = new List<string>();
+
+        /// <summary>
+        /// 歌曲艺术家名称
+        /// </summary>
+        [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
+        public List<string> SongArtistName { get; set; } = new List<string>();
     }
 }

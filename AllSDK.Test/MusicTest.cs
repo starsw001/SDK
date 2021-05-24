@@ -47,7 +47,7 @@ namespace AllSDK.Test
                         MusicType = MusicTypeEnum.AlbumDetail,
                         AlbumSearch = new MusicAlbumSearch
                         {
-                            AlbumId = SongItem.SongItemResult.SongItems.FirstOrDefault().SongAlbumMId
+                            AlbumId = SongItem.SongItemResult.SongItems.FirstOrDefault().SongAlbumId
                         }
                     };
                 }).Runs();
@@ -92,7 +92,7 @@ namespace AllSDK.Test
                         MusicType = MusicTypeEnum.PlayAddress,
                         AddressSearch = new MusicPlaySearch
                         {
-                            Dynamic = SheetDetail.SongSheetDetailResult.SongItems.FirstOrDefault().SongMId
+                            Dynamic = SheetDetail.SongSheetDetailResult.SongItems.FirstOrDefault().SongId
                         }
                     };
                 }).Runs();
@@ -107,7 +107,7 @@ namespace AllSDK.Test
                         MusicType = MusicTypeEnum.Lyric,
                         LyricSearch = new MusicLyricSearch
                         {
-                            Dynamic = SheetDetail.SongSheetDetailResult.SongItems.FirstOrDefault().SongMId
+                            Dynamic = SheetDetail.SongSheetDetailResult.SongItems.FirstOrDefault().SongId
                         }
                     };
                 }).Runs();
@@ -171,7 +171,7 @@ namespace AllSDK.Test
                         MusicType = MusicTypeEnum.AlbumDetail,
                         AlbumSearch = new MusicAlbumSearch
                         {
-                            AlbumId = SongItem.SongItemResult.SongItems.LastOrDefault().SongAlbumId.AsString()
+                            AlbumId = SongItem.SongItemResult.SongItems.LastOrDefault().SongAlbumId
                         }
                     };
                 }).Runs();
@@ -187,7 +187,7 @@ namespace AllSDK.Test
                         AddressSearch = new MusicPlaySearch
                         {
                             KuGouAlbumId = SongItem.SongItemResult.SongItems.FirstOrDefault().SongAlbumId,
-                            Dynamic = SongItem.SongItemResult.SongItems.FirstOrDefault().SongFileHash
+                            Dynamic = SongItem.SongItemResult.SongItems.FirstOrDefault().SongId
                         }
                     };
                 }).Runs();
@@ -202,7 +202,7 @@ namespace AllSDK.Test
                         MusicType = MusicTypeEnum.Lyric,
                         LyricSearch = new MusicLyricSearch
                         {
-                            Dynamic = SongItem.SongItemResult.SongItems.FirstOrDefault().SongFileHash
+                            Dynamic = SongItem.SongItemResult.SongItems.FirstOrDefault().SongId
                         }
                     };
                 }).Runs();
@@ -266,7 +266,7 @@ namespace AllSDK.Test
                         MusicType = MusicTypeEnum.AlbumDetail,
                         AlbumSearch = new MusicAlbumSearch
                         {
-                            AlbumId = SongItem.SongItemResult.SongItems.FirstOrDefault().SongAlbumId.AsString()
+                            AlbumId = SongItem.SongItemResult.SongItems.FirstOrDefault().SongAlbumId
                         }
                     };
                 }).Runs();
@@ -440,7 +440,7 @@ namespace AllSDK.Test
                         MusicType = MusicTypeEnum.AlbumDetail,
                         AlbumSearch = new MusicAlbumSearch
                         {
-                            AlbumId = SheetDetail.SongSheetDetailResult.SongItems.FirstOrDefault().SongAlbumId.AsString()
+                            AlbumId = SheetDetail.SongSheetDetailResult.SongItems.FirstOrDefault().SongAlbumId
                         }
                     };
                 }).Runs();
@@ -481,19 +481,49 @@ namespace AllSDK.Test
             {
                 #region MiGu
                 //单曲
-                var SongItem = MusicFactory.Music(opt =>
+                //var SongItem = MusicFactory.Music(opt =>
+                //{
+                //    opt.RequestParam = new MusicRequestInput
+                //    {
+                //        MusicPlatformType = MusicPlatformEnum.MiGuMusic,
+                //        MusicType = MusicTypeEnum.SongItem,
+                //        Search = new MusicSearch
+                //        {
+                //            KeyWord = "勇气"
+                //        }
+                //    };
+                //}).Runs();
+                //Console.WriteLine(SongItem.ToJson());
+                //Thread.Sleep(1000);
+                //歌单
+                var SongSheet = MusicFactory.Music(opt =>
                 {
                     opt.RequestParam = new MusicRequestInput
                     {
                         MusicPlatformType = MusicPlatformEnum.MiGuMusic,
-                        MusicType = MusicTypeEnum.SongItem,
+                        MusicType = MusicTypeEnum.SongSheet,
                         Search = new MusicSearch
                         {
-                            KeyWord = "七里香"
+                            KeyWord = "勇气"
                         }
                     };
                 }).Runs();
-                Console.WriteLine(SongItem.ToJson());
+                Console.WriteLine(SongSheet.ToJson());
+                Thread.Sleep(1000);
+                //歌单详情
+                var SheetDetail = MusicFactory.Music(opt =>
+                {
+                    opt.RequestParam = new MusicRequestInput
+                    {
+                        MusicPlatformType = MusicPlatformEnum.MiGuMusic,
+                        MusicType = MusicTypeEnum.SheetDetail,
+                        SheetSearch = new MusicSheetSearch
+                        {
+                            Id = SongSheet.SongSheetResult.SongSheetItems[2].SongSheetId.AsString()
+                        }
+                    };
+                }).Runs();
+                Console.WriteLine(SheetDetail.ToJson());
                 Thread.Sleep(1000);
                 #endregion
             }

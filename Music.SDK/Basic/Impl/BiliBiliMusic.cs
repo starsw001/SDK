@@ -45,7 +45,7 @@ namespace Music.SDK.Basic.Impl
             {
                 MusicSongItem SongItem = new MusicSongItem
                 {
-                    SongId = (long)jToken["id"],
+                    SongId = jToken["id"].ToString(),
                     SongName = jToken["title"].ToString().Replace("<em class=\"keyword\">", "").Replace("</em>", "")
                 };
                 SongItem.SongArtistName.Add((string)jToken["up_name"]);
@@ -109,7 +109,7 @@ namespace Music.SDK.Basic.Impl
             {
                 MusicSongItem SongItem = new MusicSongItem
                 {
-                    SongId = (long)jToken["id"],
+                    SongId = jToken["id"].ToString(),
                     SongName = (string)jToken["title"]
                 };
                 SongItem.SongArtistName.Add((string)jToken["up_name"]);
@@ -138,7 +138,7 @@ namespace Music.SDK.Basic.Impl
             {
                 MusicSongItem SongItem = new MusicSongItem
                 {
-                    SongId = (long)jToken["id"],
+                    SongId = jToken["id"].ToString(),
                     SongName = (string)jToken["title"]
                 };
                 SongItem.SongArtistName.Add((string)jToken["up_name"]);

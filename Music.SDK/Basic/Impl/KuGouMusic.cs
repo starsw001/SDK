@@ -39,19 +39,17 @@ namespace Music.SDK.Basic.Impl
             Result.Total = (int)jobject["data"]["total"];
             foreach (var jToken in jobject["data"]["lists"])
             {
-                string fileHash = (string)jToken["FileHash"];
-                long albumId = ((string)jToken["AlbumID"]).AsLong();
                 MusicSongItem songItem = new MusicSongItem
                 {
-                    SongFileHash = fileHash,
+                    SongId = jToken["FileHash"].ToString(),
                     SongName = (string)jToken["SongName"],
-                    SongAlbumId = albumId,
+                    SongAlbumId = jToken["album_id"].ToString(),
                     SongAlbumName = (string)jToken["AlbumName"]
                 };
                 songItem.SongArtistName.AddRange(((string)jToken["SingerName"]).Split(new string[] { "、" }, StringSplitOptions.None));
                 foreach (var id in jToken["SingerId"])
                 {
-                    songItem.SongArtistId.Add((long)id);
+                    songItem.SongArtistId.Add(id.ToString());
                 }
                 Result.SongItems.Add(songItem);
             }
@@ -107,9 +105,9 @@ namespace Music.SDK.Basic.Impl
             {
                 MusicSongItem SongItem = new MusicSongItem
                 {
-                    SongFileHash = (string)jToken["hash"],
+                    SongId = jToken["FileHash"].ToString(),
                     SongName = ((string)jToken["filename"]).Split("-").LastOrDefault().Trim(),
-                    SongAlbumId = (long)jToken["album_id"]
+                    SongAlbumId = jToken["album_id"].ToString()
                 };
                 SongItem.SongArtistName.Add(((string)jToken["filename"]).Split("-").FirstOrDefault().Trim());
                 Result.SongItems.Add(SongItem);
@@ -137,9 +135,9 @@ namespace Music.SDK.Basic.Impl
             {
                 MusicSongItem SongItem = new MusicSongItem
                 {
-                    SongFileHash = (string)jToken["hash"],
+                    SongId = jToken["FileHash"].ToString(),
                     SongName = ((string)jToken["filename"]).Split("-").LastOrDefault().Trim(),
-                    SongAlbumId = (long)jToken["album_id"]
+                    SongAlbumId = jToken["album_id"].ToString()
                 };
                 var ArtistName = jToken["filename"].ToString().Split("-").FirstOrDefault().Trim().Split(new string[] { "、" }, StringSplitOptions.None);
                 SongItem.SongArtistName.AddRange(ArtistName);
@@ -155,7 +153,7 @@ namespace Music.SDK.Basic.Impl
             {
                 MusicPlatformType = MusicPlatformEnum.KuGouMusic
             };
-            var URL = $"{string.Format(PlayURL, Input.Dynamic)}{(Input.KuGouAlbumId == 0 ? "" : $"&album_id={Input.KuGouAlbumId}")}";
+            var URL = $"{string.Format(PlayURL, Input.Dynamic)}{(Input.KuGouAlbumId.Equals("0") ? "" : $"&album_id={Input.KuGouAlbumId}")}";
             var response = IHttpMultiClient.HttpMulti
                 .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<ProxyURL>())
                 .Header("Cookie", "kg_mid=c4ca4238a0b923820dcc509a6f75849b")
