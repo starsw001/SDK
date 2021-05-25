@@ -481,20 +481,20 @@ namespace AllSDK.Test
             {
                 #region MiGu
                 //单曲
-                //var SongItem = MusicFactory.Music(opt =>
-                //{
-                //    opt.RequestParam = new MusicRequestInput
-                //    {
-                //        MusicPlatformType = MusicPlatformEnum.MiGuMusic,
-                //        MusicType = MusicTypeEnum.SongItem,
-                //        Search = new MusicSearch
-                //        {
-                //            KeyWord = "勇气"
-                //        }
-                //    };
-                //}).Runs();
-                //Console.WriteLine(SongItem.ToJson());
-                //Thread.Sleep(1000);
+                var SongItem = MusicFactory.Music(opt =>
+                {
+                    opt.RequestParam = new MusicRequestInput
+                    {
+                        MusicPlatformType = MusicPlatformEnum.MiGuMusic,
+                        MusicType = MusicTypeEnum.SongItem,
+                        Search = new MusicSearch
+                        {
+                            KeyWord = "勇气"
+                        }
+                    };
+                }).Runs();
+                Console.WriteLine(SongItem.ToJson());
+                Thread.Sleep(1000);
                 //歌单
                 var SongSheet = MusicFactory.Music(opt =>
                 {
@@ -525,6 +525,50 @@ namespace AllSDK.Test
                 }).Runs();
                 Console.WriteLine(SheetDetail.ToJson());
                 Thread.Sleep(1000);
+                //关联专辑
+                var SongAlbum = MusicFactory.Music(opt =>
+                {
+                    opt.RequestParam = new MusicRequestInput
+                    {
+                        MusicPlatformType = MusicPlatformEnum.MiGuMusic,
+                        MusicType = MusicTypeEnum.AlbumDetail,
+                        AlbumSearch = new MusicAlbumSearch
+                        {
+                            AlbumId = SheetDetail.SongSheetDetailResult.SongItems[3].SongAlbumId
+                        }
+                    };
+                }).Runs();
+                Console.WriteLine(SongAlbum.ToJson());
+                Thread.Sleep(1000);
+                //地址
+                var SongURL = MusicFactory.Music(opt =>
+                {
+                    opt.RequestParam = new MusicRequestInput
+                    {
+                        MusicPlatformType = MusicPlatformEnum.MiGuMusic,
+                        MusicType = MusicTypeEnum.PlayAddress,
+                        AddressSearch = new MusicPlaySearch
+                        {
+                            Dynamic = SongItem.SongItemResult.SongItems.FirstOrDefault().SongId
+                        }
+                    };
+                }).Runs();
+                Console.WriteLine(SongURL.ToJson());
+                Thread.Sleep(1000);
+                //歌词
+                var SongLyric = MusicFactory.Music(opt =>
+                {
+                    opt.RequestParam = new MusicRequestInput
+                    {
+                        MusicPlatformType = MusicPlatformEnum.MiGuMusic,
+                        MusicType = MusicTypeEnum.Lyric,
+                        LyricSearch = new MusicLyricSearch
+                        {
+                            Dynamic = SongItem.SongItemResult.SongItems.FirstOrDefault().SongId
+                        }
+                    };
+                }).Runs();
+                Console.WriteLine(SongLyric.ToJson());
                 #endregion
             }
         }

@@ -167,19 +167,20 @@ namespace Music.SDK.Basic.Impl
             Result.SongURL = jobject["data"]["play_url"].ToString();
 
             // 歌词
-            var Lyric = new MusicLyricResult(Regex.Unescape(jobject["data"]["lyrics"].ToString()));
-            if (Caches.RunTimeCacheGet<MusicLyricResult>(Input.Dynamic) == null)
-                Caches.RunTimeCacheSet<MusicLyricResult>(Input.Dynamic, Lyric, 10);
+            if (Caches.RunTimeCacheGet<string>((string)Input.Dynamic).IsNullOrEmpty())
+                Caches.RunTimeCacheSet<string>(Input.Dynamic, Regex.Unescape(jobject["data"]["lyrics"].ToString()), 10);
             return Result;
         }
 
         internal override MusicLyricResult SongLyric(MusicLyricSearch Input, MusicProxy Proxy)
         {
-            var Result = Caches.RunTimeCacheGet<MusicLyricResult>(Input.Dynamic);
-            if (Result == null)
+            var Result = Caches.RunTimeCacheGet<string>((string)Input.Dynamic);
+            if (Result.IsNullOrEmpty())
                 return new MusicLyricResult { Title = "请先调用获取播放地址" };
             else
-                return Result;
+            {
+                return new MusicLyricResult(Result);
+            }
         }
     }
 }

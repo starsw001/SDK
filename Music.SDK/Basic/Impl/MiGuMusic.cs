@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Web;
+using XExten.Advance.CacheFramework;
 using XExten.Advance.HttpFramework.MultiCommon;
 using XExten.Advance.HttpFramework.MultiFactory;
 using XExten.Advance.LinqFramework;
@@ -18,11 +19,10 @@ namespace Music.SDK.Basic.Impl
     internal class MiGuMusic : BasicMusic
     {
         private const string SongURL = "https://m.music.migu.cn/migu/remoting/scr_search_tag?rows=10&type={0}&keyword={1}&pgc={2}";
-        private const string SongSheetURL = "http://m.music.migu.cn/migu/remoting/query_playlist_by_id_tag?onLine=1&queryChannel=0&createUserId=migu&contentCountMin=5&playListId={0}";
+        private const string SongSheetURL = "https://m.music.migu.cn/migu/remoting/query_playlist_by_id_tag?onLine=1&queryChannel=0&createUserId=migu&contentCountMin=5&playListId={0}";
         private const string PlayListURL = "https://music.migu.cn/v3/music/playlist/{0}?page={1}";
-        private const string AlbumURL = "";
-        private const string PlayURL = "";
-        private const string LyricURL = "";
+        private const string AlbumURL = "https://m.music.migu.cn/migu/remoting/cms_album_song_list_tag?albumId={0}&pageSize=100";
+        private const string PlayURL = "https://m.music.migu.cn/migu/remoting/cms_detail_tag?cpid={0}";
         private Dictionary<string, string> Headers = new Dictionary<string, string>
         {
             {"Referer","http://m.music.migu.cn" },
@@ -47,7 +47,7 @@ namespace Music.SDK.Basic.Impl
             {
                 MusicSongItem SongItem = new MusicSongItem
                 {
-                    SongId = jToken["id"].ToString(),
+                    SongId = jToken["copyrightId"].ToString(),
                     SongName = jToken["songName"].ToString(),
                     SongAlbumId = jToken["albumId"].ToString(),
                     SongAlbumName = jToken["albumName"].ToString(),
@@ -130,17 +130,70 @@ namespace Music.SDK.Basic.Impl
 
         internal override MusicSongAlbumDetailResult SongAlbumDetail(MusicAlbumSearch Input, MusicProxy Proxy)
         {
-            throw new NotImplementedException();
+            MusicSongAlbumDetailResult Result = new MusicSongAlbumDetailResult
+            {
+                MusicPlatformType = MusicPlatformEnum.MiGuMusic,
+                SongItems = new List<MusicSongItem>()
+            };
+            HtmlWeb html = new HtmlWeb();
+            var htmlnode = html.Load($"http://music.migu.cn/v3/music/album/{Input.AlbumId}").DocumentNode;
+            Result.AlbumName = htmlnode.SelectSingleNode("//h1[@class='title']").InnerText.Trim();
+            var response = IHttpMultiClient.HttpMulti
+                .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<ProxyURL>())
+                .Header(Headers).AddNode(string.Format(AlbumURL, Input.AlbumId))
+                .Build().RunString().FirstOrDefault();
+
+            var jobject = response.ToModel<JObject>();
+
+            foreach (var jToken in jobject["result"]["results"])
+            {
+                MusicSongItem SongItem = new MusicSongItem
+                {
+                    SongId = jToken["copyrightId"].ToString(),
+                    SongName = jToken["songName"].ToString(),
+                    SongAlbumId = Input.AlbumId,
+                    SongAlbumName = Result.AlbumName,
+                };
+                var SingerId = jToken["singerId"].Select(t=>t.ToString());
+                var SingerName = jToken["singerName"].Select(t => t.ToString());
+                SongItem.SongArtistId.AddRange(SingerId);
+                SongItem.SongArtistName.AddRange(SingerName);
+                Result.SongItems.Add(SongItem);
+            }
+
+            return Result;
         }
 
         internal override MusicSongPlayAddressResult SongPlayAddress(MusicPlaySearch Input, MusicProxy Proxy)
         {
-            throw new NotImplementedException();
+            MusicSongPlayAddressResult Result = new MusicSongPlayAddressResult
+            {
+                MusicPlatformType = MusicPlatformEnum.MiGuMusic
+            };
+            var response = IHttpMultiClient.HttpMulti
+              .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<ProxyURL>())
+              .Header(Headers).AddNode((string)string.Format(PlayURL, Input.Dynamic))
+              .Build().RunString().FirstOrDefault();
+
+            var jobject = response.ToModel<JObject>();
+
+            Result.CanPlay = !jobject["data"]["lisQq"].ToString().IsNullOrEmpty();
+            Result.SongURL = HttpUtility.UrlDecode(jobject["data"]["lisQq"].ToString());
+            //歌词
+            if (Caches.RunTimeCacheGet<string>((string)Input.Dynamic).IsNullOrEmpty()) 
+                Caches.RunTimeCacheSet<string>(Input.Dynamic, jobject["data"]["lyricLrc"].ToString(), 10);
+            return Result;
         }
 
         internal override MusicLyricResult SongLyric(MusicLyricSearch Input, MusicProxy Proxy)
         {
-            throw new NotImplementedException();
+            var Result = Caches.RunTimeCacheGet<string>((string)Input.Dynamic);
+            if (Result.IsNullOrEmpty())
+                return new MusicLyricResult { Title = "请先调用获取播放地址" };
+            else
+            {
+                return new MusicLyricResult(Result);
+            }
         }
     }
 }
