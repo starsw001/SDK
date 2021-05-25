@@ -198,8 +198,9 @@ namespace Music.SDK.Basic.Impl
                 .Build().RunString().FirstOrDefault();
 
             var jobject = response.ToModel<JObject>();
-            Result.CanPlay = !jobject["data"][0]["url"][0].ToString().IsNullOrEmpty();
-            Result.SongURL = jobject["data"][0]["url"][0].ToString();
+            var jToken = jobject["data"][0]["url"];
+            Result.CanPlay = !jToken.ToString().IsNullOrEmpty();
+            Result.SongURL = jToken.ToString();
 
             return Result;
         }

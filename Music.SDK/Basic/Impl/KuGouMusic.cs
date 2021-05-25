@@ -43,7 +43,7 @@ namespace Music.SDK.Basic.Impl
                 {
                     SongId = jToken["FileHash"].ToString(),
                     SongName = (string)jToken["SongName"],
-                    SongAlbumId = jToken["album_id"].ToString(),
+                    SongAlbumId = jToken["AlbumID"].ToString(),
                     SongAlbumName = (string)jToken["AlbumName"]
                 };
                 songItem.SongArtistName.AddRange(((string)jToken["SingerName"]).Split(new string[] { "、" }, StringSplitOptions.None));
@@ -105,7 +105,7 @@ namespace Music.SDK.Basic.Impl
             {
                 MusicSongItem SongItem = new MusicSongItem
                 {
-                    SongId = jToken["FileHash"].ToString(),
+                    SongId = jToken["hash"].ToString(),
                     SongName = ((string)jToken["filename"]).Split("-").LastOrDefault().Trim(),
                     SongAlbumId = jToken["album_id"].ToString()
                 };
@@ -135,7 +135,7 @@ namespace Music.SDK.Basic.Impl
             {
                 MusicSongItem SongItem = new MusicSongItem
                 {
-                    SongId = jToken["FileHash"].ToString(),
+                    SongId = jToken["hash"].ToString(),
                     SongName = ((string)jToken["filename"]).Split("-").LastOrDefault().Trim(),
                     SongAlbumId = jToken["album_id"].ToString()
                 };

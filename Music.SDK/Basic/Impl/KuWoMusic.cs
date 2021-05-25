@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Web;
 using XExten.Advance.HttpFramework.MultiCommon;
 using XExten.Advance.HttpFramework.MultiFactory;
@@ -143,7 +144,7 @@ namespace Music.SDK.Basic.Impl
                 .Build().RunString().FirstOrDefault();
 
             var jobject = response.ToModel<JObject>();
-
+            Thread.Sleep(800);
             Result.AlbumName = (string)jobject["data"]["album"];
 
             foreach (var jToken in jobject["data"]["musicList"])
