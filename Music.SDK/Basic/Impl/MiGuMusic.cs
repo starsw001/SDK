@@ -37,9 +37,9 @@ namespace Music.SDK.Basic.Impl
                 SongItems = new List<MusicSongItem>()
             };
             var response = IHttpMultiClient.HttpMulti
-              .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<ProxyURL>())
-              .Header(Headers)
-              .AddNode(string.Format(SongURL, 2, Input.KeyWord, Input.Page))
+              .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<MultiProxy>())
+              .AddHeader(opt => opt.Headers = Headers)
+              .AddNode(opt => opt.NodePath = string.Format(SongURL, 2, Input.KeyWord, Input.Page))
               .Build().RunString().FirstOrDefault();
             var jobject = response.ToModel<JObject>();
             Result.Total = (int)jobject["pgt"];
@@ -69,9 +69,9 @@ namespace Music.SDK.Basic.Impl
                 SongSheetItems = new List<MusicSongSheetItem>()
             };
             var response = IHttpMultiClient.HttpMulti
-                .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<ProxyURL>())
-                .Header(Headers)
-                .AddNode(string.Format(SongURL, 6, Input.KeyWord, Input.Page))
+                .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<MultiProxy>())
+                .AddHeader(opt => opt.Headers = Headers)
+                .AddNode(opt => opt.NodePath = string.Format(SongURL, 6, Input.KeyWord, Input.Page))
                 .Build().RunString().FirstOrDefault();
             var jobject = response.ToModel<JObject>();
             Result.Total = (int)jobject["pgt"];
@@ -99,9 +99,9 @@ namespace Music.SDK.Basic.Impl
             };
 
             var response = IHttpMultiClient.HttpMulti
-                .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<ProxyURL>())
-                .Header(Headers)
-                .AddNode(string.Format(SongSheetURL, Input.Id))
+                .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<MultiProxy>())
+                .AddHeader(opt => opt.Headers = Headers)
+                .AddNode(opt => opt.NodePath = string.Format(SongSheetURL, Input.Id))
                 .Build().RunString().FirstOrDefault();
             var jobject = response.ToModel<JObject>();
             HtmlWeb html = new HtmlWeb();
@@ -139,8 +139,8 @@ namespace Music.SDK.Basic.Impl
             var htmlnode = html.Load($"http://music.migu.cn/v3/music/album/{Input.AlbumId}").DocumentNode;
             Result.AlbumName = htmlnode.SelectSingleNode("//h1[@class='title']").InnerText.Trim();
             var response = IHttpMultiClient.HttpMulti
-                .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<ProxyURL>())
-                .Header(Headers).AddNode(string.Format(AlbumURL, Input.AlbumId))
+                .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<MultiProxy>())
+                .AddHeader(opt => opt.Headers = Headers).AddNode(opt => opt.NodePath = string.Format(AlbumURL, Input.AlbumId))
                 .Build().RunString().FirstOrDefault();
 
             var jobject = response.ToModel<JObject>();
@@ -154,7 +154,7 @@ namespace Music.SDK.Basic.Impl
                     SongAlbumId = Input.AlbumId,
                     SongAlbumName = Result.AlbumName,
                 };
-                var SingerId = jToken["singerId"].Select(t=>t.ToString());
+                var SingerId = jToken["singerId"].Select(t => t.ToString());
                 var SingerName = jToken["singerName"].Select(t => t.ToString());
                 SongItem.SongArtistId.AddRange(SingerId);
                 SongItem.SongArtistName.AddRange(SingerName);
@@ -171,8 +171,9 @@ namespace Music.SDK.Basic.Impl
                 MusicPlatformType = MusicPlatformEnum.MiGuMusic
             };
             var response = IHttpMultiClient.HttpMulti
-              .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<ProxyURL>())
-              .Header(Headers).AddNode((string)string.Format(PlayURL, Input.Dynamic))
+              .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<MultiProxy>())
+              .AddHeader(opt => opt.Headers = Headers)
+              .AddNode(opt => opt.NodePath = string.Format(PlayURL, Input.Dynamic))
               .Build().RunString().FirstOrDefault();
 
             var jobject = response.ToModel<JObject>();
@@ -180,7 +181,7 @@ namespace Music.SDK.Basic.Impl
             Result.CanPlay = !jobject["data"]["lisQq"].ToString().IsNullOrEmpty();
             Result.SongURL = HttpUtility.UrlDecode(jobject["data"]["lisQq"].ToString());
             //歌词
-            if (Caches.RunTimeCacheGet<string>((string)Input.Dynamic).IsNullOrEmpty()) 
+            if (Caches.RunTimeCacheGet<string>((string)Input.Dynamic).IsNullOrEmpty())
                 Caches.RunTimeCacheSet<string>(Input.Dynamic, jobject["data"]["lyricLrc"].ToString(), 10);
             return Result;
         }

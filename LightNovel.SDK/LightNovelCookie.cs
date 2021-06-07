@@ -13,10 +13,15 @@ namespace LightNovel.SDK
         private const string Login = Host + "/login.php";
         public void RefreshCookie(LightNovelRefresh Input, LightNovelProxy Proxy)
         {
-            IHttpMultiClient.HttpMulti.InitCookieContainer()
-                .InitWebProxy((Proxy ?? new LightNovelProxy()).ToMapper<ProxyURL>())
-                .AddNode(Login, Input, Input.FieldMap, RequestType.POST, "GBK")
-                .Build().RunString((Cookie, Uri) =>
+            IHttpMultiClient.HttpMulti.InitCookie()
+                .InitWebProxy((Proxy ?? new LightNovelProxy()).ToMapper<MultiProxy>())
+                .AddNode(opt=> {
+                    opt.NodePath = Login;
+                    opt.ReqType = MultiType.POST;
+                    opt.Encoding = "GBK";
+                    opt.EntityParam = Input;
+                    opt.MapFied = Input.FieldMap;
+                }).Build().RunString((Cookie, Uri) =>
                 {
                     if (Caches.RunTimeCacheGet<CookieCollection>(Host) == null)
                         Caches.RunTimeCacheSet(Host, Cookie.GetCookies(Uri), 1440);

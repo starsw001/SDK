@@ -39,11 +39,18 @@ namespace LightNovel.SDK
             if (GetCookies() == null)
                 action.Invoke(new LightNovelCookie());
 
-            var response = IHttpMultiClient.HttpMulti.InitCookieContainer()
-                .InitWebProxy((Input.Proxy ?? new LightNovelProxy()).ToMapper<ProxyURL>())
-                .Cookie(new Uri(Host), GetCookies())
-                .AddNode(Host, RequestType.GET, "GBK")
-                .Build().RunString().FirstOrDefault();
+            var response = IHttpMultiClient.HttpMulti
+                .InitWebProxy((Input.Proxy ?? new LightNovelProxy()).ToMapper<MultiProxy>())
+                .AddCookie(opt =>
+                {
+                    opt.URI = Host;
+                    opt.CookieColl = GetCookies();
+                }).AddNode(opt =>
+                {
+                    opt.NodePath = Host;
+                    opt.ReqType = MultiType.GET;
+                    opt.Encoding = "GBK";
+                }).Build().RunString().FirstOrDefault();
 
             HtmlDocument document = new HtmlDocument();
             document.LoadHtml(response);
@@ -83,11 +90,18 @@ namespace LightNovel.SDK
             var SearchType = Input.Search.SearchType.ToString().ToLower();
             var KeyWord = HttpUtility.UrlEncode(Input.Search.KeyWord, Encoding.GetEncoding("GBK"));
 
-            var response = IHttpMultiClient.HttpMulti.InitCookieContainer()
-                .InitWebProxy((Input.Proxy ?? new LightNovelProxy()).ToMapper<ProxyURL>())
-                .Cookie(new Uri(Host), GetCookies())
-                .AddNode(string.Format(Search, SearchType, KeyWord, Input.Search.Page), RequestType.GET, "GBK")
-                .Build().RunString().FirstOrDefault();
+            var response = IHttpMultiClient.HttpMulti
+                .InitWebProxy((Input.Proxy ?? new LightNovelProxy()).ToMapper<MultiProxy>())
+                .AddCookie(opt =>
+                {
+                    opt.URI = Host;
+                    opt.CookieColl = GetCookies();
+                }).AddNode(opt =>
+                {
+                    opt.NodePath = string.Format(Search, SearchType, KeyWord, Input.Search.Page);
+                    opt.ReqType = MultiType.GET;
+                    opt.Encoding = "GBK";
+                }).Build().RunString().FirstOrDefault();
 
             HtmlDocument document = new HtmlDocument();
             document.LoadHtml(response);
@@ -129,11 +143,18 @@ namespace LightNovel.SDK
             if (GetCookies() == null)
                 action.Invoke(new LightNovelCookie());
 
-            var response = IHttpMultiClient.HttpMulti.InitCookieContainer()
-                .InitWebProxy((Input.Proxy ?? new LightNovelProxy()).ToMapper<ProxyURL>())
-                .Cookie(new Uri(Host), GetCookies())
-                .AddNode($"{Input.Category.CategoryAddress}?page={Input.Category.Page}", RequestType.GET, "GBK")
-                .Build().RunString().FirstOrDefault();
+            var response = IHttpMultiClient.HttpMulti
+                .InitWebProxy((Input.Proxy ?? new LightNovelProxy()).ToMapper<MultiProxy>())
+                .AddCookie(opt =>
+                 {
+                     opt.URI = Host;
+                     opt.CookieColl = GetCookies();
+                 }).AddNode(opt =>
+                 {
+                     opt.NodePath = $"{Input.Category.CategoryAddress}?page={Input.Category.Page}";
+                     opt.ReqType = MultiType.GET;
+                     opt.Encoding = "GBK";
+                 }).Build().RunString().FirstOrDefault();
 
             HtmlDocument document = new HtmlDocument();
             document.LoadHtml(response);
@@ -170,11 +191,18 @@ namespace LightNovel.SDK
             if (GetCookies() == null)
                 action.Invoke(new LightNovelCookie());
 
-            var response = IHttpMultiClient.HttpMulti.InitCookieContainer()
-                .InitWebProxy((Input.Proxy ?? new LightNovelProxy()).ToMapper<ProxyURL>())
-                .Cookie(new Uri(Host), GetCookies())
-                .AddNode(Input.Detail.DetailAddress, RequestType.GET, "GBK")
-                .Build().RunString().FirstOrDefault();
+            var response = IHttpMultiClient.HttpMulti
+                .InitWebProxy((Input.Proxy ?? new LightNovelProxy()).ToMapper<MultiProxy>())
+                .AddCookie(opt =>
+                {
+                    opt.URI = Host;
+                    opt.CookieColl = GetCookies();
+                }).AddNode(opt =>
+                {
+                    opt.NodePath = Input.Detail.DetailAddress;
+                    opt.ReqType = MultiType.GET;
+                    opt.Encoding = "GBK";
+                }).Build().RunString().FirstOrDefault();
 
             HtmlDocument document = new HtmlDocument();
             document.LoadHtml(response);
@@ -201,11 +229,18 @@ namespace LightNovel.SDK
             if (GetCookies() == null)
                 action.Invoke(new LightNovelCookie());
 
-            var response = IHttpMultiClient.HttpMulti.InitCookieContainer()
-                .InitWebProxy((Input.Proxy ?? new LightNovelProxy()).ToMapper<ProxyURL>())
-                .Cookie(new Uri(Host), GetCookies())
-                .AddNode(Input.View.ViewAddress, RequestType.GET, "GBK")
-                .Build().RunString().FirstOrDefault();
+            var response = IHttpMultiClient.HttpMulti
+                .InitWebProxy((Input.Proxy ?? new LightNovelProxy()).ToMapper<MultiProxy>())
+                .AddCookie(opt =>
+                {
+                    opt.URI = Host;
+                    opt.CookieColl = GetCookies();
+                }).AddNode(opt =>
+                {
+                    opt.NodePath = Input.View.ViewAddress;
+                    opt.ReqType = MultiType.GET;
+                    opt.Encoding = "GBK";
+                }).Build().RunString().FirstOrDefault();
 
             HtmlDocument document = new HtmlDocument();
             document.LoadHtml(response);
@@ -231,10 +266,18 @@ namespace LightNovel.SDK
                 ContentResult = new LightNovelContentResult()
             };
 
-            var response = IHttpMultiClient.HttpMulti.InitCookieContainer()
-                .InitWebProxy((Input.Proxy ?? new LightNovelProxy()).ToMapper<ProxyURL>())
-                .AddNode(Input.Content.ChapterURL, RequestType.GET, "GBK")
-                .Build().RunString().FirstOrDefault();
+            var response = IHttpMultiClient.HttpMulti
+                .InitWebProxy((Input.Proxy ?? new LightNovelProxy()).ToMapper<MultiProxy>())
+                .AddCookie(opt =>
+                {
+                    opt.URI = Host;
+                    opt.CookieColl = GetCookies();
+                }).AddNode(opt =>
+                {
+                    opt.NodePath = Input.Content.ChapterURL;
+                    opt.ReqType = MultiType.GET;
+                    opt.Encoding = "GBK";
+                }).Build().RunString().FirstOrDefault();
 
             HtmlDocument document = new HtmlDocument();
             document.LoadHtml(response);

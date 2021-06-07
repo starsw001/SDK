@@ -35,9 +35,13 @@ namespace Anime.SDK
             };
 
             var response = IHttpMultiClient.HttpMulti
-                .InitWebProxy((Input.Proxy ?? new AnimeProxy()).ToMapper<ProxyURL>())
-                .AddNode(Host, RequestType.GET, "GBK")
-                .Build().RunString().FirstOrDefault();
+                .InitWebProxy((Input.Proxy ?? new AnimeProxy()).ToMapper<MultiProxy>())
+                .AddNode(opt =>
+                {
+                    opt.ReqType = MultiType.GET;
+                    opt.NodePath = Host;
+                    opt.Encoding = "GBK";
+                }).Build().RunString().FirstOrDefault();
 
             HtmlDocument document = new HtmlDocument();
             document.LoadHtml(response);
@@ -81,9 +85,13 @@ namespace Anime.SDK
 
             string KeyWord = HttpUtility.UrlEncode(Input.Search.AnimeSearchKeyWord, Encoding.GetEncoding("GBK"));
             var response = IHttpMultiClient.HttpMulti
-                .InitWebProxy((Input.Proxy ?? new AnimeProxy()).ToMapper<ProxyURL>())
-                .AddNode(string.Format(Search, KeyWord, Input.Search.Page), RequestType.GET, "GBK")
-                .Build().RunString().FirstOrDefault();
+                .InitWebProxy((Input.Proxy ?? new AnimeProxy()).ToMapper<MultiProxy>())
+                 .AddNode(opt =>
+                 {
+                     opt.ReqType = MultiType.GET;
+                     opt.NodePath = string.Format(Search, KeyWord, Input.Search.Page);
+                     opt.Encoding = "GBK";
+                 }).Build().RunString().FirstOrDefault();
 
             HtmlDocument document = new HtmlDocument();
             document.LoadHtml(response);
@@ -113,9 +121,14 @@ namespace Anime.SDK
             Result.SeachResults.Searchs = new List<AnimeSearchResults>();
 
             var response = IHttpMultiClient.HttpMulti
-                .InitWebProxy((Input.Proxy ?? new AnimeProxy()).ToMapper<ProxyURL>())
-                .AddNode(string.Format(Category, Input.Category.AnimeLetterType.ToString(), Input.Category.Page), RequestType.GET, "GBK")
-                .Build().RunString().FirstOrDefault();
+                .InitWebProxy((Input.Proxy ?? new AnimeProxy()).ToMapper<MultiProxy>())
+                .AddNode(opt =>
+                 {
+                     opt.ReqType = MultiType.GET;
+                     opt.NodePath = string.Format(Category, Input.Category.AnimeLetterType.ToString(), Input.Category.Page);
+                     opt.Encoding = "GBK";
+                 }).Build().RunString().FirstOrDefault();
+
 
             HtmlDocument document = new HtmlDocument();
             document.LoadHtml(response);
@@ -144,9 +157,14 @@ namespace Anime.SDK
             };
 
             var response = IHttpMultiClient.HttpMulti
-                .InitWebProxy((Input.Proxy ?? new AnimeProxy()).ToMapper<ProxyURL>())
-                .AddNode(Input.Detail.DetailAddress, RequestType.GET, "GBK")
-                .Build().RunString().FirstOrDefault();
+                .InitWebProxy((Input.Proxy ?? new AnimeProxy()).ToMapper<MultiProxy>())
+                .AddNode(opt =>
+                {
+                    opt.ReqType = MultiType.GET;
+                    opt.NodePath = Input.Detail.DetailAddress;
+                    opt.Encoding = "GBK";
+                }).Build().RunString().FirstOrDefault();
+
 
             HtmlDocument document = new HtmlDocument();
             document.LoadHtml(response);
@@ -172,9 +190,14 @@ namespace Anime.SDK
                 return Result;
 
             var response = IHttpMultiClient.HttpMulti
-                .InitWebProxy((Input.Proxy ?? new AnimeProxy()).ToMapper<ProxyURL>())
-                .AddNode(Input.WatchPlay.DetailResult.WatchAddress, RequestType.GET, "GBK")
-                .Build().RunString().FirstOrDefault();
+                .InitWebProxy((Input.Proxy ?? new AnimeProxy()).ToMapper<MultiProxy>())
+                .AddNode(opt =>
+                 {
+                     opt.ReqType = MultiType.GET;
+                     opt.NodePath = Input.WatchPlay.DetailResult.WatchAddress;
+                     opt.Encoding = "GBK";
+                 }).Build().RunString().FirstOrDefault();
+
 
             HtmlDocument document = new HtmlDocument();
             document.LoadHtml(response);

@@ -10,13 +10,13 @@ using System.Threading;
 using System.Web;
 using XExten.Advance.HttpFramework.MultiCommon;
 using XExten.Advance.HttpFramework.MultiFactory;
+using XExten.Advance.HttpFramework.MultiOption;
 using XExten.Advance.LinqFramework;
 
 namespace Music.SDK.Basic.Impl
 {
     internal class KuWoMusic : BasicMusic
     {
-        private const string Referer = "Referer";
         private const string Host = "http://www.kuwo.cn";
         private const string SongURL = "http://www.kuwo.cn/api/www/search/{0}?key={1}&pn={2}&rn=10";
         private const string PlayListURL = "http://www.kuwo.cn/api/www/playlist/playListInfo?pid={0}&pn={1}&rn=10";
@@ -37,10 +37,13 @@ namespace Music.SDK.Basic.Impl
                 SongItems = new List<MusicSongItem>()
             };
             var response = IHttpMultiClient.HttpMulti
-                .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<ProxyURL>())
-                .Header(Referer, Host + $"/search/playlist?key={HttpUtility.UrlEncode(Input.KeyWord)}")
-                .Header(Headers)
-                .AddNode(string.Format(SongURL, "searchMusicBykeyWord", Input.KeyWord, Input.Page))
+                .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<MultiProxy>())
+                .AddHeader(opt =>
+                {
+                    opt.HeaderKey = HeaderOption.Referer;
+                    opt.HeaderValue = Host + $"/search/playlist?key={HttpUtility.UrlEncode(Input.KeyWord)}";
+                }).AddHeader(opt => opt.Headers = Headers)
+                .AddNode(opt => opt.NodePath = string.Format(SongURL, "searchMusicBykeyWord", Input.KeyWord, Input.Page))
                 .Build().RunString().FirstOrDefault();
 
             var jobject = response.ToModel<JObject>();
@@ -73,10 +76,13 @@ namespace Music.SDK.Basic.Impl
             };
 
             var response = IHttpMultiClient.HttpMulti
-                .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<ProxyURL>())
-                .Header(Referer, Host + $"/search/playlist?key={HttpUtility.UrlEncode(Input.KeyWord)}")
-                .Header(Headers)
-                .AddNode(string.Format(SongURL, "searchPlayListBykeyWord", Input.KeyWord, Input.Page))
+                .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<MultiProxy>())
+                .AddHeader(opt =>
+                {
+                    opt.HeaderKey = HeaderOption.Referer;
+                    opt.HeaderValue = Host + $"/search/playlist?key={HttpUtility.UrlEncode(Input.KeyWord)}";
+                }).AddHeader(opt => opt.Headers = Headers)
+                .AddNode(opt => opt.NodePath = string.Format(SongURL, "searchPlayListBykeyWord", Input.KeyWord, Input.Page))
                 .Build().RunString().FirstOrDefault();
             var jobject = response.ToModel<JObject>();
 
@@ -104,8 +110,9 @@ namespace Music.SDK.Basic.Impl
             };
 
             var response = IHttpMultiClient.HttpMulti
-                .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<ProxyURL>())
-                .Header(Headers).AddNode(string.Format(PlayListURL, Input.Id, Input.Page))
+                .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<MultiProxy>())
+                .AddHeader(opt => opt.Headers = Headers)
+                .AddNode(opt => opt.NodePath = string.Format(PlayListURL, Input.Id, Input.Page))
                 .Build().RunString().FirstOrDefault();
 
             var jobject = response.ToModel<JObject>();
@@ -139,8 +146,9 @@ namespace Music.SDK.Basic.Impl
             };
 
             var response = IHttpMultiClient.HttpMulti
-                .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<ProxyURL>())
-                .Header(Headers).AddNode(string.Format(AlbumURL, Input.AlbumId))
+                .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<MultiProxy>())
+                .AddHeader(opt => opt.Headers = Headers)
+                .AddNode(opt => opt.NodePath = string.Format(AlbumURL, Input.AlbumId))
                 .Build().RunString().FirstOrDefault();
 
             var jobject = response.ToModel<JObject>();
@@ -171,8 +179,9 @@ namespace Music.SDK.Basic.Impl
             };
 
             var response = IHttpMultiClient.HttpMulti
-                .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<ProxyURL>()).Header(Headers)
-                .AddNode((string)string.Format(PlayURL, Input.Dynamic))
+                .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<MultiProxy>())
+                .AddHeader(opt => opt.Headers = Headers)
+                .AddNode(opt => opt.NodePath = (string)string.Format(PlayURL, Input.Dynamic))
                 .Build().RunString().FirstOrDefault();
 
             var jobject = response.ToModel<JObject>();
@@ -186,8 +195,10 @@ namespace Music.SDK.Basic.Impl
             MusicLyricResult Result = new MusicLyricResult();
 
             var response = IHttpMultiClient.HttpMulti
-                .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<ProxyURL>()).Header(Headers)
-                .AddNode((string)string.Format(LyricURL, Input.Dynamic)).Build().RunString().FirstOrDefault();
+                .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<MultiProxy>())
+                .AddHeader(opt => opt.Headers = Headers)
+                .AddNode(opt => opt.NodePath = (string)string.Format(LyricURL, Input.Dynamic))
+                .Build().RunString().FirstOrDefault();
 
             var jobject = response.ToModel<JObject>();
             Result.Title = (string)jobject["data"]["songinfo"]["songName"];

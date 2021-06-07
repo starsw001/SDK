@@ -11,6 +11,7 @@ using System.Text.RegularExpressions;
 using XExten.Advance.CacheFramework;
 using XExten.Advance.HttpFramework.MultiCommon;
 using XExten.Advance.HttpFramework.MultiFactory;
+using XExten.Advance.HttpFramework.MultiOption;
 using XExten.Advance.LinqFramework;
 
 namespace Music.SDK.Basic.Impl
@@ -31,8 +32,8 @@ namespace Music.SDK.Basic.Impl
                 SongItems = new List<MusicSongItem>()
             };
             var response = IHttpMultiClient.HttpMulti
-                .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<ProxyURL>())
-                .AddNode(string.Format(SongURL, Input.KeyWord, Input.Page))
+                .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<MultiProxy>())
+                .AddNode(opt => opt.NodePath = string.Format(SongURL, Input.KeyWord, Input.Page))
                 .Build().RunString().FirstOrDefault();
 
             var jobject = response.ToModel<JObject>();
@@ -65,8 +66,8 @@ namespace Music.SDK.Basic.Impl
             };
             var Host = SongSheetURL + KuGouHelper.GetParam(Input.KeyWord, Input.Page);
             var response = IHttpMultiClient.HttpMulti
-                .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<ProxyURL>())
-                .AddNode(Host)
+                .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<MultiProxy>())
+                .AddNode(opt => opt.NodePath = Host)
                 .Build().RunString().FirstOrDefault();
             var jobject = response[12..^2].ToModel<JObject>();
             Result.Total = (int)jobject["data"]["total"];
@@ -94,8 +95,8 @@ namespace Music.SDK.Basic.Impl
             };
 
             var response = IHttpMultiClient.HttpMulti
-                .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<ProxyURL>())
-                .AddNode(string.Format(PlayListURL, Input.Id, Input.Page))
+                .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<MultiProxy>())
+                .AddNode(opt => opt.NodePath = string.Format(PlayListURL, Input.Id, Input.Page))
                 .Build().RunString().FirstOrDefault();
 
             var jobject = response.ToModel<JObject>();
@@ -123,10 +124,10 @@ namespace Music.SDK.Basic.Impl
                 MusicPlatformType = MusicPlatformEnum.KuGouMusic,
                 SongItems = new List<MusicSongItem>()
             };
-            if (Input.AlbumId.Equals("0")) return Result;
+            if (Input.AlbumId.Equals("0") || Input.AlbumId.IsNullOrEmpty()) return Result;
             var response = IHttpMultiClient.HttpMulti
-              .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<ProxyURL>())
-              .AddNode(string.Format(AlbumURL, Input.AlbumId))
+              .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<MultiProxy>())
+              .AddNode(opt => opt.NodePath = string.Format(AlbumURL, Input.AlbumId))
               .Build().RunString().FirstOrDefault();
 
             var jobject = response.ToModel<JObject>();
@@ -153,13 +154,17 @@ namespace Music.SDK.Basic.Impl
             {
                 MusicPlatformType = MusicPlatformEnum.KuGouMusic
             };
+            Dictionary<string, string> Header = new Dictionary<string, string>
+            {
+                {HeaderOption.Origin, "https://www.kugou.com/"},
+                {HeaderOption.Referer, "https://www.kugou.com/"},
+                { "Cookie","kg_mid=c4ca4238a0b923820dcc509a6f75849b"}
+            };
             var URL = $"{string.Format(PlayURL, Input.Dynamic)}{(Input.KuGouAlbumId.Equals("0") ? "" : $"&album_id={Input.KuGouAlbumId}")}";
             var response = IHttpMultiClient.HttpMulti
-                .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<ProxyURL>())
-                .Header("Cookie", "kg_mid=c4ca4238a0b923820dcc509a6f75849b")
-                .Header("Referer", "https://www.kugou.com/")
-                .Header("Origin", "https://www.kugou.com/")
-                .AddNode(URL)
+                .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<MultiProxy>())
+                .AddHeader(opt => opt.Headers = Header)
+                .AddNode(opt => opt.NodePath = URL)
                 .Build().RunString().FirstOrDefault();
 
             var jobject = response.ToModel<JObject>();

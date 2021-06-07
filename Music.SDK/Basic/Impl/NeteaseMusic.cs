@@ -32,9 +32,12 @@ namespace Music.SDK.Basic.Impl
                 SongItems = new List<MusicSongItem>()
             };
             var response = IHttpMultiClient.HttpMulti
-                .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<ProxyURL>())
-                .AddNode(string.Format(SongURL, Input.KeyWord, Input.Page, 1), RequestType.POST)
-                .Build().RunString().FirstOrDefault();
+                .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<MultiProxy>())
+                .AddNode(opt =>
+                {
+                    opt.ReqType = MultiType.POST;
+                    opt.NodePath = string.Format(SongURL, Input.KeyWord, Input.Page, 1);
+                }).Build().RunString().FirstOrDefault();
 
             var jobject = response.ToModel<JObject>();
             Result.Total = (int)jobject["result"]["songCount"];
@@ -66,9 +69,12 @@ namespace Music.SDK.Basic.Impl
                 SongSheetItems = new List<MusicSongSheetItem>()
             };
             var response = IHttpMultiClient.HttpMulti
-                .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<ProxyURL>())
-                .AddNode(string.Format(SongURL, Input.KeyWord, Input.Page, 1000), RequestType.POST)
-                .Build().RunString().FirstOrDefault();
+                .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<MultiProxy>())
+                .AddNode(opt =>
+                {
+                    opt.ReqType = MultiType.POST;
+                    opt.NodePath = string.Format(SongURL, Input.KeyWord, Input.Page, 1000);
+                }).Build().RunString().FirstOrDefault();
 
             var jobject = response.ToModel<JObject>();
             Result.Total = (int)jobject["result"]["playlistCount"];
@@ -94,9 +100,12 @@ namespace Music.SDK.Basic.Impl
                 SongItems = new List<MusicSongItem>()
             };
             var response = IHttpMultiClient.HttpMulti
-               .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<ProxyURL>())
-               .AddNode(string.Format(PlayListURL, Input.Id), RequestType.POST)
-               .Build().RunString().FirstOrDefault();
+               .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<MultiProxy>())
+               .AddNode(opt =>
+               {
+                   opt.ReqType = MultiType.POST;
+                   opt.NodePath = string.Format(PlayListURL, Input.Id);
+               }).Build().RunString().FirstOrDefault();
 
             var jobject = response.ToModel<JObject>();
             var dateTime = TimeZoneInfo.ConvertTime(new DateTime(1970, 1, 1), TimeZoneInfo.Utc, TimeZoneInfo.Local);
@@ -118,9 +127,13 @@ namespace Music.SDK.Basic.Impl
                  new KeyValuePair<string, string>("c",Value)
             };
             var res = IHttpMultiClient.HttpMulti
-                 .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<ProxyURL>())
-                 .AddNode(SongDetailURL, data, RequestType.POST)
-                 .Build().RunString().FirstOrDefault();
+                 .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<MultiProxy>())
+                 .AddNode(opt =>
+                 {
+                     opt.ReqType = MultiType.POST;
+                     opt.NodePath = SongDetailURL;
+                     opt.FormParam = data;
+                 }).Build().RunString().FirstOrDefault();
 
             var Info = res.ToModel<JObject>();
 
@@ -152,9 +165,13 @@ namespace Music.SDK.Basic.Impl
                 SongItems = new List<MusicSongItem>()
             };
             var response = IHttpMultiClient.HttpMulti
-                .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<ProxyURL>())
-                .AddNode(string.Format(AlbumURL, Input.AlbumId), data, RequestType.POST)
-                .Build().RunString().FirstOrDefault();
+                .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<MultiProxy>())
+                .AddNode(opt =>
+                {
+                    opt.ReqType = MultiType.POST;
+                    opt.NodePath = string.Format(AlbumURL, Input.AlbumId);
+                    opt.FormParam = data;
+                }).Build().RunString().FirstOrDefault();
 
             var jobject = response.ToModel<JObject>();
             Result.AlbumName = jobject["album"]["alias"][0].ToString();
@@ -193,9 +210,13 @@ namespace Music.SDK.Basic.Impl
                 csrf_token = ""
             }.EncryptRequest();
             var response = IHttpMultiClient.HttpMulti
-                .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<ProxyURL>())
-                .AddNode(PlayURL, data, RequestType.POST)
-                .Build().RunString().FirstOrDefault();
+                .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<MultiProxy>())
+                .AddNode(opt =>
+                {
+                    opt.ReqType = MultiType.POST;
+                    opt.NodePath = PlayURL;
+                    opt.FormParam = data;
+                }).Build().RunString().FirstOrDefault();
 
             var jobject = response.ToModel<JObject>();
             var jToken = jobject["data"][0]["url"];
@@ -208,8 +229,8 @@ namespace Music.SDK.Basic.Impl
         internal override MusicLyricResult SongLyric(MusicLyricSearch Input, MusicProxy Proxy)
         {
             var response = IHttpMultiClient.HttpMulti
-              .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<ProxyURL>())
-              .AddNode((string)string.Format(LyricURL, Input.Dynamic))
+              .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<MultiProxy>())
+              .AddNode(opt => opt.NodePath = string.Format(LyricURL, Input.Dynamic))
               .Build().RunString().FirstOrDefault();
             var jobject = response.ToModel<JObject>();
             return new MusicLyricResult(jobject["lyric"].ToString());

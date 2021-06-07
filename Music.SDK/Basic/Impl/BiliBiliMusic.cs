@@ -12,6 +12,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using XExten.Advance.HttpFramework.MultiCommon;
 using XExten.Advance.HttpFramework.MultiFactory;
+using XExten.Advance.HttpFramework.MultiOption;
 using XExten.Advance.LinqFramework;
 using XExten.Advance.StaticFramework;
 
@@ -35,8 +36,8 @@ namespace Music.SDK.Basic.Impl
                 SongItems = new List<MusicSongItem>()
             };
             var response = IHttpMultiClient.HttpMulti
-                .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<ProxyURL>())
-                .AddNode(string.Format(SongURL, Input.KeyWord, Input.Page))
+                .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<MultiProxy>())
+                .AddNode(opt => opt.NodePath = string.Format(SongURL, Input.KeyWord, Input.Page))
                 .Build().RunString().FirstOrDefault();
 
             var jobject = response.ToModel<JObject>();
@@ -64,8 +65,8 @@ namespace Music.SDK.Basic.Impl
             };
 
             var response = IHttpMultiClient.HttpMulti
-                .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<ProxyURL>())
-                .AddNode(string.Format(SongSheetURL, Input.KeyWord, Input.Page))
+                .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<MultiProxy>())
+                .AddNode(opt => opt.NodePath = string.Format(SongSheetURL, Input.KeyWord, Input.Page))
                 .Build().RunString().FirstOrDefault();
 
             var jobject = response.ToModel<JObject>();
@@ -94,8 +95,8 @@ namespace Music.SDK.Basic.Impl
             };
 
             var response = IHttpMultiClient.HttpMulti
-               .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<ProxyURL>())
-               .AddNode(string.Format(PlayListURL, Input.Id))
+               .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<MultiProxy>())
+               .AddNode(opt => opt.NodePath = string.Format(PlayListURL, Input.Id))
                .Build().RunString().FirstOrDefault();
 
             var jobject = response.ToModel<JObject>();
@@ -127,8 +128,8 @@ namespace Music.SDK.Basic.Impl
             };
 
             var response = IHttpMultiClient.HttpMulti
-               .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<ProxyURL>())
-               .AddNode(string.Format(PlayListURL, Input.AlbumId))
+               .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<MultiProxy>())
+               .AddNode(opt => opt.NodePath = string.Format(PlayListURL, Input.AlbumId))
                .Build().RunString().FirstOrDefault();
 
             var jobject = response.ToModel<JObject>();
@@ -155,9 +156,9 @@ namespace Music.SDK.Basic.Impl
             };
 
             var response = IHttpMultiClient.HttpMulti
-              .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<ProxyURL>())
-              .AddNode((string)string.Format(PlayURL, Input.Dynamic))
-              .Build(action: handle => handle.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate)
+              .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<MultiProxy>())
+              .AddNode(opt => opt.NodePath = (string)string.Format(PlayURL, Input.Dynamic))
+              .Build(opt => opt.UseZip = true)
               .RunString().FirstOrDefault();
 
             var jobject = response.ToModel<JObject>();
@@ -167,12 +168,15 @@ namespace Music.SDK.Basic.Impl
             if (Result.CanPlay)
             {
                 //20*1024*1024=20971520 分段大小 20M 一首歌应该不会超过20M 192kbps
+                Dictionary<string, string> Header = new Dictionary<string, string> {
+                    {HeaderOption.UserAgent, "Mozilla/5.0"},
+                    {HeaderOption.Referer, "https://www.bilibili.com"},
+                    {"Range", "bytes=0-20971520"}
+                };
                 Result.BilibiliFileBytes = IHttpMultiClient.HttpMulti
-                    .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<ProxyURL>())
-                    .Header("User-Agent", "Mozilla/5.0")
-                    .Header("Referer", "https://www.bilibili.com")
-                    .Header("Range", $"bytes=0-20971520")
-                    .AddNode(Result.SongURL)
+                    .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<MultiProxy>())
+                    .AddHeader(opt => opt.Headers = Header)
+                    .AddNode(opt => opt.NodePath = Result.SongURL)
                     .Build().RunBytes().FirstOrDefault();
             }
             return Result;
@@ -181,9 +185,9 @@ namespace Music.SDK.Basic.Impl
         internal override MusicLyricResult SongLyric(MusicLyricSearch Input, MusicProxy Proxy)
         {
             var response = IHttpMultiClient.HttpMulti
-             .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<ProxyURL>())
-             .AddNode((string)string.Format(LyricURL, Input.Dynamic))
-             .Build(action: handle => handle.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate)
+             .InitWebProxy((Proxy ?? new MusicProxy()).ToMapper<MultiProxy>())
+             .AddNode(opt => opt.NodePath = string.Format(LyricURL, Input.Dynamic))
+             .Build(opt => opt.UseZip = true)
              .RunString().FirstOrDefault();
 
             var jobject = response.ToModel<JObject>();

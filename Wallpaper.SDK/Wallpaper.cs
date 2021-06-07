@@ -26,8 +26,8 @@ namespace Wallpaper.SDK
                 Result = new List<WallpaperResult>()
             };
 
-            IHttpMultiClient.HttpMulti.InitWebProxy((Input.Proxy ?? new WallpaperProxy()).ToMapper<ProxyURL>())
-                 .AddNode(string.Format(All, Input.Init.Page, Input.Init.Limit))
+            IHttpMultiClient.HttpMulti.InitWebProxy((Input.Proxy ?? new WallpaperProxy()).ToMapper<MultiProxy>())
+                 .AddNode(opt => opt.NodePath = string.Format(All, Input.Init.Page, Input.Init.Limit))
                  .Build().RunString().FirstOrDefault().ToModel<List<JObject>>()
                  .ForEach(Item =>
                  {
@@ -58,8 +58,8 @@ namespace Wallpaper.SDK
                 Result = new List<WallpaperResult>()
             };
 
-            IHttpMultiClient.HttpMulti.InitWebProxy((Input.Proxy ?? new WallpaperProxy()).ToMapper<ProxyURL>())
-                 .AddNode(string.Format(Search, Input.Search.Page, Input.Search.Limit, Input.Search.KeyWord))
+            IHttpMultiClient.HttpMulti.InitWebProxy((Input.Proxy ?? new WallpaperProxy()).ToMapper<MultiProxy>())
+                 .AddNode(opt => opt.NodePath = string.Format(Search, Input.Search.Page, Input.Search.Limit, Input.Search.KeyWord))
                  .Build().RunString().FirstOrDefault().ToModel<List<JObject>>()
                  .ForEach(Item =>
                  {

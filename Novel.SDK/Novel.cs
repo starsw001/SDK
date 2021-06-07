@@ -34,8 +34,8 @@ namespace Novel.SDK
             };
 
             var response = IHttpMultiClient.HttpMulti
-                .InitWebProxy((Input.Proxy ?? new NovelProxy()).ToMapper<ProxyURL>())
-                .AddNode(Host).Build().RunString().FirstOrDefault();
+                .InitWebProxy((Input.Proxy ?? new NovelProxy()).ToMapper<MultiProxy>())
+                .AddNode(opt=>opt.NodePath= Host).Build().RunString().FirstOrDefault();
             HtmlDocument document = new HtmlDocument();
             document.LoadHtml(response);
             //分类
@@ -83,8 +83,8 @@ namespace Novel.SDK
             };
 
             var response = IHttpMultiClient.HttpMulti
-                .InitWebProxy((Input.Proxy ?? new NovelProxy()).ToMapper<ProxyURL>())
-                .AddNode(string.Format(Search, Input.Search.NovelSearchKeyWord))
+                .InitWebProxy((Input.Proxy ?? new NovelProxy()).ToMapper<MultiProxy>())
+                .AddNode(opt=>opt.NodePath= string.Format(Search, Input.Search.NovelSearchKeyWord))
                 .Build().RunString().FirstOrDefault();
 
             HtmlDocument document = new HtmlDocument();
@@ -120,8 +120,8 @@ namespace Novel.SDK
                     .Substring(0, Input.Category.NovelCategoryAddress.LastIndexOf("/"))}/{Input.Category.Page}.htm";
 
             var response = IHttpMultiClient.HttpMulti
-                .InitWebProxy((Input.Proxy ?? new NovelProxy()).ToMapper<ProxyURL>())
-                .AddNode(Input.Category.NovelCategoryAddress)
+                .InitWebProxy((Input.Proxy ?? new NovelProxy()).ToMapper<MultiProxy>())
+                .AddNode(opt=>opt.NodePath= Input.Category.NovelCategoryAddress)
                 .Build().RunString().FirstOrDefault();
 
             HtmlDocument document = new HtmlDocument();
@@ -157,8 +157,8 @@ namespace Novel.SDK
                 Input.Detail.NovelDetailAddress = $"{Result.Details.ShortURL}index_{Input.Detail.Page}.html";
 
             var response = IHttpMultiClient.HttpMulti
-                .InitWebProxy((Input.Proxy ?? new NovelProxy()).ToMapper<ProxyURL>())
-                .AddNode(Input.Detail.NovelDetailAddress)
+                .InitWebProxy((Input.Proxy ?? new NovelProxy()).ToMapper<MultiProxy>())
+                .AddNode(opt=>opt.NodePath= Input.Detail.NovelDetailAddress)
                 .Build().RunString().FirstOrDefault();
 
             HtmlDocument document = new HtmlDocument();
@@ -198,8 +198,8 @@ namespace Novel.SDK
                 Contents = new NovelContentResult()
             };
             var response = IHttpMultiClient.HttpMulti
-                .InitWebProxy((Input.Proxy ?? new NovelProxy()).ToMapper<ProxyURL>())
-                .AddNode(Input.View.NovelViewAddress)
+                .InitWebProxy((Input.Proxy ?? new NovelProxy()).ToMapper<MultiProxy>())
+                .AddNode(opt=>opt.NodePath= Input.View.NovelViewAddress)
                 .Build().RunString().FirstOrDefault();
 
             HtmlDocument document = new HtmlDocument();
