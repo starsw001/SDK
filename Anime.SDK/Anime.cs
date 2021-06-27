@@ -150,6 +150,43 @@ namespace Anime.SDK
             });
             return Result;
         }
+        public AnimeResponseOutput AnimeCategoryType(AnimeRequestInput Input) 
+        {
+            AnimeResponseOutput Result = new AnimeResponseOutput()
+            {
+                SeachResults = new AnimeSearchResult()
+            };
+            Result.SeachResults.Searchs = new List<AnimeSearchResults>();
+
+            var response = IHttpMultiClient.HttpMulti
+                .InitWebProxy((Input.Proxy ?? new AnimeProxy()).ToMapper<MultiProxy>())
+                .AddNode(opt =>
+                {
+                    opt.ReqType = MultiType.GET;
+                    opt.NodePath = Input.Category.Page<=1? Input.Category.Address: Input.Category.Address+$"index{Input.Category.Page}.html";
+                    opt.Encoding = "GBK";
+                }).Build().RunString().FirstOrDefault();
+
+
+            HtmlDocument document = new HtmlDocument();
+            document.LoadHtml(response);
+
+            var content = document.DocumentNode.SelectSingleNode("//div[@class='movie-chrList']");
+            Result.SeachResults.Page = Regex.Match(content.Descendants("span").ToList()[1].InnerText.Split("/")[1], "\\d+").Value.AsInt();
+
+            content.SelectNodes("ul/li/div[@class='cover']/a").ToList().ForEach(item =>
+            {
+                AnimeSearchResults SearchResult = new AnimeSearchResults
+                {
+                    DetailAddress = Host + item.GetAttributeValue("href", "")
+                };
+                var img = item.SelectSingleNode("img");
+                SearchResult.AnimeName = img.GetAttributeValue("alt", "");
+                SearchResult.AnimeCover = Host + img.GetAttributeValue("src", "");
+                Result.SeachResults.Searchs.Add(SearchResult);
+            });
+            return Result;
+        }
         public AnimeResponseOutput AnimeDetail(AnimeRequestInput Input)
         {
             AnimeResponseOutput Result = new AnimeResponseOutput()

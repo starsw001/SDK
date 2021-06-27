@@ -12,6 +12,7 @@ namespace Anime.SDK
         AnimeResponseOutput AnimeInit(AnimeRequestInput Input);
         AnimeResponseOutput AnimeSearch(AnimeRequestInput Input);
         AnimeResponseOutput AnimeCategory(AnimeRequestInput Input);
+        AnimeResponseOutput AnimeCategoryType(AnimeRequestInput Input);
         AnimeResponseOutput AnimeDetail(AnimeRequestInput Input);
         AnimeResponseOutput AnimeWatchPlay(AnimeRequestInput Input);
     }

@@ -30,6 +30,7 @@ namespace Anime.SDK
                 AnimeEnum.Init => anime.AnimeInit(RequestParam),
                 AnimeEnum.Search => anime.AnimeSearch(RequestParam),
                 AnimeEnum.Category => anime.AnimeCategory(RequestParam),
+                AnimeEnum.CategoryType => anime.AnimeCategoryType(RequestParam),
                 AnimeEnum.Detail => anime.AnimeDetail(RequestParam),
                 AnimeEnum.Watch => anime.AnimeWatchPlay(RequestParam),
                 _ => null

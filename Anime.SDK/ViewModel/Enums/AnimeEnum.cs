@@ -24,6 +24,10 @@ namespace Anime.SDK.ViewModel.Enums
         /// </summary>
         Category,
         /// <summary>
+        /// 类型分类
+        /// </summary>
+        CategoryType,
+        /// <summary>
         /// 详情
         /// </summary>
         Detail,

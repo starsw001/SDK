@@ -8,7 +8,7 @@ namespace AllSDK.Test
         {
             Console.WriteLine("开始自动化测试...");
             //动漫SDK
-            //AnimeTest.AnimeAllTest();
+            AnimeTest.AnimeAllTest();
             //小说SDK
             //NovelTest.NovelAllTest();
             //轻小说SDK
@@ -16,7 +16,7 @@ namespace AllSDK.Test
             //图片SDK
             //WallpaperTest.WallpaperAllTest();
             //音乐SDK
-            MusicTest.MusicAllTest(5);
+            //MusicTest.MusicAllTest(5);
             Console.WriteLine("自动化测试完成，按任意键退出");
             Console.ReadKey();
         }

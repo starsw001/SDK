@@ -14,6 +14,10 @@ namespace Anime.SDK.ViewModel.Request
         /// </summary>
         public int Page { get; set; } = 1;
         /// <summary>
+        /// 地址
+        /// </summary>
+        public string Address { get; set; }
+        /// <summary>
         /// 字母分类
         /// </summary>
         public AnimeLetterEnum AnimeLetterType { get; set; }

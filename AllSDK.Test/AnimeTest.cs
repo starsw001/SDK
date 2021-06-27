@@ -27,8 +27,8 @@ namespace AllSDK.Test
                     AnimeType = AnimeEnum.Init,
                     Proxy = new AnimeProxy
                     {
-                        IP = "203.74.120.79",
-                        Port = 3128
+                        //IP = "203.74.120.79",
+                        //Port = 3128
                     }
                 };
             }).Runs();
@@ -63,6 +63,21 @@ namespace AllSDK.Test
                 };
             }).Runs();
             Console.WriteLine(AnimeCate.ToJson());
+            Thread.Sleep(1000);
+            //类型分类
+            var AnimeCateType = AnimeFactory.Anime(opt =>
+            {
+                opt.RequestParam = new AnimeRequestInput
+                {
+                    AnimeType = AnimeEnum.CategoryType,
+                    Proxy = new AnimeProxy(),
+                    Category = new AnimeCategory
+                    {
+                        Address=AnimeInit.RecommendCategory.Values.FirstOrDefault()
+                    }
+                };
+            }).Runs();
+            Console.WriteLine(AnimeCateType.ToJson());
             Thread.Sleep(1000);
             //详情页
             var AnimeDetail = AnimeFactory.Anime(opt =>
