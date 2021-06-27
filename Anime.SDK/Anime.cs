@@ -17,9 +17,10 @@ namespace Anime.SDK
 {
     internal class Anime : IAnime
     {
-        private const string Host = "http://www.ysjdm.com";
-        private const string Search = Host + "/search.asp?searchword={0}&page={1}";
-        private const string Category = Search + "&searchtype=4";
+        private static readonly string Host = DIYHost.IsNullOrEmpty() ? "http://www.ysjdm.com" : DIYHost;
+        private static readonly string Search = Host + "/search.asp?searchword={0}&page={1}";
+        private static readonly string Category = Search + "&searchtype=4";
+        public static string DIYHost { get; set; }
         /*
          * step1:执行初始化
          * step2:执行搜索或者分类

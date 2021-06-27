@@ -5,12 +5,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Animes = Anime.SDK;
 
 namespace Anime.SDK
 {
     public class AnimeFactory
     {
         public AnimeRequestInput RequestParam { get; set; }
+        public string DIYHost { get; set; }
         public static AnimeFactory Anime(Action<AnimeFactory> action)
         {
             AnimeFactory factory = new AnimeFactory();
@@ -21,6 +23,7 @@ namespace Anime.SDK
         }
         public AnimeResponseOutput Runs()
         {
+            Animes.Anime.DIYHost = DIYHost;
             IAnime anime = new Anime();
             return RequestParam.AnimeType switch
             {
